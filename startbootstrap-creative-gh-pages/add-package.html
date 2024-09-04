@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Add New Package</title>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }.navbar-logo {
+  height: 150px; /* Adjust the height as needed */
+  width: auto; /* Maintains aspect ratio */
+  max-height: 100%; /* Ensures it doesn't exceed the navbar height */
+  margin-bottom: -70px;
+  margin-top: -70px;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container form-container">
+        <a class="navbar-brand" href="#page-top">
+            <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
+        </a>
+        <h2 class="text-center mb-4">Add New Package</h2>
+        <a href="index.html"  class="btn btn-primary">Back to Home</a>
+        <a href="packages-list.html" class="btn btn-primary">Package List</a>
+        <form id="packageForm">
+            <div class="form-group">
+                <label for="packageName">Package Name</label>
+                <input type="text" class="form-control" id="packageName" name="packageName" placeholder="Enter package name" required>
+            </div>
+            <div class="form-group">
+                <label for="totalAmount">Total Amount</label>
+                <input type="number" step="0.01" class="form-control" id="totalAmount" name="totalAmount" placeholder="Enter total amount" required>
+            </div>
+            <div class="form-group">
+                <label for="discountAmount">Discount Amount</label>
+                <input type="number" step="0.01" class="form-control" id="discountAmount" name="discountAmount" placeholder="Enter discount amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Add Package</button>
+        </form>
+        <div id="responseMessage" class="mt-3"></div>
+    </div>
+
+    <script>
+        document.getElementById('packageForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const packageName = document.getElementById('packageName').value;
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value);
+            const discountAmount = parseFloat(document.getElementById('discountAmount').value);
+
+            const packageRequest = {
+                packageName: packageName,
+                totalAmount: totalAmount,
+                discountAmount: discountAmount
+            };
+
+            try {
+                const response = await fetch('http://localhost:8086/tblesslegalstore/v1/api/packages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(packageRequest)
+                });
+
+                const data = await response.json();
+
+                const responseMessage = document.getElementById('responseMessage');
+                if (response.ok) {
+                    responseMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                    document.getElementById('packageForm').reset(); // Clear the form
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; // Replace with your landing page URL
+                    }, 2000);
+                } else {
+                    responseMessage.innerHTML = `<div class="alert alert-danger">Error: ${data.message}</div>`;
+                }
+            } catch (error) {
+                console.error('Error adding package:', error);
+                document.getElementById('responseMessage').innerHTML = '<div class="alert alert-danger">Error adding package. Please try again later.</div>';
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

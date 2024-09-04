@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Customer</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/add-customer.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+                    <a class="navbar-brand" href="#page-top">
+                        <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
+                    </a>
+                    <div class="card-img-left d-none d-md-flex">
+                        <!-- Background image for card set in CSS! -->
+                    </div>
+                    <div class="card-body p-4 p-sm-5">
+                        <h5 class="card-title text-center mb-5 fw-light fs-5">Add Customer</h5>
+                        <a href="index.html"  class="btn btn-primary">Back to Home</a>
+                        <form id="registerForm" action="http://localhost:8086/tblesslegalstore/v1/api/customers" method="POST">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="floatingInputEmail" name="email" placeholder="name@example.com" required>
+                                <label for="floatingInputEmail">Email address</label>
+                            </div>
+                            <hr>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInputFirstName" name="firstName" placeholder="first name">
+                                <label for="floatingInputPhoneNumber">First name (optional)</label>
+                            </div>
+                            <hr>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInputLastName" name="lastName" placeholder="last name">
+                                <label for="floatingInputPhoneNumber">Last name (optional)</label>
+                            </div>
+                            <hr>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInputPhoneNumber" name="phoneNumber" placeholder="08109872837">
+                                <label for="floatingInputPhoneNumber">Phone number (optional)</label>
+                            </div>
+                            <div class="d-grid mb-2">
+                                <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Save</button>
+                            </div>
+                            <hr class="my-4">
+                        </form>
+                        <div id="responseMessage" class="text-center mt-3"></div> <!-- Container for displaying messages -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: formData.get('email'),
+                    phoneNumber: formData.get('phoneNumber'),
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName') || '' // Send an empty string if phoneNumber is not provided
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageContainer = document.getElementById('responseMessage');
+                messageContainer.textContent = data.message; // Display the message
+                messageContainer.classList.remove('text-success', 'text-danger'); // Remove any previous message classes
+                messageContainer.classList.add(data.status === 200 ? 'text-success' : 'text-danger'); // Add success or error class based on status
+
+                if (data.status === 200) {
+                    // Redirect to the index page after successful registration
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; // Replace with your index page URL
+                    }, 0); // Redirect after 2 seconds to allow user to see the message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const messageContainer = document.getElementById('responseMessage');
+                messageContainer.textContent = 'An error occurred while registering the customer.';
+                messageContainer.classList.remove('text-success', 'text-danger');
+                messageContainer.classList.add('text-danger');
+            });
+        });
+    </script>
+</body>
+</html>

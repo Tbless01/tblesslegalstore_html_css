@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Packages</title>
+    <style>
+        .package-item {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .btn-view {
+            margin-top: 10px;
+        }
+        .btn-edit, .btn-delete {
+            margin-right: 10px;
+        }
+        .navbar-logo {
+            height: 150px;
+            width: auto;
+            max-height: 100%;
+            margin-bottom: -70px;
+            margin-top: -40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Content -->
+    <div class="container">
+        <a class="navbar-brand" href="#page-top">
+            <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
+        </a>
+        <!-- Page Heading -->
+        <h1 class="my-4">Packages</h1>
+        <a href="index.html" class="btn btn-primary">Back to Home</a>
+        <a href="add-package.html" class="btn btn-primary">Add Package</a>
+        <!-- Packages List -->
+        <div id="packagesList"></div>
+
+        <!-- Pagination -->
+        <ul id="pagination" class="pagination justify-content-center">
+            <!-- Pagination buttons will be added here -->
+        </ul>
+    </div>
+    <!-- /.container -->
+
+    <!-- Modal for package details -->
+    <div class="modal fade" id="packageModal" tabindex="-1" role="dialog" aria-labelledby="packageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="packageModalLabel">Package Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="packageModalBody">
+                    <!-- Package details will be injected here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for editing package -->
+    <div class="modal fade" id="editPackageModal" tabindex="-1" role="dialog" aria-labelledby="editPackageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPackageModalLabel">Edit Package</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPackageForm">
+                        <input type="hidden" id="editPackageCode">
+                        <div class="form-group">
+                            <label for="editPackageName">Package Name</label>
+                            <input type="text" class="form-control" id="editPackageName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTotalAmount">Total Amount</label>
+                            <input type="number" class="form-control" id="editTotalAmount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDiscountAmount">Discount Amount</label>
+                            <input type="number" class="form-control" id="editDiscountAmount" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for confirmation messages -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    <!-- Confirmation message will be injected here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'http://localhost:8086/tblesslegalstore/v1/api/packages/all';
+        let deletePackageCode = null; // Store package code to be deleted
+
+        // Function to fetch packages and display them
+        async function fetchPackages(pageNumber = 0, pageSize = 10) {
+            try {
+                const response = await fetch(`${apiUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+                const data = await response.json();
+                
+                if (data.status === 200) {
+                    displayPackages(data.data);
+                    setupPagination(pageNumber, pageSize, data.totalCount);
+                } else {
+                    console.error('Failed to fetch packages:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching packages:', error);
+            }
+        }
+
+        // Function to display packages
+        function displayPackages(packages) {
+            const packagesList = document.getElementById('packagesList');
+            packagesList.innerHTML = ''; 
+
+            if (packages.length === 0) {
+                packagesList.innerHTML = '<p>No packages available.</p>';
+                return;
+            }
+
+            packages.forEach(pkg => {
+                const packageHtml = `
+                    <div class="package-item">
+                        <h5>${pkg.packageCode}</h5>
+                        <p>${pkg.packageName}</p>
+                        <p>Total: ${pkg.totalAmount.toFixed(2)}</p>
+                        <p>Discount: ${pkg.discountAmount.toFixed(2)}</p>
+                        <button class="btn btn-primary btn-view" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount}, ${pkg.discountAmount})">View</button>
+                        <button class="btn btn-warning btn-edit" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount}, ${pkg.discountAmount})">Edit</button>
+                        <button class="btn btn-danger btn-delete" onclick="confirmDeletePackage('${pkg.packageCode}')">Delete</button>
+                    </div>
+                `;
+                packagesList.innerHTML += packageHtml;
+            });
+        }
+
+        // Function to show package details in the modal
+        function showPackageDetails(code, name, totalAmount, discountAmount) {
+            const modalBody = document.getElementById('packageModalBody');
+            modalBody.innerHTML = `
+                <p><strong>Package Code:</strong> ${code}</p>
+                <p><strong>Package Name:</strong> ${name}</p>
+                <p><strong>Total Amount:</strong> ${totalAmount.toFixed(2)}</p>
+                <p><strong>Discount Amount:</strong> ${discountAmount.toFixed(2)}</p>
+            `;
+            $('#packageModal').modal('show');
+        }
+
+        // Function to show the edit package modal
+        function showEditPackageModal(code, name, totalAmount, discountAmount) {
+            document.getElementById('editPackageCode').value = code;
+            document.getElementById('editPackageName').value = name;
+            document.getElementById('editTotalAmount').value = totalAmount;
+            document.getElementById('editDiscountAmount').value = discountAmount;
+            $('#editPackageModal').modal('show');
+        }
+
+        // Function to handle the form submission for editing a package
+        document.getElementById('editPackageForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const code = document.getElementById('editPackageCode').value;
+            const name = document.getElementById('editPackageName').value;
+            const totalAmount = document.getElementById('editTotalAmount').value;
+            const discountAmount = document.getElementById('editDiscountAmount').value;
+
+            try {
+                const response = await fetch(`http://localhost:8086/tblesslegalstore/v1/api/packages/${code}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ packageName: name, totalAmount, discountAmount })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 200) {
+                    $('#editPackageModal').modal('hide');
+                    fetchPackages(); 
+                } else {
+                    console.error('Failed to update package:', result.message);
+                }
+            } catch (error) {
+                console.error('Error updating package:', error);
+            }
+        });
+
+        // Function to confirm delete package
+        function confirmDeletePackage(code) {
+            deletePackageCode = code;
+            const modalBody = document.getElementById('confirmModalBody');
+            modalBody.innerHTML = `<p>Are you sure you want to delete package with code ${code}?</p>`;
+            $('#confirmModal').modal('show');
+        }
+
+        // Function to handle the delete confirmation
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+            if (deletePackageCode) {
+                try {
+                    const response = await fetch(`http://localhost:8086/tblesslegalstore/v1/api/packages/remove/${deletePackageCode}`, {
+                        method: 'DELETE',
+                    });
+
+                    const result = await response.json();
+
+                    if (result.status === 200) {
+                        $('#confirmModal').modal('hide');
+                        fetchPackages(); 
+                    } else {
+                        console.error('Failed to delete package:', result.message);
+                    }
+                } catch (error) {
+                    console.error('Error deleting package:', error);
+                }
+            }
+        });
+
+        // Function to setup pagination
+        function setupPagination(currentPage, pageSize, totalItems) {
+            const totalPages = Math.ceil(totalItems / pageSize);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            for (let i = 0; i < totalPages; i++) {
+                const pageItem = document.createElement('li');
+                pageItem.classList.add('page-item', i === currentPage ? 'active' : '');
+                pageItem.innerHTML = `<a class="page-link" href="#" onclick="fetchPackages(${i}, ${pageSize})">${i + 1}</a>`;
+                pagination.appendChild(pageItem);
+            }
+        }
+
+        // Initial fetch
+        fetchPackages();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

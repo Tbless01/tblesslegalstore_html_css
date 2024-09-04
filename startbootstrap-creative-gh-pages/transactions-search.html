@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Transaction Search</title>
+    <style>
+        .transaction-item {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .btn-view {
+            margin-top: 10px;
+        }
+        .navbar-logo {
+  height: 150px; /* Adjust the height as needed */
+  width: auto; /* Maintains aspect ratio */
+  max-height: 100%; /* Ensures it doesn't exceed the navbar height */
+  margin-bottom: -70px;
+}
+    </style>
+</head>
+<body>
+    <!-- Page Content -->
+    <div class="container mt-4">
+        <a class="navbar-brand" href="#page-top">
+            <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
+        </a>
+        <!-- Page Heading -->
+        <h1 class="text-center mb-4">Transaction Search</h1>
+        <a href="index.html"  class="btn btn-primary">Back to Home</a>
+        <!-- Search Bar -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Enter transaction code">
+                <button class="btn btn-primary mt-2" onclick="searchTransaction()">Search</button>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="transactionsList"></div>
+
+        <!-- Modal for transaction details -->
+        <div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="transactionModalLabel">Transaction Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="transactionModalBody">
+                        <!-- Transaction details will be injected here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL of the API endpoint
+        const apiUrl = 'http://localhost:8086/tblesslegalstore/v1/api/transactions/';
+
+        // Function to search for a transaction and display results
+        async function searchTransaction() {
+            const searchInput = document.getElementById('searchInput').value.trim();
+            if (!searchInput) {
+                alert('Please enter a transaction code.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiUrl}${encodeURIComponent(searchInput)}`);
+                const data = await response.json();
+                
+                if (data.status === 200) {
+                    displayTransaction(data.data);
+                } else {
+                    console.error('Failed to fetch transaction:', data.message);
+                    document.getElementById('transactionsList').innerHTML = '<p>No transaction found.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching transaction:', error);
+                document.getElementById('transactionsList').innerHTML = '<p>Error fetching transaction.</p>';
+            }
+        }
+
+        // Function to display transaction details
+        function displayTransaction(transaction) {
+            const transactionsList = document.getElementById('transactionsList');
+            transactionsList.innerHTML = ''; // Clear previous content
+
+            if (!transaction) {
+                transactionsList.innerHTML = '<p>No transaction found.</p>';
+                return;
+            }
+
+            const transactionHtml = `
+                <div class="transaction-item">
+                    <h5>${transaction.transactionCode}</h5>
+                    <p><strong>Customer Code:</strong> ${transaction.customerCode}</p>
+                    <p><strong>Package Code:</strong> ${transaction.packageCode}</p>
+                    <p><strong>Total Amount Paid:</strong> ${transaction.totalAmountPaid.toFixed(2)}</p>
+                    <p><strong>Amount Last Paid:</strong> ${transaction.amountLastPaid.toFixed(2)}</p>
+                    <p><strong>Balance:</strong> ${transaction.balance.toFixed(2)}</p>
+                    <p><strong>Date Last Payment Made:</strong> ${new Date(transaction.dateLastPaymentMade).toLocaleDateString()}</p>
+                    <a class="btn btn-primary btn-view" href="#" onclick="showTransactionDetails('${transaction.transactionCode}', '${transaction.customerCode}', '${transaction.packageCode}', ${transaction.totalAmountPaid.toFixed(2)}, ${transaction.amountLastPaid.toFixed(2)}, ${transaction.balance.toFixed(2)}, '${transaction.dateLastPaymentMade}')">View Details</a>
+                </div>
+            `;
+            transactionsList.innerHTML = transactionHtml;
+        }
+
+        // Function to show transaction details in the modal
+        function showTransactionDetails(code, customerCode, packageCode, totalAmountPaid, amountLastPaid, balance, dateLastPaymentMade) {
+            const modalBody = document.getElementById('transactionModalBody');
+            modalBody.innerHTML = `
+                <p><strong>Transaction Code:</strong> ${code}</p>
+                <p><strong>Customer Code:</strong> ${customerCode}</p>
+                <p><strong>Package Code:</strong> ${packageCode}</p>
+                <p><strong>Total Amount Paid:</strong> ${totalAmountPaid}</p>
+                <p><strong>Amount Last Paid:</strong> ${amountLastPaid}</p>
+                <p><strong>Balance:</strong> ${balance}</p>
+                <p><strong>Date Last Payment Made:</strong> ${new Date(dateLastPaymentMade).toLocaleDateString()}</p>
+            `;
+            $('#transactionModal').modal('show');
+        }
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Insert Transaction</title>
+    <style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+        #message {
+            margin-top: 20px;
+        }
+        .navbar-logo {
+            height: 150px;
+            width: auto;
+            max-height: 100%;
+            margin-bottom: -70px;
+            margin-top: -40px;
+        }
+        .customer-result {
+            cursor: pointer;
+            padding: 5px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+        }
+        .customer-result:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <a class="navbar-brand" href="#page-top">
+            <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo">
+        </a>
+        <h1 class="text-center mb-4">Insert Transaction</h1>
+
+        <a href="index.html" class="btn btn-primary">Back to Home</a>
+        <form id="transactionForm">
+            <div class="form-group">
+                <label for="firstOrLastName">First Name or Last Name or code</label>
+                <input type="text" id="firstOrLastName" class="form-control" placeholder="Enter first name, last name or customer code" required>
+                <div id="customerResults" class="mt-2"></div>
+            </div>
+            <div class="form-group">
+                <label for="customerCode">Customer Code</label>
+                <input type="text" id="customerCode" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="packageSelect">Select Package</label>
+                <select id="packageSelect" class="form-control" onchange="onPackageSelect()" required>
+                    <option value="">Select a package</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="packageCode">Package Code</label>
+                <input type="text" id="packageCode" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="amountLastPaid">Amount Last Paid</label>
+                <input type="number" id="amountLastPaid" class="form-control" step="0.01" value="0.00" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <!-- Message area -->
+        <div id="message" class="alert alert-info" style="display: none;"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPackages();
+        });
+
+        async function fetchPackages() {
+            try {
+                const response = await fetch('http://localhost:8086/tblesslegalstore/v1/api/packages/all?pageNumber=0&pageSize=100');
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+                if (data.status === 200) {
+                    populatePackageDropdown(data.data);
+                } else {
+                    throw new Error(data.message || 'Failed to fetch packages');
+                }
+            } catch (error) {
+                console.error('Error fetching packages:', error);
+                showMessage('Error fetching packages. Please check the console for details.', 'danger');
+            }
+        }
+
+        function populatePackageDropdown(packages) {
+            const packageSelect = document.getElementById('packageSelect');
+            packageSelect.innerHTML = '<option value="">Select a package</option>';
+
+            if (Array.isArray(packages) && packages.length > 0) {
+                packages.forEach(pkg => {
+                    const option = document.createElement('option');
+                    option.value = pkg.packageCode;
+                    option.textContent = pkg.packageName;
+                    packageSelect.appendChild(option);
+                });
+            } else {
+                packageSelect.innerHTML = '<option value="">No packages available</option>';
+            }
+        }
+
+        document.getElementById('firstOrLastName').addEventListener('input', async () => {
+            const searchTerm = document.getElementById('firstOrLastName').value;
+            if (searchTerm.length > 0) {
+                try {
+                    const response = await fetch(`http://localhost:8086/tblesslegalstore/v1/api/customers/all-name-containing/${encodeURIComponent(searchTerm)}`);
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Network response was not ok: ${response.statusText}. Response text: ${errorText}`);
+                    }
+                    const data = await response.json();
+                    if (data.status === 200) {
+                        displayCustomerResults(data.data);
+                    } else {
+                        throw new Error(data.message || 'Failed to fetch customers');
+                    }
+                } catch (error) {
+                    console.error('Error fetching customers:', error);
+                    showMessage(`Error fetching customers: ${error.message}`, 'danger');
+                }
+            } else {
+                document.getElementById('customerResults').innerHTML = '';
+            }
+        });
+
+        function displayCustomerResults(customers) {
+            const resultsContainer = document.getElementById('customerResults');
+            resultsContainer.innerHTML = '';
+
+            if (Array.isArray(customers) && customers.length > 0) {
+                customers.forEach(customer => {
+                    const div = document.createElement('div');
+                    div.className = 'customer-result';
+                    div.textContent = `Customer Code: ${customer.customerCode}, Name: ${customer.firstName} ${customer.lastName}`;
+                    div.addEventListener('click', () => {
+                        document.getElementById('customerCode').value = customer.customerCode;
+                        document.getElementById('firstOrLastName').value = `${customer.firstName} ${customer.lastName}`;
+                        resultsContainer.innerHTML = '';
+                    });
+                    resultsContainer.appendChild(div);
+                });
+            } else {
+                resultsContainer.innerHTML = '<div>No customers found</div>';
+            }
+        }
+
+        function onPackageSelect() {
+            const packageSelect = document.getElementById('packageSelect');
+            const packageCode = packageSelect.value;
+            document.getElementById('packageCode').value = packageCode;
+        }
+
+        document.getElementById('transactionForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const customerCode = document.getElementById('customerCode').value;
+    const packageCode = document.getElementById('packageCode').value;
+    const amountLastPaid = document.getElementById('amountLastPaid').value;
+
+    try {
+        const response = await fetch('http://localhost:8086/tblesslegalstore/v1/api/transactions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                customerCode,
+                packageCode,
+                amountLastPaid: parseFloat(amountLastPaid),
+            }),
+        });
+        const result = await response.json();
+        
+        if (response.ok) {
+            showMessage('Transaction inserted successfully!', 'success');
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Replace with your landing page URL
+            }, 2000); // Delay before redirecting
+        } else {
+            showMessage('Failed to insert transaction: ' + (result.message || 'Unknown error'), 'danger');
+        }
+    } catch (error) {
+        console.error('Error inserting transaction:', error);
+        showMessage('Error inserting transaction: ' + (error.message || 'Unknown error'), 'danger');
+    }
+});
+
+function showMessage(message, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = message;
+    messageDiv.className = 'alert alert-' + type;
+    messageDiv.style.display = 'block';
+}
+
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
