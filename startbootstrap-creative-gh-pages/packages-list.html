@@ -121,7 +121,7 @@
     </div>
 
     <script>
-        const apiUrl = 'http://localhost:8086/tblesslegalstore/v1/api/packages/all';
+        const apiUrl = 'https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/all';
         let deletePackageCode = null; // Store package code to be deleted
 
         // Function to fetch packages and display them
@@ -198,7 +198,7 @@
             const discountAmount = document.getElementById('editDiscountAmount').value;
 
             try {
-                const response = await fetch(`http://localhost:8086/tblesslegalstore/v1/api/packages/${code}`, {
+                const response = await fetch(`https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/${code}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -231,7 +231,7 @@
         document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
             if (deletePackageCode) {
                 try {
-                    const response = await fetch(`http://localhost:8086/tblesslegalstore/v1/api/packages/remove/${deletePackageCode}`, {
+                    const response = await fetch(`https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/remove/${deletePackageCode}`, {
                         method: 'DELETE',
                     });
 

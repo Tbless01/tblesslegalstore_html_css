@@ -76,7 +76,7 @@
 
         async function fetchPackages() {
             try {
-                const response = await fetch('http://localhost:8086/tblesslegalstore/v1/api/packages/all?pageNumber=0&pageSize=100');
+                const response = await fetch('https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/all?pageNumber=0&pageSize=100');
                 if (!response.ok) {
                     throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
@@ -112,7 +112,7 @@
             const searchTerm = document.getElementById('firstOrLastName').value;
             if (searchTerm.length > 0) {
                 try {
-                    const response = await fetch(`http://localhost:8086/tblesslegalstore/v1/api/customers/all-name-containing/${encodeURIComponent(searchTerm)}`);
+                    const response = await fetch(`https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/customers/all-name-containing/${encodeURIComponent(searchTerm)}`);
                     if (!response.ok) {
                         const errorText = await response.text();
                         throw new Error(`Network response was not ok: ${response.statusText}. Response text: ${errorText}`);
@@ -166,7 +166,7 @@
     const amountLastPaid = document.getElementById('amountLastPaid').value;
 
     try {
-        const response = await fetch('http://localhost:8086/tblesslegalstore/v1/api/transactions', {
+        const response = await fetch('https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/transactions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
