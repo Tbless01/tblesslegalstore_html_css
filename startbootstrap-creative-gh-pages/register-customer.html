@@ -5,7 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Customer</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/add-customer.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f5f5f5; /* Light grey background */
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            background-color: #fff; /* White background for card */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: #34495e; /* Dark grey for titles */
+        }
+
+        .btn-primary {
+            background-color: #e74c3c; /* Red button */
+            border-color: #e74c3c;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            border-color: #c0392b;
+        }
+
+        .btn-login {
+            background-color: #e74c3c; /* Red button for Save */
+            border-color: #e74c3c;
+        }
+
+        .btn-login:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            border-color: #c0392b;
+        }
+
+        .form-floating label {
+            color: #7f8c8d; /* Grey color for labels */
+        }
+
+        .form-floating input {
+            border-color: #bdc3c7; /* Light grey border */
+        }
+
+        .text-success {
+            color: #27ae60; /* Green color for success messages */
+        }
+
+        .text-danger {
+            color: #e74c3c; /* Red color for error messages */
+        }
+
+        .navbar-logo {
+            height: 150px;
+            width: auto;
+            max-height: 100%;
+            margin-bottom: -70px;
+            margin-top: -40px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -15,13 +75,10 @@
                     <a class="navbar-brand" href="#page-top">
                         <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
                     </a>
-                    <div class="card-img-left d-none d-md-flex">
-                        <!-- Background image for card set in CSS! -->
-                    </div>
                     <div class="card-body p-4 p-sm-5">
                         <h5 class="card-title text-center mb-5 fw-light fs-5">Add Customer</h5>
-                        <a href="index.html"  class="btn btn-primary">Back to Home</a>
-                        <form id="registerForm" action="https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/customers" method="POST">
+                        <a href="index.html" class="btn btn-primary mb-3">Back to Home</a>
+                        <form id="registerForm">
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="floatingInputEmail" name="email" placeholder="name@example.com" required>
                                 <label for="floatingInputEmail">Email address</label>
@@ -29,12 +86,12 @@
                             <hr>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="floatingInputFirstName" name="firstName" placeholder="first name">
-                                <label for="floatingInputPhoneNumber">First name (optional)</label>
+                                <label for="floatingInputFirstName">First name (optional)</label>
                             </div>
                             <hr>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="floatingInputLastName" name="lastName" placeholder="last name">
-                                <label for="floatingInputPhoneNumber">Last name (optional)</label>
+                                <label for="floatingInputLastName">Last name (optional)</label>
                             </div>
                             <hr>
                             <div class="form-floating mb-3">
@@ -42,7 +99,7 @@
                                 <label for="floatingInputPhoneNumber">Phone number (optional)</label>
                             </div>
                             <div class="d-grid mb-2">
-                                <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Save</button>
+                                <button class="btn btn-lg btn-login btn-login fw-bold text-uppercase" type="submit">Save</button>
                             </div>
                             <hr class="my-4">
                         </form>
@@ -57,18 +114,22 @@
             event.preventDefault(); // Prevent the default form submission
 
             const formData = new FormData(this);
+            const customerRegRequest = {
+                email: formData.get('email'),
+                phoneNumber: formData.get('phoneNumber'),
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName') || '' // Send an empty string if lastName is not provided
+            };
 
-            fetch(this.action, {
+            // Get the JWT token from localStorage
+            const token = localStorage.getItem('authToken');
+            fetch('https://tbless-legal-store.onrender.com/tblesslegalstore/v1/api/customers', {
                 method: 'POST',
-                body: JSON.stringify({
-                    email: formData.get('email'),
-                    phoneNumber: formData.get('phoneNumber'),
-                    firstName: formData.get('firstName'),
-                    lastName: formData.get('lastName') || '' // Send an empty string if phoneNumber is not provided
-                }),
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+                },
+                body: JSON.stringify(customerRegRequest)
             })
             .then(response => response.json())
             .then(data => {
@@ -81,7 +142,7 @@
                     // Redirect to the index page after successful registration
                     setTimeout(() => {
                         window.location.href = 'index.html'; // Replace with your index page URL
-                    }, 0); // Redirect after 2 seconds to allow user to see the message
+                    }, 2000); // Redirect after 2 seconds to allow user to see the message
                 }
             })
             .catch(error => {

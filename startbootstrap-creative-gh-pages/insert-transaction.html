@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Insert Transaction</title>
     <style>
-        .form-group {
-            margin-bottom: 15px;
+        body {
+            background-color: #f5f5f5; /* Light grey background */
+            font-family: Arial, sans-serif;
         }
-        #message {
-            margin-top: 20px;
+
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px; /* Rounded corners */
+            background-color: #fff; /* White background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
+
         .navbar-logo {
             height: 150px;
             width: auto;
@@ -19,25 +29,51 @@
             margin-bottom: -70px;
             margin-top: -40px;
         }
+
+        .btn-primary {
+            background-color: #e74c3c; /* Red button */
+            border-color: #e74c3c;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            border-color: #c0392b;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border-color: #d6e9c6;
+        }
+
+        .alert-danger {
+            background-color: #f2dede;
+            color: #a94442;
+            border-color: #ebccd1;
+        }
+
         .customer-result {
             cursor: pointer;
             padding: 5px;
             border: 1px solid #ddd;
             margin-top: 5px;
         }
+
         .customer-result:hover {
             background-color: #f0f0f0;
         }
     </style>
 </head>
+
 <body>
-    <div class="container mt-4">
+    <div class="container form-container">
         <a class="navbar-brand" href="#page-top">
             <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo">
         </a>
         <h1 class="text-center mb-4">Insert Transaction</h1>
 
         <a href="index.html" class="btn btn-primary">Back to Home</a>
+
         <form id="transactionForm">
             <div class="form-group">
                 <label for="firstOrLastName">First Name or Last Name or code</label>
@@ -62,21 +98,32 @@
                 <label for="amountLastPaid">Amount Last Paid</label>
                 <input type="number" id="amountLastPaid" class="form-control" step="0.01" value="0.00" required>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
         </form>
 
         <!-- Message area -->
-        <div id="message" class="alert alert-info" style="display: none;"></div>
+        <div id="message" class="alert alert-info mt-3" style="display: none;"></div>
     </div>
 
     <script>
+        const BASE_URL = 'https://tbless-legal-store.onrender.com/tblesslegalstore/v1/api';
+
         document.addEventListener('DOMContentLoaded', () => {
             fetchPackages();
         });
 
+        function getAuthToken() {
+            return localStorage.getItem('authToken');
+        }
+
         async function fetchPackages() {
+            const jwtToken = getAuthToken();
             try {
-                const response = await fetch('https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/all?pageNumber=0&pageSize=100');
+                const response = await fetch(`${BASE_URL}/packages/all?pageNumber=0&pageSize=100`, {
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
@@ -111,8 +158,13 @@
         document.getElementById('firstOrLastName').addEventListener('input', async () => {
             const searchTerm = document.getElementById('firstOrLastName').value;
             if (searchTerm.length > 0) {
+                const jwtToken = getAuthToken();
                 try {
-                    const response = await fetch(`https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/customers/all-name-containing/${encodeURIComponent(searchTerm)}`);
+                    const response = await fetch(`${BASE_URL}/customers/all-name-containing/${encodeURIComponent(searchTerm)}`, {
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`
+                        }
+                    });
                     if (!response.ok) {
                         const errorText = await response.text();
                         throw new Error(`Network response was not ok: ${response.statusText}. Response text: ${errorText}`);
@@ -160,46 +212,47 @@
         }
 
         document.getElementById('transactionForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const customerCode = document.getElementById('customerCode').value;
-    const packageCode = document.getElementById('packageCode').value;
-    const amountLastPaid = document.getElementById('amountLastPaid').value;
+            event.preventDefault();
+            const customerCode = document.getElementById('customerCode').value;
+            const packageCode = document.getElementById('packageCode').value;
+            const amountLastPaid = document.getElementById('amountLastPaid').value;
+            const jwtToken = getAuthToken();
 
-    try {
-        const response = await fetch('https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/transactions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                customerCode,
-                packageCode,
-                amountLastPaid: parseFloat(amountLastPaid),
-            }),
+            try {
+                const response = await fetch(`${BASE_URL}/transactions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
+                    },
+                    body: JSON.stringify({
+                        customerCode,
+                        packageCode,
+                        amountLastPaid: parseFloat(amountLastPaid),
+                    }),
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('Transaction inserted successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; // Replace with your landing page URL
+                    }, 2000); // Delay before redirecting
+                } else {
+                    showMessage('Failed to insert transaction: ' + (result.message || 'Unknown error'), 'danger');
+                }
+            } catch (error) {
+                console.error('Error inserting transaction:', error);
+                showMessage('Error inserting transaction: ' + (error.message || 'Unknown error'), 'danger');
+            }
         });
-        const result = await response.json();
-        
-        if (response.ok) {
-            showMessage('Transaction inserted successfully!', 'success');
-            setTimeout(() => {
-                window.location.href = 'index.html'; // Replace with your landing page URL
-            }, 2000); // Delay before redirecting
-        } else {
-            showMessage('Failed to insert transaction: ' + (result.message || 'Unknown error'), 'danger');
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.className = 'alert alert-' + type;
+            messageDiv.style.display = 'block';
         }
-    } catch (error) {
-        console.error('Error inserting transaction:', error);
-        showMessage('Error inserting transaction: ' + (error.message || 'Unknown error'), 'danger');
-    }
-});
-
-function showMessage(message, type) {
-    const messageDiv = document.getElementById('message');
-    messageDiv.textContent = message;
-    messageDiv.className = 'alert alert-' + type;
-    messageDiv.style.display = 'block';
-}
-
     </script>
 
     <!-- Bootstrap JS and dependencies -->
@@ -207,4 +260,5 @@ function showMessage(message, type) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

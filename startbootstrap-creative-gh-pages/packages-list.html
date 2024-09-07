@@ -6,24 +6,87 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Packages</title>
     <style>
+        body {
+            background-color: #f5f5f5; /* Light grey background similar to the previous page */
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #34495e; /* Dark grey for headings */
+            margin-bottom: 20px;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
         .package-item {
+            background-color: #fff; /* White background for cards */
             margin-bottom: 20px;
             border: 1px solid #ddd;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for elevation */
         }
-        .btn-view {
-            margin-top: 10px;
+
+        .package-item h5 {
+            color: #2c3e50; /* Heading color for package codes */
         }
-        .btn-edit, .btn-delete {
+
+        .package-item p {
+            color: #7f8c8d; /* Muted grey for package details */
+        }
+
+        /* Button styles matching the Delete Transaction design */
+        .btn-primary {
+            background-color: #e74c3c; /* Red button similar to the Delete Transaction */
+            border-color: #e74c3c;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            border-color: #c0392b;
+        }
+
+        .btn-view, .btn-edit, .btn-delete {
             margin-right: 10px;
         }
+
+        .btn-warning {
+            background-color: #f39c12; /* Orange edit button */
+            border-color: #f39c12;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22; /* Darker orange on hover */
+        }
+
+        .btn-danger {
+            background-color: #e74c3c; /* Red for delete button */
+            border-color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        /* Navbar Logo Styles */
         .navbar-logo {
             height: 150px;
             width: auto;
             max-height: 100%;
             margin-bottom: -70px;
             margin-top: -40px;
+        }
+
+        /* Pagination Styles */
+        .pagination .page-item.active .page-link {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .pagination .page-link {
+            color: #2c3e50;
         }
     </style>
 </head>
@@ -121,16 +184,21 @@
     </div>
 
     <script>
-        const apiUrl = 'https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/all';
+        const BASE_URL = 'https://tbless-legal-store.onrender.com/tblesslegalstore/v1/api';
         let deletePackageCode = null; // Store package code to be deleted
+        let jwtToken = localStorage.getItem('authToken'); // Store JWT token
 
         // Function to fetch packages and display them
         async function fetchPackages(pageNumber = 0, pageSize = 10) {
             try {
-                const response = await fetch(`${apiUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+                const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`
+                    }
+                });
                 const data = await response.json();
                 
-                if (data.status === 200) {
+                if (response.ok) {
                     displayPackages(data.data);
                     setupPagination(pageNumber, pageSize, data.totalCount);
                 } else {
@@ -160,14 +228,33 @@
                         <p>Discount: ${pkg.discountAmount.toFixed(2)}</p>
                         <button class="btn btn-primary btn-view" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount}, ${pkg.discountAmount})">View</button>
                         <button class="btn btn-warning btn-edit" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount}, ${pkg.discountAmount})">Edit</button>
-                        <button class="btn btn-danger btn-delete" onclick="confirmDeletePackage('${pkg.packageCode}')">Delete</button>
+                        <button class="btn btn-danger btn-delete" onclick="confirmDelete('${pkg.packageCode}')">Delete</button>
                     </div>
                 `;
                 packagesList.innerHTML += packageHtml;
             });
         }
 
-        // Function to show package details in the modal
+        // Function to setup pagination
+        function setupPagination(currentPage, pageSize, totalCount) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = ''; 
+
+            const totalPages = Math.ceil(totalCount / pageSize);
+            for (let i = 0; i < totalPages; i++) {
+                const pageItem = document.createElement('li');
+                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                const pageLink = document.createElement('a');
+                pageLink.className = 'page-link';
+                pageLink.href = '#';
+                pageLink.textContent = i + 1;
+                pageLink.onclick = () => fetchPackages(i, pageSize);
+                pageItem.appendChild(pageLink);
+                pagination.appendChild(pageItem);
+            }
+        }
+
+        // Show package details modal
         function showPackageDetails(code, name, totalAmount, discountAmount) {
             const modalBody = document.getElementById('packageModalBody');
             modalBody.innerHTML = `
@@ -179,96 +266,88 @@
             $('#packageModal').modal('show');
         }
 
-        // Function to show the edit package modal
-        function showEditPackageModal(code, name, totalAmount, discountAmount) {
-            document.getElementById('editPackageCode').value = code;
-            document.getElementById('editPackageName').value = name;
+        // Show edit modal
+        function showEditPackageModal(packageCode, packageName, totalAmount, discountAmount) {
+            document.getElementById('editPackageCode').value = packageCode;
+            document.getElementById('editPackageName').value = packageName;
             document.getElementById('editTotalAmount').value = totalAmount;
             document.getElementById('editDiscountAmount').value = discountAmount;
             $('#editPackageModal').modal('show');
         }
 
-        // Function to handle the form submission for editing a package
-        document.getElementById('editPackageForm').addEventListener('submit', async function(event) {
+        // Handle form submission for editing package
+        document.getElementById('editPackageForm').onsubmit = async function(event) {
             event.preventDefault();
-            
-            const code = document.getElementById('editPackageCode').value;
-            const name = document.getElementById('editPackageName').value;
-            const totalAmount = document.getElementById('editTotalAmount').value;
-            const discountAmount = document.getElementById('editDiscountAmount').value;
+            const packageCode = document.getElementById('editPackageCode').value;
+            const packageName = document.getElementById('editPackageName').value;
+            const totalAmount = parseFloat(document.getElementById('editTotalAmount').value);
+            const discountAmount = parseFloat(document.getElementById('editDiscountAmount').value);
 
             try {
-                const response = await fetch(`https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/${code}`, {
+                const response = await fetch(`${BASE_URL}/packages/${packageCode}`, {
                     method: 'POST',
                     headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ packageName: name, totalAmount, discountAmount })
+                    body: JSON.stringify({
+                        packageName,
+                        totalAmount,
+                        discountAmount
+                    })
                 });
-                
-                const result = await response.json();
-                
-                if (result.status === 200) {
+
+                if (response.ok) {
+                    alert('Package updated successfully!');
                     $('#editPackageModal').modal('hide');
-                    fetchPackages(); 
+                    fetchPackages(); // Reload packages after update
                 } else {
-                    console.error('Failed to update package:', result.message);
+                    alert('Failed to update package.');
                 }
             } catch (error) {
                 console.error('Error updating package:', error);
             }
-        });
+        };
 
-        // Function to confirm delete package
-        function confirmDeletePackage(code) {
-            deletePackageCode = code;
-            const modalBody = document.getElementById('confirmModalBody');
-            modalBody.innerHTML = `<p>Are you sure you want to delete package with code ${code}?</p>`;
+        // Show delete confirmation
+        function confirmDelete(packageCode) {
+            deletePackageCode = packageCode;
             $('#confirmModal').modal('show');
         }
 
-        // Function to handle the delete confirmation
-        document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+        // Confirm delete and delete package
+        document.getElementById('confirmDeleteBtn').onclick = async function() {
             if (deletePackageCode) {
                 try {
-                    const response = await fetch(`https://tbless-legal-store-app-latest.onrender.com/tblesslegalstore/v1/api/packages/remove/${deletePackageCode}`, {
+                    const response = await fetch(`${BASE_URL}/packages/remove/${deletePackageCode}`, {
                         method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`
+                        }
                     });
 
-                    const result = await response.json();
-
-                    if (result.status === 200) {
+                    if (response.ok) {
+                        alert('Package deleted successfully!');
                         $('#confirmModal').modal('hide');
-                        fetchPackages(); 
+                        fetchPackages(); // Reload packages after deletion
                     } else {
-                        console.error('Failed to delete package:', result.message);
+                        alert('Failed to delete package.');
                     }
                 } catch (error) {
                     console.error('Error deleting package:', error);
                 }
             }
-        });
+        };
 
-        // Function to setup pagination
-        function setupPagination(currentPage, pageSize, totalItems) {
-            const totalPages = Math.ceil(totalItems / pageSize);
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = '';
-
-            for (let i = 0; i < totalPages; i++) {
-                const pageItem = document.createElement('li');
-                pageItem.classList.add('page-item', i === currentPage ? 'active' : '');
-                pageItem.innerHTML = `<a class="page-link" href="#" onclick="fetchPackages(${i}, ${pageSize})">${i + 1}</a>`;
-                pagination.appendChild(pageItem);
-            }
+        // Fetch packages when page loads
+        window.onload = function() {
+            fetchPackages();
         }
-
-        // Initial fetch
-        fetchPackages();
     </script>
 
+    <!-- Include Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
