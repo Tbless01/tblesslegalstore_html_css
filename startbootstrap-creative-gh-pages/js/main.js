@@ -1,7 +1,15 @@
 // Google Sign-In callback function
 function onSignIn(response) {
     const responsePayload = decodeJwtResponse(response.credential);
-    $("#name").text(responsePayload.name);
+    var fullName = responsePayload.name;  // Full name
+    var nameParts = fullName.split(' ');  // Split the name by spaces
+    
+    var firstName = nameParts[0];  // First name
+    var lastName = nameParts[1];   // Last name (or surname)
+    
+    $("#firstname").text(firstName);
+    $("#lastname").text(lastName);
+    // $("#name").text(responsePayload.name);
     $("#email").text(responsePayload.email);
     $("#image").attr('src', responsePayload.picture);
     
