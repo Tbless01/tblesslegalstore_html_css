@@ -278,7 +278,7 @@
             const totalAmount = parseFloat(document.getElementById('editTotalAmount').value);
 
             try {
-                const response = await fetch(`${BASE_URL}/packages/update/${packageCode}`, {
+                const response = await fetch(`${BASE_URL}/packages/${packageCode}`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
