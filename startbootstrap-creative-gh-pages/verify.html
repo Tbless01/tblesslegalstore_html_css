@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #response {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Authentication</h1>
+    <input type="text" id="username" placeholder="Enter Username" required>
+    <input type="password" id="userPassword" placeholder="Enter Password" required>
+    <button onclick="authenticate()">Authenticate</button>
+
+    <div id="response"></div>
+
+    <script>
+        async function authenticate() {
+            const username = document.getElementById("username").value;
+            const userPassword = document.getElementById("userPassword").value;
+            const responseDiv = document.getElementById("response");
+
+            // Clear previous response
+            responseDiv.innerHTML = '';
+
+            const requestData = {
+                username: username,
+                userPassword: userPassword
+            };
+            // const res = await fetch('https://0b13-102-88-84-148.ngrok-free.app/ecobank/esc/rra/v1/api/customer/authentication'
+//  const res = await fetch('https://rra-service.project-demo.app/ecobank/esc/rra/v1/api/customer/authentication'
+            try {
+                const res = await fetch('https://rra-service.project-demo.app/ecobank/esc/rra/v1/api/customer/authentication', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Error: ${res.status} ${res.statusText}`);
+                }
+
+                const data = await res.json();
+                responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                responseDiv.innerHTML = `<p style="color: red;">${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

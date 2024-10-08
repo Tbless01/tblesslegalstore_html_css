@@ -7,7 +7,7 @@
     <title>Packages</title>
     <style>
         body {
-            background-color: #f5f5f5; /* Light grey background similar to the previous page */
+            background-color: #f5f5f5; /* Light grey background */
             font-family: Arial, sans-serif;
         }
 
@@ -26,7 +26,7 @@
             border: 1px solid #ddd;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for elevation */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
         }
 
         .package-item h5 {
@@ -37,7 +37,7 @@
             color: #7f8c8d; /* Muted grey for package details */
         }
 
-        /* Button styles matching the Delete Transaction design */
+        /* Button styles */
         .btn-primary {
             background-color: #e74c3c; /* Red button similar to the Delete Transaction */
             border-color: #e74c3c;
@@ -151,10 +151,6 @@
                             <label for="editTotalAmount">Total Amount</label>
                             <input type="number" class="form-control" id="editTotalAmount" required>
                         </div>
-                        <div class="form-group">
-                            <label for="editDiscountAmount">Discount Amount</label>
-                            <input type="number" class="form-control" id="editDiscountAmount" required>
-                        </div>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
@@ -225,9 +221,8 @@
                         <h5>${pkg.packageCode}</h5>
                         <p>${pkg.packageName}</p>
                         <p>Total: ${pkg.totalAmount.toFixed(2)}</p>
-                        <p>Discount: ${pkg.discountAmount.toFixed(2)}</p>
-                        <button class="btn btn-primary btn-view" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount}, ${pkg.discountAmount})">View</button>
-                        <button class="btn btn-warning btn-edit" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount}, ${pkg.discountAmount})">Edit</button>
+                        <button class="btn btn-primary btn-view" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">View</button>
+                        <button class="btn btn-warning btn-edit" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">Edit</button>
                         <button class="btn btn-danger btn-delete" onclick="confirmDelete('${pkg.packageCode}')">Delete</button>
                     </div>
                 `;
@@ -242,112 +237,99 @@
 
             const totalPages = Math.ceil(totalCount / pageSize);
             for (let i = 0; i < totalPages; i++) {
-                const pageItem = document.createElement('li');
-                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                const pageLink = document.createElement('a');
-                pageLink.className = 'page-link';
-                pageLink.href = '#';
-                pageLink.textContent = i + 1;
-                pageLink.onclick = () => fetchPackages(i, pageSize);
-                pageItem.appendChild(pageLink);
-                pagination.appendChild(pageItem);
+                const isActive = i === currentPage ? 'active' : '';
+                const pageHtml = `<li class="page-item ${isActive}"><a class="page-link" href="#" onclick="fetchPackages(${i}, ${pageSize})">${i + 1}</a></li>`;
+                pagination.innerHTML += pageHtml;
             }
         }
 
-        // Show package details modal
-        function showPackageDetails(code, name, totalAmount, discountAmount) {
-            const modalBody = document.getElementById('packageModalBody');
-            modalBody.innerHTML = `
-                <p><strong>Package Code:</strong> ${code}</p>
-                <p><strong>Package Name:</strong> ${name}</p>
-                <p><strong>Total Amount:</strong> ${totalAmount.toFixed(2)}</p>
-                <p><strong>Discount Amount:</strong> ${discountAmount.toFixed(2)}</p>
+        // Function to show package details
+        function showPackageDetails(packageCode, packageName, totalAmount) {
+            const packageModalBody = document.getElementById('packageModalBody');
+            packageModalBody.innerHTML = `
+                <p>Package Code: ${packageCode}</p>
+                <p>Package Name: ${packageName}</p>
+                <p>Total Amount: ${totalAmount.toFixed(2)}</p>
             `;
             $('#packageModal').modal('show');
         }
 
-        // Show edit modal
-        function showEditPackageModal(packageCode, packageName, totalAmount, discountAmount) {
+        // Function to show edit package modal
+        function showEditPackageModal(packageCode, packageName, totalAmount) {
             document.getElementById('editPackageCode').value = packageCode;
             document.getElementById('editPackageName').value = packageName;
-            document.getElementById('editTotalAmount').value = totalAmount;
-            document.getElementById('editDiscountAmount').value = discountAmount;
+            document.getElementById('editTotalAmount').value = totalAmount.toFixed(2);
             $('#editPackageModal').modal('show');
         }
 
-        // Handle form submission for editing package
-        document.getElementById('editPackageForm').onsubmit = async function(event) {
+        // Function to confirm package deletion
+        function confirmDelete(packageCode) {
+            deletePackageCode = packageCode;
+            const confirmModalBody = document.getElementById('confirmModalBody');
+            confirmModalBody.innerHTML = `<p>Are you sure you want to delete package with code: ${packageCode}?</p>`;
+            $('#confirmModal').modal('show');
+        }
+
+        // Handle package edit form submission
+        document.getElementById('editPackageForm').addEventListener('submit', async function (event) {
             event.preventDefault();
             const packageCode = document.getElementById('editPackageCode').value;
             const packageName = document.getElementById('editPackageName').value;
             const totalAmount = parseFloat(document.getElementById('editTotalAmount').value);
-            const discountAmount = parseFloat(document.getElementById('editDiscountAmount').value);
 
             try {
-                const response = await fetch(`${BASE_URL}/packages/${packageCode}`, {
+                const response = await fetch(`${BASE_URL}/packages/update/${packageCode}`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        packageName,
-                        totalAmount,
-                        discountAmount
-                    })
+                    body: JSON.stringify({ packageName, totalAmount })
                 });
-
+                const data = await response.json();
+                
                 if (response.ok) {
                     alert('Package updated successfully!');
                     $('#editPackageModal').modal('hide');
-                    fetchPackages(); // Reload packages after update
+                    fetchPackages(); 
                 } else {
-                    alert('Failed to update package.');
+                    console.error('Failed to update package:', data.message);
                 }
             } catch (error) {
                 console.error('Error updating package:', error);
             }
-        };
+        });
 
-        // Show delete confirmation
-        function confirmDelete(packageCode) {
-            deletePackageCode = packageCode;
-            $('#confirmModal').modal('show');
-        }
-
-        // Confirm delete and delete package
-        document.getElementById('confirmDeleteBtn').onclick = async function() {
-            if (deletePackageCode) {
-                try {
-                    const response = await fetch(`${BASE_URL}/packages/remove/${deletePackageCode}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`
-                        }
-                    });
-
-                    if (response.ok) {
-                        alert('Package deleted successfully!');
-                        $('#confirmModal').modal('hide');
-                        fetchPackages(); // Reload packages after deletion
-                    } else {
-                        alert('Failed to delete package.');
+        // Handle package delete confirmation
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async function () {
+            try {
+                const response = await fetch(`${BASE_URL}/packages/delete/${deletePackageCode}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`
                     }
-                } catch (error) {
-                    console.error('Error deleting package:', error);
-                }
-            }
-        };
+                });
+                const data = await response.json();
 
-        // Fetch packages when page loads
-        window.onload = function() {
-            fetchPackages();
-        }
+                if (response.ok) {
+                    alert('Package deleted successfully!');
+                    $('#confirmModal').modal('hide');
+                    fetchPackages();
+                } else {
+                    console.error('Failed to delete package:', data.message);
+                }
+            } catch (error) {
+                console.error('Error deleting package:', error);
+            }
+        });
+
+        // Initial fetch of packages when page loads
+        fetchPackages();
     </script>
 
-    <!-- Include Bootstrap JS -->
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
