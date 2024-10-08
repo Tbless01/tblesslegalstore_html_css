@@ -3,88 +3,48 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/Login-page.css">
-    <title>Sign In with Google</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id" content="692401563428-59hr15ju24ggl3n977mu33gdt2e3o9pl.apps.googleusercontent.com">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/Login-page.css">
+  <title>Sign In with Google</title>
 </head>
-
 <body>
-    <div class="container mt-5">
-        <h2 class="alert alert-primary text-center">Sign In With Google</h2>
 
-        <!-- Google Sign-In Button -->
-        <div id="g_id_onload" data-callback="onSignIn"></div>
-        <div class="g_id_signin" data-type="standard"></div>
+  <h2 class="alert alert-primary">Sign In With Google</h2>
+  
+  <!-- New Google Sign-In Button -->
+  <div id="g_id_onload"
+       data-client_id="692401563428-59hr15ju24ggl3n977mu33gdt2e3o9pl.apps.googleusercontent.com"
+       data-callback="onSignIn">
+  </div>
+  <div class="g_id_signin" data-type="standard"></div>
 
-        <div class="data" style="display: none;">
-            <h3>User Information</h3>
-            <p><strong>First Name:</strong> <span id="firstname" class="alert alert-success"></span></p>
-            <p><strong>Last Name:</strong> <span id="lastname" class="alert alert-success"></span></p>
-            <p><strong>Profile Picture:</strong></p>
-            <img id="image" class="rounded-circle" width="100" height="100">
-            <p><strong>Email:</strong> <span id="email" class="alert alert-danger"></span></p>
-            <button type="button" class="btn btn-danger" onclick="signOut();">Sign Out</button>
-        </div>
-    </div>
+  <div class="data" style="display: none;">
+    <p>First Name</p>
+    <p id="firstname" class="alert alert-success"></p>
+    
+    <p>Last Name</p>
+    <p id="lastname" class="alert alert-success"></p>    
+    
+    <p>Profile Picture</p>
+    <img id="image" class="rounded-circle" width="100" height="100">
+    
+    <p>Email</p>
+    <p id="email" class="alert alert-danger"></p>
+    
+    <button type="button" class="btn btn-danger" onclick="signOut();">Sign Out</button>
+  </div>
 
-    <!-- Load Google Identity Services SDK -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="js/main.js"></script>
-
-    <script>
-        // Fetch client ID from the backend configuration endpoint
-        fetch('http://localhost:8000/tblesslegalstore/v1/api/google/api/config')
-            .then(response => response.json())
-            .then(data => {
-                const clientId = data.clientId;
-                const g_id_onload = document.getElementById('g_id_onload');
-                g_id_onload.setAttribute('data-client_id', clientId);
-            })
-            .catch(error => {
-                console.error('Error fetching client ID:', error);
-            });
-
-        // Google Sign-In callback function
-        function onSignIn(response) {
-            const responsePayload = decodeJwtResponse(response.credential);
-            const nameParts = responsePayload.name.split(' ');
-
-            // Display user information
-            $("#firstname").text(nameParts[0]); // First name
-            $("#lastname").text(nameParts[1]); // Last name
-            $("#email").text(responsePayload.email); // Email
-            $("#image").attr('src', responsePayload.picture); // Profile picture
-
-            // Show user data and hide sign-in button
-            $(".data").show();
-            $(".g_id_signin").hide();
-        }
-
-        // Decode JWT token returned by Google
-        function decodeJwtResponse(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-            return JSON.parse(jsonPayload);
-        }
-
-        // Sign out function
-        function signOut() {
-            google.accounts.id.disableAutoSelect(); // Disable auto sign-in
-            $(".g_id_signin").show(); // Show sign-in button
-            $(".data").hide(); // Hide user data
-
-            alert('User signed out successfully.');
-        }
-    </script>
+  <!-- New Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
-
 </html>
