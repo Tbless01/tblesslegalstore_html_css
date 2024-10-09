@@ -161,9 +161,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (email) {
     console.log("Email:", email);
   }
-
+  console.log("token Code:", token);
     // Fetch package details using the packageCode
     if (packageCode) {
+        console.log("Package Code:", packageCode);
+
         try {
             const response = await fetch(`http://localhost:8000/tblesslegalstore/v1/api/packages/${packageCode}`, {
                 method: 'GET',
@@ -180,12 +182,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             const packageName = packageData.data.packageName; // Assuming the packageName is in this structure
 
             document.getElementById('packageName').value = packageName;
+            console.log("Package Name:", packageName); 
 
             // Populate the form with the package name (you can display it in a read-only field or a label)
-            const packageField = document.createElement('div');
-            packageField.innerHTML = `<label class="form-label">Package Name</label>
-                                      <input type="text" class="form-control" value="${packageName}" readonly>`;
-            form.insertBefore(packageField, form.firstChild);
+            // const packageField = document.createElement('div');
+            // packageField.innerHTML = `<label class="form-label">Package Name</label>
+            //                           <input type="text" class="form-control" value="${packageName}" readonly>`;
+            // form.insertBefore(packageField, form.firstChild);
 
         } catch (error) {
             console.error('Error fetching package details:', error);
