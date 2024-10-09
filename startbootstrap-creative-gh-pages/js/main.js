@@ -76,7 +76,20 @@ async function authenticateGoogleCustomer(customerRequest) {
 
         const responseData = await response.json();
         console.log('Authentication successful:', responseData);
-        // Handle successful authentication (e.g., redirect or show a success message)
+
+        // Check if the response data contains the expected fields
+        if (responseData.status === 200 && responseData.token && responseData.data) {
+            // Save the token and email in localStorage
+            localStorage.setItem('token', responseData.token);
+            localStorage.setItem('email', responseData.data.email);
+            localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
+
+            // Redirect or perform an action after successful authentication
+            window.location.href = 'nextPage.html'; // Change to your desired page
+        } else {
+            console.error('Authentication failed:', responseData.message);
+            // Optionally handle error responses here
+        }
     } catch (error) {
         console.error('Error authenticating Google customer:', error);
     }
