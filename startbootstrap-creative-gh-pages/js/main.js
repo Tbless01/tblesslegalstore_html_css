@@ -17,10 +17,10 @@ function onSignIn(response) {
     // $(".data").css("display", "block");
     // $(".g_id_signin").css("display", "none");
 
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail());
+    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + firstName);
+    console.log('Image URL: ' + lastName);
+    console.log('Email: ' + responsePayload.email);
 
     const customerRequest = {
         email: responsePayload.email,
