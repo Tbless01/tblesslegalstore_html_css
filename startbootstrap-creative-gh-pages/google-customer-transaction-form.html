@@ -222,9 +222,19 @@
                         throw new Error('Network response was not ok');
                     }
                     const responseText = await response.text();
-                    const responseObj = JSON.parse(responseText);
-                    alert(responseObj.message);
-                    console.log("Payment successful:", responseObj);
+    const responseObj = JSON.parse(responseText);  // Convert the text response to a JSON object
+    
+    // Check if the status is true and authorization_url exists
+    if (responseObj.status && responseObj.data && responseObj.data.authorization_url) {
+        // Redirect to the authorization URL
+        window.location.href = responseObj.data.authorization_url;
+    } else {
+        throw new Error('Authorization URL not found in response.');
+    }
+                    // const responseText = await response.text();
+                    // const responseObj = JSON.parse(responseText);
+                    // alert(responseObj.message);
+                    // console.log("Payment successful:", responseObj);
                 } catch (error) {
                     console.error('Error submitting payment:', error);
                 }
