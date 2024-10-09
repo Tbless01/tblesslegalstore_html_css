@@ -17,6 +17,11 @@ function onSignIn(response) {
     // $(".data").css("display", "block");
     // $(".g_id_signin").css("display", "none");
 
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
+
     const customerRequest = {
         email: responsePayload.email,
         firstName: firstName,
@@ -25,11 +30,11 @@ function onSignIn(response) {
     };
 
     // Save the selected package code
-    localStorage.setItem('selectedPackageCode', packageCode);
+    // localStorage.setItem('selectedPackageCode', packageCode);
 
     // Authenticate the customer
     authenticateGoogleCustomer(customerRequest);
-    window.location.href = 'customers-list.html'; // Redirect after login
+    window.location.href = 'customers-list.html'; 
 }
 
 // Decode JWT token returned by Google
@@ -55,6 +60,7 @@ function signOut() {
 
 
 async function authenticateGoogleCustomer(customerRequest) {
+    const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
     try {
         const response = await fetch(`${BASE_URL}/authentication/google-customer`, {
             method: 'POST',
