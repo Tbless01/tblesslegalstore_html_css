@@ -126,8 +126,17 @@
                                         Discover our <strong>${package.packageName}</strong>, designed for legal professionals. 
                                         <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.
                                     </p>
-                                    <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}')">Select Package</button>
-                                </div>
+                                    // <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}')">Select Package</button>
+                                    <div id="g_id_onload"
+         data-client_id="692401563428-59hr15ju24ggl3n977mu33gdt2e3o9pl.apps.googleusercontent.com"
+         data-callback="onSignIn">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <button class="btn btn-primary" onclick="handleSelectPackage('PACKAGE_CODE')">Select Package</button>
+
+    <!-- Include the main.js script -->
+                                    </div>
                             </div>
                         `;
 
@@ -146,7 +155,17 @@
         function selectPackage(packageCode) {
             localStorage.setItem('selectedPackageCode', packageCode);
             // Trigger Google login after saving package code
-            triggerGoogleLogin();
+            // triggerGoogleLogin();
+        }
+
+        function handleSelectPackage(packageCode) {
+            // Trigger the Google Sign-In process
+            document.querySelector('.g_id_signin').click(); // This simulates a click on the Google Sign-In button
+            
+            // After clicking, call selectPackage (this can be adjusted based on when you want to call it)
+            setTimeout(() => {
+                selectPackage(packageCode);  // Call selectPackage function
+            }, 1000); // Delay to allow for the sign-in process to start
         }
 
 // Other code remains unchanged
@@ -172,54 +191,39 @@ function triggerGoogleLogin() {
 }
 
 function onSignIn(response) {
-    console.log("Sign-in response received:", response); // Log the entire response
+    const responsePayload = decodeJwtResponse(response.credential);
+    const fullName = responsePayload.name;  // Full name
+    const nameParts = fullName.split(' ');  // Split the name by spaces
 
-    try {
-        const responsePayload = decodeJwtResponse(response.credential);
-        console.log("Decoded JWT Response Payload:", responsePayload); // Log the decoded JWT payload
+    const firstName = nameParts[0];  // First name
+    const lastName = nameParts[1];   // Last name (or surname)
+    const email = responsePayload.email; // Extract email from the JWT
 
-        var fullName = responsePayload.name; // Full name
-        console.log("Full Name:", fullName); // Log the full name
+    // Prepare customerRequest for API
+    const customerRequest = {
+        email: email,
+        firstName: firstName,
+        lastName: lastName
+        // Optionally include other user info if needed
+    };
 
-        var nameParts = fullName.split(' '); // Split the name by spaces
-        console.log("Name Parts:", nameParts); // Log the split name parts
+    // Save the selected package code
+    localStorage.setItem('selectedPackageCode', packageCode);
 
-        var firstName = nameParts[0]; // First name
-        var lastName = nameParts[1]; // Last name (or surname)
-        console.log("First Name:", firstName); // Log the first name
-        console.log("Last Name:", lastName); // Log the last name
-
-        $("#firstname").text(firstName);
-        $("#lastname").text(lastName);
-        // $("#name").text(responsePayload.name);
-        $("#email").text(responsePayload.email);
-        $("#image").attr('src', responsePayload.picture);
-
-        // Show user data and hide sign-in button
-        $(".data").css("display", "block");
-        $(".g_id_signin").css("display", "none");
-        console.log("User data displayed, sign-in button hidden."); // Log status update
-
-    } catch (error) {
-        console.error("Error during sign-in process:", error); // Log any errors that occur
-    }
+    // Authenticate the customer
+    authenticateGoogleCustomer(customerRequest);
+    window.location.href = 'customers-list.html'; // Redirect after login
 }
 
-// Decode JWT token returned by Google
 function decodeJwtResponse(token) {
-    console.log("Decoding JWT Token:", token); // Log the JWT token being decoded
-
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 
-    console.log("JSON Payload after decoding:", jsonPayload); // Log the decoded JSON payload
-
     return JSON.parse(jsonPayload);
 }
-
 
 // Authenticate Google customer API call
 async function authenticateGoogleCustomer(customerRequest) {
@@ -248,6 +252,9 @@ async function authenticateGoogleCustomer(customerRequest) {
 window.onload = fetchPackages;
 
     </script>
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
