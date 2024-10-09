@@ -34,7 +34,7 @@ function onSignIn(response) {
 
     // Authenticate the customer
     authenticateGoogleCustomer(customerRequest);
-    window.location.href = 'customers-list.html'; 
+    window.location.href = 'google-customer-transaction-form.html'; 
 }
 
 // Decode JWT token returned by Google
@@ -85,7 +85,7 @@ async function authenticateGoogleCustomer(customerRequest) {
             localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
 
             // Redirect or perform an action after successful authentication
-            window.location.href = 'nextPage.html'; // Change to your desired page
+            window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
         } else {
             console.error('Authentication failed:', responseData.message);
             // Optionally handle error responses here
