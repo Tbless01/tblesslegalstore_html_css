@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Pass token for authentication
+                    'Authorization': `Bearer ${token}` 
                 },
                 body: JSON.stringify(paymentRequest)
             });
@@ -231,10 +231,16 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
-            const responseData = await response.json();
-            console.log('Payment successful:', responseData);
-            alert('Payment submitted successfully!');
+          const responseText = await response.text();
+            const responseData = JSON.parse(responseText);
+            if (responseData.status) {
+                const authorizationUrl = responseData.data.authorization_url;
+                console.log('Authorization URL:', authorizationUrl);
+                window.open(authorizationUrl, '_blank');
+            } else {
+                console.error('Payment request failed:', responseData.message);
+                alert('Payment request failed: ' + responseData.message);
+            }
         } catch (error) {
             console.error('Error submitting payment:', error);
             alert('An error occurred while submitting the payment.');
@@ -249,7 +255,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>
 </footer>
 
-<!-- Bootstrap core JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- New Google Identity Services SDK -->
