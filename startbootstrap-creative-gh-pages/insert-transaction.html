@@ -102,7 +102,12 @@
                 <label for="amountLastPaid">Amount Last Paid</label>
                 <input type="number" id="amountLastPaid" class="form-control" step="0.01" value="0.00" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            <!-- <button type="submit" class="btn btn-primary btn-block">Submit</button> -->
+            <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;" id="loadingSpinner"></span>
+                Submit
+            </button>
+            
         </form>
 
         <!-- Message area -->
@@ -215,42 +220,53 @@
             const packageCode = packageSelect.value;
             document.getElementById('packageCode').value = packageCode;
         }
-
         document.getElementById('transactionForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const customerCode = document.getElementById('customerCode').value;
-            const packageCode = document.getElementById('packageCode').value;
-            const amountLastPaid = document.getElementById('amountLastPaid').value;
-            const voucherCode = document.getElementById('voucherCode').value || null; // Added voucherCode
-            const jwtToken = getAuthToken();
+    event.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const spinner = document.getElementById('loadingSpinner');
+    
+    // Disable the button and show the spinner
+    submitBtn.disabled = true;
+    spinner.style.display = 'inline-block';
+    
+    const customerCode = document.getElementById('customerCode').value;
+    const packageCode = document.getElementById('packageCode').value;
+    const amountLastPaid = document.getElementById('amountLastPaid').value;
+    const voucherCode = document.getElementById('voucherCode').value || null;
+    const jwtToken = getAuthToken();
 
-            try {
-                const response = await fetch(`${BASE_URL}/transactions`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${jwtToken}`
-                    },
-                    body: JSON.stringify({
-                        customerCode,
-                        packageCode,
-                        voucherCode, // Add voucherCode to payload
-                        amountLastPaid: parseFloat(amountLastPaid),
-                    }),
-                });
-                const result = await response.json();
-                
-                if (response.ok) {
-                    showMessage('Transaction inserted successfully!', 'success');
-                    document.getElementById('transactionForm').reset();
-                } else {
-                    throw new Error(result.message || 'Failed to insert transaction');
-                }
-            } catch (error) {
-                console.error('Error inserting transaction:', error);
-                showMessage(`Error inserting transaction: ${error.message}`, 'danger');
-            }
+    try {
+        const response = await fetch(`${BASE_URL}/transactions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            },
+            body: JSON.stringify({
+                customerCode,
+                packageCode,
+                voucherCode,
+                amountLastPaid: parseFloat(amountLastPaid),
+            }),
         });
+        const result = await response.json();
+
+        if (response.ok) {
+            showMessage('Transaction inserted successfully!', 'success');
+            document.getElementById('transactionForm').reset();
+        } else {
+            throw new Error(result.message || 'Failed to insert transaction');
+        }
+    } catch (error) {
+        console.error('Error inserting transaction:', error);
+        showMessage(`Error inserting transaction: ${error.message}`, 'danger');
+    } finally {
+        // Re-enable the button and hide the spinner
+        submitBtn.disabled = false;
+        spinner.style.display = 'none';
+    }
+});
 
         function showMessage(message, type) {
             const messageDiv = document.getElementById('message');
