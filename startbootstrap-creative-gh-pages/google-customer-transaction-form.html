@@ -163,7 +163,7 @@
                 console.log("Package Code:", packageCode);
 
                 try {
-                    const response = await fetch(`http://localhost:8000/tblesslegalstore/v1/api/packages/${packageCode}`, {
+                    const response = await fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/${packageCode}`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}` // Pass token for authentication
@@ -209,7 +209,7 @@
 
                 try {
                     // Make the API call with the token for authentication
-                    const response = await fetch('http://localhost:8000/tblesslegalstore/v1/api/transactions/google-customer', {
+                    const response = await fetch('https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/google-customer', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
