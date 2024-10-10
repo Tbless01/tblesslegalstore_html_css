@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vouchers List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5; /* Light grey background */
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #34495e; /* Dark grey for headings */
+            margin-bottom: 20px;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .package-item {
+            background-color: #fff; /* White background for cards */
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
+        }
+
+        .package-item h5 {
+            color: #2c3e50; /* Heading color for package codes */
+        }
+
+        .package-item p {
+            color: #7f8c8d; /* Muted grey for package details */
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: #e74c3c; /* Red button similar to the Delete Transaction */
+            border-color: #e74c3c;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            border-color: #c0392b;
+        }
+
+        .btn-view, .btn-edit, .btn-delete {
+            margin-right: 10px;
+        }
+
+        .btn-warning {
+            background-color: #f39c12; /* Orange edit button */
+            border-color: #f39c12;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22; /* Darker orange on hover */
+        }
+
+        .btn-danger {
+            background-color: #e74c3c; /* Red for delete button */
+            border-color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        /* Navbar Logo Styles */
+        .navbar-logo {
+            height: 150px;
+            width: auto;
+            max-height: 100%;
+            margin-bottom: -70px;
+            margin-top: -40px;
+        }
+
+        /* Pagination Styles */
+        .pagination .page-item.active .page-link {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .pagination .page-link {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="navbar-brand" href="#page-top">
+            <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
+        </a>
+        <!-- Page Heading -->
+        <h1 class="my-4">Packages</h1>
+        <a href="index.html" class="btn btn-primary">Back to Home</a>
+        <a href="add-voucher.html" class="btn btn-primary">Add Voucher</a>
+        <!-- Packages List -->
+        <div id="packagesList"></div>
+
+        <!-- Pagination -->
+        <ul id="pagination" class="pagination justify-content-center">
+            <!-- Pagination buttons will be added here -->
+        </ul>
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Vouchers List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Voucher Code</th>
+                    <th>Voucher Name</th>
+                    <th>Discount Rate (%)</th>
+                    <th>Actions</th> <!-- Added Actions header -->
+                </tr>
+            </thead>
+            <tbody id="voucher-list">
+                <!-- Vouchers will be populated here -->
+            </tbody>
+        </table>
+        <div id="pagination">
+            <!-- Pagination controls -->
+        </div>
+    </div>
+
+    <!-- Update Modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Voucher</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateVoucherForm">
+                        <div class="form-group">
+                            <label for="voucherName">Voucher Name</label>
+                            <input type="text" class="form-control" id="voucherName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="discountRate">Discount Rate (%)</label>
+                            <input type="number" class="form-control" id="discountRate" required min="0" max="100">
+                        </div>
+                        <input type="hidden" id="voucherCode">
+                        <button type="submit" class="btn btn-primary">Update Voucher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api'; // Update with your API base URL
+        const jwtToken = localStorage.getItem('authToken'); // Replace with actual JWT token
+
+        async function fetchVouchers(pageNumber = 0, pageSize = 10) {
+            try {
+                const response = await fetch(`${BASE_URL}/vouchers/all?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch vouchers');
+                }
+
+                const data = await response.json();
+                displayVouchers(data.data);
+                setupPagination(pageNumber, pageSize, data.totalCount);
+            } catch (error) {
+                console.error('Error fetching vouchers:', error);
+            }
+        }
+
+        function displayVouchers(vouchers) {
+            const voucherList = document.getElementById('voucher-list');
+            voucherList.innerHTML = ''; // Clear existing entries
+
+            vouchers.forEach(voucher => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${voucher.voucherCode}</td>
+                    <td>${voucher.voucherName}</td>
+                    <td>${voucher.discountRate}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="showUpdateModal('${voucher.voucherCode}', '${voucher.voucherName}', ${voucher.discountRate})">Update</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteVoucher('${voucher.voucherCode}')">Delete</button>
+                    </td>
+                `;
+                voucherList.appendChild(row);
+            });
+        }
+
+        function setupPagination(pageNumber, pageSize, totalCount) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = ''; // Clear existing pagination
+
+            const totalPages = Math.ceil(totalCount / pageSize);
+            for (let i = 0; i < totalPages; i++) {
+                const pageLink = document.createElement('button');
+                pageLink.textContent = i + 1;
+                pageLink.className = 'btn btn-primary mx-1';
+                pageLink.onclick = () => fetchVouchers(i, pageSize); // Fetch vouchers for the selected page
+                pagination.appendChild(pageLink);
+            }
+        }
+
+        async function deleteVoucher(voucherCode) {
+            if (confirm('Are you sure you want to delete this voucher?')) {
+                try {
+                    const response = await fetch(`${BASE_URL}/vouchers/remove/${voucherCode}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${jwtToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to delete voucher');
+                    }
+
+                    alert('Voucher deleted successfully');
+                    fetchVouchers(); // Refresh the list after deletion
+                } catch (error) {
+                    console.error('Error deleting voucher:', error);
+                }
+            }
+        }
+
+        function showUpdateModal(voucherCode, voucherName, discountRate) {
+            // Populate the modal with the current voucher data
+            document.getElementById('voucherCode').value = voucherCode;
+            document.getElementById('voucherName').value = voucherName;
+            document.getElementById('discountRate').value = discountRate;
+
+            // Show the modal
+            $('#updateModal').modal('show');
+        }
+
+        document.getElementById('updateVoucherForm').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            const voucherCode = document.getElementById('voucherCode').value;
+            const updateRequest = {
+                voucherName: document.getElementById('voucherName').value,
+                discountRate: parseInt(document.getElementById('discountRate').value, 10)
+            };
+
+            try {
+                const response = await fetch(`${BASE_URL}/vouchers/${voucherCode}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updateRequest)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update voucher');
+                }
+
+                alert('Voucher updated successfully');
+                fetchVouchers(); // Refresh the list after update
+                $('#updateModal').modal('hide'); // Hide the modal
+            } catch (error) {
+                console.error('Error updating voucher:', error);
+            }
+        });
+
+        // Initial fetch
+        fetchVouchers();
+    </script>
+</body>
+</html>
