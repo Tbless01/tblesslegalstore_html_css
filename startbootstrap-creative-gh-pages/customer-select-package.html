@@ -128,7 +128,11 @@
                                     Discover our <strong>${package.packageName}</strong>, designed for legal professionals. 
                                     <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.
                                 </p>
-                                <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}')">Select Package</button>
+                                <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}', this)">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
+    Select Package
+</button>
+
                             </div>
                         </div>
                     `;
@@ -146,11 +150,20 @@
     }
 
 
-    function selectPackage(packageCode) {
+    function selectPackage(packageCode, button) {
+    // Disable the button and show the spinner
+    button.disabled = true;
+    const spinner = button.querySelector('.spinner-border');
+    spinner.style.display = 'inline-block';
+
     localStorage.setItem('selectedPackageCode', packageCode);
-    // Redirect to the login page after saving the package code
-    window.location.href = 'google-login-page.html'; // Adjust the URL if necessary
+
+    // Simulate a slight delay for user experience before redirecting
+    setTimeout(() => {
+        window.location.href = 'google-login-page.html'; 
+    }, 1000);
 }
+
 
 
             // Fetch packages when the page loads
