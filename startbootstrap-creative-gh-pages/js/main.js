@@ -92,21 +92,13 @@ async function authenticateGoogleCustomer(customerRequest) {
 
         // if (response.json().data) {
         
-        if (responseData.status === 200 && responseData.token && responseData.data) {
+        if (responseData.token && responseData.data) {
             const data = await response.json();
             localStorage.removeItem('token');
-            // Save token and other relevant information to localStorage
-            localStorage.setItem('token', data.token); // Ensure you are saving the correct token
-            localStorage.setItem('email', data.data.email); // Extract email from data
-            localStorage.setItem('customerCode', data.data.customerCode); 
-
-
-            console.log("Token from localStorage:", localStorage.getItem('token'));
-            console.log("Email from localStorage:", localStorage.getItem('email'));
-            console.log("Token:", localStorage.getItem('token'));
-            console.log("Email:", localStorage.getItem('email'));
-            console.log("Customer Code:", localStorage.getItem('customerCode'));
-
+            // Save the token and email in localStorage
+            localStorage.setItem('token', responseData.token);
+            localStorage.setItem('email', responseData.data.email);
+            localStorage.setItem('customerCode', responseData.data.customerCode);
 
             // Redirect to payment page
             // window.location.href = 'google-customer-transaction-form.html';
