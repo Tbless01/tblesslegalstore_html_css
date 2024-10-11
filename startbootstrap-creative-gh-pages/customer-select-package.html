@@ -93,10 +93,14 @@
 // Your API base URL
 const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
 
-// Clear sessionStorage when the page loads
-function clearPreviousSelection() {
+// Clear previous selection and fetch packages when the page loads
+async function init() {
+    // Clear any previously selected package
     sessionStorage.removeItem('selectedPackageCode');
     console.log('Previous selection cleared from sessionStorage');
+
+    // Fetch packages after clearing previous selection
+    await fetchPackages();
 }
 
 // Function to fetch packages
@@ -108,7 +112,7 @@ async function fetchPackages() {
         const jsonResponse = await response.json();
 
         const packagesContainer = document.getElementById('packagesContainer');
-        packagesContainer.innerHTML = ''; // Clear previous packages
+        packagesContainer.innerHTML = ''; // Clear previous package items
 
         // Access the packages directly from the data key
         if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
@@ -140,10 +144,8 @@ async function fetchPackages() {
 
                 packagesContainer.appendChild(packageItem);
             });
-            console.log('Packages rendered:', jsonResponse.data);
         } else {
             packagesContainer.innerHTML = '<p>No packages available.</p>';
-            console.log('No packages available');
         }
     } catch (error) {
         console.error('Error fetching packages:', error);
@@ -163,18 +165,18 @@ function selectPackage(packageCode, button) {
     sessionStorage.setItem('selectedPackageCode', packageCode);
     console.log(`New package selected: ${packageCode}`);
 
-    // Reload the page to reflect the selection
+    // Simulate a slight delay for user experience before redirecting
     setTimeout(() => {
-        window.location.reload(); 
+        window.location.href = 'google-login-page.html'; 
     }, 1000);
 }
 
-// Fetch packages when the page loads
-window.onload = function () {
-    clearPreviousSelection();
-    fetchPackages();
-};
+// Initialize fetching packages when the page loads
+window.onload = init;
 </script>
+
+<!-- HTML Structure Example -->
+<div id="packagesContainer"></div>
     </body>
 
     </html>
