@@ -89,10 +89,15 @@
             <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>
         </footer>
 
-        <!-- Bootstrap core JS -->
         <script>
 // Your API base URL
 const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
+
+// Clear sessionStorage when the page loads
+function clearPreviousSelection() {
+    sessionStorage.removeItem('selectedPackageCode');
+    console.log('Previous selection cleared from sessionStorage');
+}
 
 // Function to fetch packages
 async function fetchPackages() {
@@ -158,32 +163,18 @@ function selectPackage(packageCode, button) {
     sessionStorage.setItem('selectedPackageCode', packageCode);
     console.log(`New package selected: ${packageCode}`);
 
-    // Update the UI immediately to reflect the new selection
-    updateSelectedPackageUI(packageCode);
-
-    // Optionally, you can set a timeout to enable the button back after some time
+    // Reload the page to reflect the selection
     setTimeout(() => {
-        button.disabled = false;
-        spinner.style.display = 'none';
+        window.location.reload(); 
     }, 1000);
-}
-
-// Function to update the UI with the selected package
-function updateSelectedPackageUI(packageCode) {
-    const selectedPackageInfo = document.getElementById('selectedPackageInfo'); // Assuming you have an element to show the selected package
-    selectedPackageInfo.textContent = `You have selected: ${packageCode}`;
-    console.log(`UI updated with selected package: ${packageCode}`);
 }
 
 // Fetch packages when the page loads
 window.onload = function () {
+    clearPreviousSelection();
     fetchPackages();
 };
 </script>
-
-<!-- HTML Structure Example -->
-<div id="packagesContainer"></div>
-<div id="selectedPackageInfo"></div> <!-- Add this to show selected package -->
     </body>
 
     </html>
