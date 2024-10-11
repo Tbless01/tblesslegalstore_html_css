@@ -78,7 +78,7 @@ async function authenticateGoogleCustomer(customerRequest) {
         }
         // Check if the response data contains the expected fields
         // if (responseData.status === 200 && responseData.token && responseData.data) {
-            if (responseData.data) {
+        if (responseData.status === 200 && responseData.token && responseData.data) {
             localStorage.removeItem('token');
             // Save the token and email in localStorage
             localStorage.setItem('token', responseData.token);
