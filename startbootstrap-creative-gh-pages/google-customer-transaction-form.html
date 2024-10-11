@@ -269,8 +269,9 @@
                         const errorMessage = await response.text();
                         throw new Error('Failed to fetch package details: ' + errorMessage);
                     }
-                    console.log('Token expired or unauthorized. Redirecting to home page...' + packageData + packageData);
+                    
                     const packageData = await response.json();
+                    console.log('Token expired or unauthorized. Redirecting to home page...' + packageData + packageData);
                     document.getElementById('packageName').value = packageData.data.packageName;
                     console.log("Package Name:", packageData.data.packageName);
 
