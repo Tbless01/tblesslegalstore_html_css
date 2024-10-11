@@ -92,75 +92,77 @@
         <!-- Bootstrap core JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script>
+ <script>
+// Your API base URL
+const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
 
+// Clear sessionStorage when the page loads
+function clearPreviousSelection() {
+    sessionStorage.removeItem('selectedPackageCode');
+    console.log('Previous selection cleared from sessionStorage');
+}
 
-// const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
-            const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
+// Function to fetch packages
+async function fetchPackages() {
+    try {
+        const pageNumber = 0;
+        const pageSize = 10;
+        const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+        const jsonResponse = await response.json();
 
-            async function fetchPackages() {
-        try {
-            const pageNumber = 0;
-            const pageSize = 10;
-            const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`);
-            const jsonResponse = await response.json();
+        const packagesContainer = document.getElementById('packagesContainer');
+        packagesContainer.innerHTML = '';
 
-            const packagesContainer = document.getElementById('packagesContainer');
-            packagesContainer.innerHTML = '';
+        // Access the packages directly from the data key
+        if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
+            jsonResponse.data.forEach(package => {
+                const packageItem = document.createElement('div');
+                packageItem.className = 'product-item';
 
-
-sessionStorage.removeItem('selectedPackageCode');
-
-
-            // Access the packages directly from the data key
-            if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
-                jsonResponse.data.forEach(package => {
-                    const packageItem = document.createElement('div');
-                    packageItem.className = 'product-item';
-
-                    packageItem.innerHTML = `
-                        <div class="product-item-title d-flex">
-                            <div class="g-faded p-5 d-flex ms-auto rounded">
-                                <h2 class="section-heading mb-0">
-                                    <span class="section-heading-upper">${package.packageName}</span>
-                                </h2>
-                            </div>
+                packageItem.innerHTML = `
+                    <div class="product-item-title d-flex">
+                        <div class="g-faded p-5 d-flex ms-auto rounded">
+                            <h2 class="section-heading mb-0">
+                                <span class="section-heading-upper">${package.packageName}</span>
+                            </h2>
                         </div>
-                     <div class="product-item-description d-flex me-auto">
-                            <div class="b-faded p-5 rounded">
-                                <p class="mb-0">
-                                    Discover our <strong>${package.packageName}</strong>, designed for legal professionals. 
-                                    <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.
-                                </p>
-                                <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}', this)">
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
-    Select Package
-</button>
-
-                            </div>
+                    </div>
+                    <div class="product-item-description d-flex me-auto">
+                        <div class="b-faded p-5 rounded">
+                            <p class="mb-0">
+                                Discover our <strong>${package.packageName}</strong>, designed for legal professionals. 
+                                <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.
+                            </p>
+                            <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}', this)">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
+                                Select Package
+                            </button>
                         </div>
-                    `;
+                    </div>
+                `;
 
-                    packagesContainer.appendChild(packageItem);
-                });
-            } else {
-                packagesContainer.innerHTML = '<p>No packages available.</p>';
-            }
-        } catch (error) {
-            console.error('Error fetching packages:', error);
-            const packagesContainer = document.getElementById('packagesContainer');
-            packagesContainer.innerHTML = '<p>Error fetching packages. Please try again later.</p>';
+                packagesContainer.appendChild(packageItem);
+            });
+        } else {
+            packagesContainer.innerHTML = '<p>No packages available.</p>';
         }
+    } catch (error) {
+        console.error('Error fetching packages:', error);
+        const packagesContainer = document.getElementById('packagesContainer');
+        packagesContainer.innerHTML = '<p>Error fetching packages. Please try again later.</p>';
     }
+}
 
-
-    function selectPackage(packageCode, button) {
+// Function to handle package selection
+function selectPackage(packageCode, button) {
     // Disable the button and show the spinner
     button.disabled = true;
     const spinner = button.querySelector('.spinner-border');
     spinner.style.display = 'inline-block';
 
+    // Store the newly selected package code in sessionStorage
     sessionStorage.setItem('selectedPackageCode', packageCode);
+    console.log(`New package selected: ${packageCode}`);
 
     // Simulate a slight delay for user experience before redirecting
     setTimeout(() => {
@@ -168,11 +170,12 @@ sessionStorage.removeItem('selectedPackageCode');
     }, 1000);
 }
 
-
-
-            // Fetch packages when the page loads
-            window.onload = fetchPackages;
-        </script>
+// Fetch packages when the page loads
+window.onload = function () {
+    clearPreviousSelection();
+    fetchPackages();
+};
+</script>
     </body>
 
     </html>
