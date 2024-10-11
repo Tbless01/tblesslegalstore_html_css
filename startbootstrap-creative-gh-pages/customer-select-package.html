@@ -202,10 +202,10 @@ function selectPackage(packageCode, button) {
     // Check if token or packageCode is in localStorage
     const token = localStorage.getItem('token');
     const selectedPackageCode = localStorage.getItem('selectedPackageCode');
-
+    const emailAddress = localStorage.getItem('email');
     // Determine the redirect URL based on the conditions
     let redirectUrl;
-    if (token!== null) {
+    if (token!== null || emailAddress!== null || emailAddress!== "") {
         // If both token and packageCode are present
         redirectUrl = 'google-customer-transaction-form.html';
         // console.log("adkasldkasklas "+ selectedPackageCode);
