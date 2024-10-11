@@ -77,8 +77,6 @@ async function authenticateGoogleCustomer(customerRequest) {
         //     window.location.href = 'customer-select-package.html';
         // }
 
-
-
         // Check if the response data contains the expected fields
         // if (responseData.status === 200 && responseData.token && responseData.data) {
         // if (responseData.status === 200 && responseData.token && responseData.data) {
@@ -111,7 +109,7 @@ async function authenticateGoogleCustomer(customerRequest) {
 
 
             // Redirect to payment page
-            window.location.href = 'google-customer-transaction-form.html';
+            // window.location.href = 'google-customer-transaction-form.html';
         } else {
             console.error('Authentication failed:', responseData.message);
             // Optionally handle error responses here
