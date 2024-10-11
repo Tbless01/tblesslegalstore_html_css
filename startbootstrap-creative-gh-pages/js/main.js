@@ -96,6 +96,8 @@ async function authenticateGoogleCustomer(customerRequest) {
             localStorage.setItem('token', data.token); // Ensure you are saving the correct token
             localStorage.setItem('email', data.email); // Or wherever the email is coming from
             localStorage.setItem('customerCode', data.customerCode); // Example
+            console.log("Token from localStorage:", localStorage.getItem('token'));
+            console.log("Email from localStorage:", localStorage.getItem('email'));
             // Redirect to payment page
             window.location.href = 'payment-page.html';
         } else {
