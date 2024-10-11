@@ -186,6 +186,10 @@
                     const packageData = await response.json();
                     document.getElementById('packageName').value = packageData.data.packageName;
                     console.log("Package Name:", packageData.data.packageName);
+                    
+
+                    
+                    localStorage.setItem('packageName', packageData.data.packageName);
 
                 } catch (error) {
                     console.error('Error fetching package details:', error);

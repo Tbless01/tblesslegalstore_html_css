@@ -71,7 +71,7 @@
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">Login</a></li>
+                        <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">Login</a></li> -->
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>
 
                     </ul>
@@ -172,6 +172,23 @@ async function fetchPackages() {
 }
 
 // Function to handle package selection
+// function selectPackage(packageCode, button) {
+//     // Disable the button and show the spinner
+//     button.disabled = true;
+//     const spinner = button.querySelector('.spinner-border');
+//     spinner.style.display = 'inline-block';
+
+//     // Store the newly selected package code in localStorage
+//     localStorage.setItem('selectedPackageCode', packageCode);
+//     console.log(`New package selected: ${packageCode}`);
+
+//     // Simulate a slight delay for user experience before redirecting
+//     setTimeout(() => {
+//         window.location.href = 'google-login-page.html'; 
+//     }, 1000);
+// }
+
+
 function selectPackage(packageCode, button) {
     // Disable the button and show the spinner
     button.disabled = true;
@@ -182,9 +199,23 @@ function selectPackage(packageCode, button) {
     localStorage.setItem('selectedPackageCode', packageCode);
     console.log(`New package selected: ${packageCode}`);
 
+    // Check if token or packageCode is in localStorage
+    const token = localStorage.getItem('token');
+    const selectedPackageCode = localStorage.getItem('selectedPackageCode');
+
+    // Determine the redirect URL based on the conditions
+    let redirectUrl;
+    if (token && selectedPackageCode) {
+        // If both token and packageCode are present
+        redirectUrl = 'google-customer-transaction-form.html';
+    } else {
+        // If either token is null or selectedPackageCode is null
+        redirectUrl = 'google-login-page.html';
+    }
+
     // Simulate a slight delay for user experience before redirecting
     setTimeout(() => {
-        window.location.href = 'google-login-page.html'; 
+        window.location.href = redirectUrl; 
     }, 1000);
 }
 

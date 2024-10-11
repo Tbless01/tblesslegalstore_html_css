@@ -12,6 +12,32 @@
         <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/tstyles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        
+        <style>
+
+            .social-links {
+                position: fixed; /* Fixed positioning */
+                bottom: 20px; /* Distance from the bottom of the viewport */
+                right: 20px; /* Distance from the right of the viewport */
+                z-index: 1000; /* Ensures the icons are on top of other content */
+            }
+            
+            
+            
+            .social-links a { 
+                color: #333333; /* Dark color for icons */
+                font-size: 1.5rem; /* Adjust the size of the icons */
+                margin: 0 10px; /* Spacing between icons */
+                text-decoration: none; /* Remove underline */
+                text-shadow: 0px 0px 10px white; /* Solid white shadow, no offset, more blur */
+            }
+            
+            .social-links a:hover {
+                color: #f0f0f0; /* Light color on hover */
+                text-shadow: 0px 0px 15px white; /* More intense, solid white shadow on hover */
+            }
+                </style>
     </head>
     <body>
         <header>
@@ -31,7 +57,7 @@
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">login</a></li>
+                        <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">login</a></li> -->
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>
                     </ul>
                 </div>
@@ -59,6 +85,14 @@
                 </div>
             </div>
         </section>
+        <div class="social-links mt-3">
+            <a href="https://www.instagram.com/tblesslegal_store?igsh=MTBkZjFmcjhnN2djMQ%3D%3D&utm_source=qr" target="_blank" class="mx-2">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/2348133375798" target="_blank" class="mx-2">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>  
         <footer class="footer text-faded text-center py-5">
             <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>
         </footer>
