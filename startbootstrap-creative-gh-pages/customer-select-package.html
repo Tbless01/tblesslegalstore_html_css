@@ -155,28 +155,29 @@
             }
         }
 
-        // Function to handle package selection
-        function selectPackage(packageCode, button) {
-            button.disabled = true; // Disable the button
-            const spinner = button.querySelector('.spinner-border');
-            spinner.style.display = 'inline-block'; // Show the spinner
+// Function to handle package selection
+function selectPackage(packageCode, button) {
+    button.disabled = true; // Disable the button
+    const spinner = button.querySelector('.spinner-border');
+    spinner.style.display = 'inline-block'; // Show the spinner
 
-            localStorage.setItem('selectedPackageCode', packageCode);
-            console.log(`New package selected: ${packageCode}`);
+    // Store the selected package code in localStorage
+    localStorage.setItem('selectedPackageCode', packageCode);
+    console.log(`New package selected: ${packageCode}`);
 
-            // Check if token and emailAddress are in localStorage
-            const token = localStorage.getItem('token');
-            const emailAddress = localStorage.getItem('email');
+    // Check if token is in localStorage
+    const token = localStorage.getItem('token');
 
-            // Check if token or emailAddress is null or empty
-            const redirectUrl = (token && token.trim() !== '' && emailAddress && emailAddress.trim() !== '') 
-                ? 'google-customer-transaction-form.html' 
-                : 'google-login-page.html';
+    // Redirect logic
+    if (!token || token.trim() === '') {
+        // If there is no token, redirect to the login page
+        window.location.href = 'google-login-page.html'; 
+    } else {
+        // If there is a token, redirect to the transaction form
+        window.location.href = 'google-customer-transaction-form.html'; 
+    }
+}
 
-            setTimeout(() => {
-                window.location.href = redirectUrl; 
-            }, 1000);
-        }
 
         // Function to highlight the selected package
         function highlightSelectedPackage(packageCode) {
