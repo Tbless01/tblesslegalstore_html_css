@@ -205,7 +205,7 @@ function selectPackage(packageCode, button) {
 
     // Determine the redirect URL based on the conditions
     let redirectUrl;
-    if (token && selectedPackageCode) {
+    if (token!== null) {
         // If both token and packageCode are present
         redirectUrl = 'google-customer-transaction-form.html';
         // console.log("adkasldkasklas "+ selectedPackageCode);
