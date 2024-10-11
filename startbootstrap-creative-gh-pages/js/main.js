@@ -65,46 +65,32 @@ async function authenticateGoogleCustomer(customerRequest) {
             body: JSON.stringify(customerRequest)
         });
 
+        // Parse the response data once
+        const responseData = await response.json();
+
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            // Handle the error response
+            console.error('Authentication failed:', responseData.message);
+            // Optionally handle error responses here (e.g., display error message to the user)
+            return; // Early return to prevent further processing
         }
 
-        const responseData = await response.json();
         console.log('Authentication successful:', responseData);
 
-        // const selectedPackageCode = localStorage.getItem('selectedPackageCode');
-        // if (selectedPackageCode) {
-        //     window.location.href = 'customer-select-package.html';
-        // }
-
-        // Check if the response data contains the expected fields
-        // if (responseData.status === 200 && responseData.token && responseData.data) {
-        // if (responseData.status === 200 && responseData.token && responseData.data) {
-        // //     localStorage.removeItem('token');
-        // //     // Save the token and email in localStorage
-        // //     localStorage.setItem('token', responseData.token);
-        // //     localStorage.setItem('email', responseData.data.email);
-        // //     localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
-
-        // //     // Redirect or perform an action after successful authentication
-        // //     window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
-        // // } else {
-
-        // if (response.json().data) {
-        
+        // Ensure the response contains the expected fields
         if (responseData.token && responseData.data) {
-            const data = await response.json();
+            // Remove any previous token
             localStorage.removeItem('token');
-            // Save the token and email in localStorage
-            localStorage.setItem('token', responseData.token);
-            localStorage.setItem('email', responseData.data.email);
-            localStorage.setItem('customerCode', responseData.data.customerCode);
+
+            // Save the token and other relevant information to localStorage
+            localStorage.setItem('token', responseData.token); // Save the JWT token
+            localStorage.setItem('email', responseData.data.email); // Extract email from data
+            localStorage.setItem('customerCode', responseData.data.customerCode); // Extract customerCode from data
 
             // Redirect to payment page
-            // window.location.href = 'google-customer-transaction-form.html';
+            window.location.href = 'payment-page.html'; // Adjust according to your desired redirection
         } else {
-            console.error('Authentication failed:', responseData.message);
-            // Optionally handle error responses here
+            console.error('Invalid response structure:', responseData);
         }
     } catch (error) {
         console.error('Error authenticating Google customer:', error);
