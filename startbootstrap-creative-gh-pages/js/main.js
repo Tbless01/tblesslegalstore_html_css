@@ -58,7 +58,6 @@ function signOut() {
 }
 
 
-
 async function authenticateGoogleCustomer(customerRequest) {
     const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
     try {
@@ -82,7 +81,16 @@ async function authenticateGoogleCustomer(customerRequest) {
             // Save the token and email in localStorage
             localStorage.setItem('token', responseData.token);
             localStorage.setItem('email', responseData.data.email);
-            localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
+            localStorage.setItem('customerCode', responseData.data.customerCode); // Make sure 'email' is accessible
+
+            // Set a timeout to delete the token after 2 hours (7200 seconds)
+            setTimeout(() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('email');
+                localStorage.removeItem('customerCode');
+                console.log('Token and user data removed from localStorage after expiration time.');
+                window.location.href = 'home.html'; 
+            }, 7200 * 1000); // Convert seconds to milliseconds
 
             // Redirect or perform an action after successful authentication
             window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
