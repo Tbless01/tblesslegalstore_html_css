@@ -170,9 +170,12 @@ function selectPackage(packageCode, button) {
 
     // Redirect logic
     if (!token || token.trim() === '') {
+        console.log(`Token to login page: ${token}`);
         // If there is no token, redirect to the login page
         window.location.href = 'google-login-page.html'; 
     } else {
+        
+        console.log(`Token to transaction form: ${token}`);
         // If there is a token, redirect to the transaction form
         window.location.href = 'google-customer-transaction-form.html'; 
     }
