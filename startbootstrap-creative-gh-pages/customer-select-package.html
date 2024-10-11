@@ -89,19 +89,14 @@
             <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>
         </footer>
 
-        <script>
+
+
+
+
+
+<script>
 // Your API base URL
-const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
-
-// Clear previous selection and fetch packages when the page loads
-async function init() {
-    // Clear any previously selected package
-    sessionStorage.removeItem('selectedPackageCode');
-    console.log('Previous selection cleared from sessionStorage');
-
-    // Fetch packages after clearing previous selection
-    await fetchPackages();
-}
+const BASE_URL = 'https://drab-rozamond-tbless01e.koyeb.app/tblesslegalstore/v1/api';
 
 // Function to fetch packages
 async function fetchPackages() {
@@ -171,7 +166,21 @@ function selectPackage(packageCode, button) {
     }, 1000);
 }
 
-// Initialize fetching packages when the page loads
+// Clear previous selection and fetch packages when the page loads
+async function init() {
+    sessionStorage.removeItem('selectedPackageCode');
+    console.log('Previous selection cleared from sessionStorage');
+    await fetchPackages();
+}
+
+// Refresh the page if it's being shown from the cache
+window.onpageshow = function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+};
+
+// Fetch packages when the page loads
 window.onload = init;
 </script>
 
