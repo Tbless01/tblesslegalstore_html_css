@@ -114,6 +114,23 @@
             font-size: 16px;
             cursor: pointer;
         }
+
+        .loading-dots::after {
+        content: '';
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+        border-radius: 50%;
+        background-color: currentColor;
+        animation: loading 1s infinite;
+    }
+
+    @keyframes loading {
+        0% { box-shadow: .5em 0 0 0 currentColor; }
+        50% { box-shadow: .5em 0 0 0 currentColor, 1em 0 0 0 currentColor; }
+        100% { box-shadow: .5em 0 0 0 currentColor, 1em 0 0 0 currentColor, 1.5em 0 0 0 currentColor; }
+    }
     </style>
 </head>
 
@@ -156,8 +173,9 @@
 
             <div class="mb-3">
                 <label for="packageName" class="form-label">Package Name</label>
-                <input type="text" class="form-control" id="packageName" placeholder="Package name" readonly>
+                <input type="text" class="form-control loading-dots" id="packageName" placeholder="Package name" readonly>
             </div>
+            
 
             <div class="mb-3">
                 <label for="phoneNumber" class="form-label">Phone Number</label>
@@ -209,14 +227,13 @@
 
             // Fetch package details using packageCode
             if (packageCode && token) {
+                const packageNameInput = document.getElementById('packageName');
+    packageNameInput.classList.add('loading-dots'); 
                 console.log("Package Code:", packageCode);
 
                 try {
                     const response = await fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/${packageCode}`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
+                        method: 'GET'
                     });
 
                     console.log("Token:", token);
