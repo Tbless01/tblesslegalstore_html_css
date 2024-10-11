@@ -78,15 +78,26 @@ async function authenticateGoogleCustomer(customerRequest) {
         }
         // Check if the response data contains the expected fields
         // if (responseData.status === 200 && responseData.token && responseData.data) {
-        if (responseData.status === 200 && responseData.token && responseData.data) {
-            localStorage.removeItem('token');
-            // Save the token and email in localStorage
-            localStorage.setItem('token', responseData.token);
-            localStorage.setItem('email', responseData.data.email);
-            localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
+        // if (responseData.status === 200 && responseData.token && responseData.data) {
+        // //     localStorage.removeItem('token');
+        // //     // Save the token and email in localStorage
+        // //     localStorage.setItem('token', responseData.token);
+        // //     localStorage.setItem('email', responseData.data.email);
+        // //     localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
 
-            // Redirect or perform an action after successful authentication
-            window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
+        // //     // Redirect or perform an action after successful authentication
+        // //     window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
+        // // } else {
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.removeItem('token');
+            // Save token and other relevant information to localStorage
+            localStorage.setItem('token', data.token); // Ensure you are saving the correct token
+            localStorage.setItem('email', data.email); // Or wherever the email is coming from
+            localStorage.setItem('customerCode', data.customerCode); // Example
+            // Redirect to payment page
+            window.location.href = 'payment-page.html';
         } else {
             console.error('Authentication failed:', responseData.message);
             // Optionally handle error responses here
