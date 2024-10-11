@@ -82,7 +82,7 @@ async function authenticateGoogleCustomer(customerRequest) {
             // Save the token and email in localStorage
             localStorage.setItem('token', responseData.token);
             localStorage.setItem('email', responseData.data.email);
-            sessionStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
+            localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
 
             // Redirect or perform an action after successful authentication
             window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
