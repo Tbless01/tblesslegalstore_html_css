@@ -29,7 +29,7 @@ function onSignIn(response) {
 
     // Authenticate the customer
     authenticateGoogleCustomer(customerRequest);
-    window.location.href = 'google-customer-transaction-form.html'; 
+    // window.location.href = 'google-customer-transaction-form.html'; 
 }
 
 // Decode JWT token returned by Google
