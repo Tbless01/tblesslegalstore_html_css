@@ -250,10 +250,10 @@
             }
 
             console.log("Token:", token);
-            if (!token) {
-                window.location.href = 'google-login-page.html';
-                return;
-            }
+            // if (!token) {
+            //     window.location.href = 'google-login-page.html';
+            //     return;
+            // }
             // Fetch package details using packageCode
             if (packageCode && token) {
                 const packageNameInput = document.getElementById('packageName');
@@ -278,15 +278,15 @@
         console.log('Token expired or unauthorized. Redirecting to home page... '+localStorage.getItem('token')+
                 localStorage.getItem('email')+
                 localStorage.getItem('customerCode'));
-        // localStorage.removeItem('token');
-        //         localStorage.removeItem('email');
-        //         localStorage.removeItem('customerCode');
-        //         console.log('Token and user data removed after expiration time.');
+        localStorage.removeItem('token');
+                localStorage.removeItem('email');
+                localStorage.removeItem('customerCode');
+                console.log('Token and user data removed after expiration time.');
                 
         console.log('Token expired or unauthorized. Redirecting to home page... '+localStorage.getItem('token')+
                 localStorage.getItem('email')+
                 localStorage.getItem('customerCode'));
-        window.location.href = 'google-login-pge.html';  // Redirect to home page
+        window.location.href = 'google-login-page.html';  // Redirect to home page
         return;
     }
 
