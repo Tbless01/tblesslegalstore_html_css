@@ -239,7 +239,11 @@
                     if (response.status === 401 || response.status === 403) {
         // If token is expired or invalid, redirect to home page
         console.log('Token expired or unauthorized. Redirecting to home page...');
-        window.location.href = '/home';  // Redirect to home page
+        localStorage.setItem('token', responseData.token);
+            localStorage.setItem('email', responseData.data.email);
+            localStorage.setItem('customerCode', responseData.data.customerCode); // Make sure 'email' is accessible
+
+        window.location.href = 'google-login-page.html';  // Redirect to home page
         return;
     }
 
