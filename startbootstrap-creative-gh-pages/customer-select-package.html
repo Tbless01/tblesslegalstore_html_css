@@ -156,7 +156,7 @@
     const spinner = button.querySelector('.spinner-border');
     spinner.style.display = 'inline-block';
 
-    localStorage.setItem('selectedPackageCode', packageCode);
+    sessionStorage.setItem('selectedPackageCode', packageCode);
 
     // Simulate a slight delay for user experience before redirecting
     setTimeout(() => {
