@@ -1,246 +1,205 @@
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Products</title>
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
-        <link href="css/tstyles.css" rel="stylesheet" />
-        <style>
-            /* Custom styles to set text color to light colors */
-            body {
-                color: white; /* Set default text color to white */
-                background-color: #1a1a1a; /* Dark background for contrast */
-            }
-            
-            .navbar {
-                background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for the navbar */
-            }
-
-            .site-heading-upper,
-            .site-heading-lower {
-                color: #f8f9fa; /* Light color for headings */
-            }
-
-            .product-item-title {
-                color: #f8f9fa; /* Light color for product item titles */
-            }
-
-            .product-item-description p {
-                color: #e0e0e0; /* Slightly darker light color for descriptions */
-            }
-
-            .footer {
-                background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for footer */
-                color: #f8f9fa; /* Light color for footer text */
-            }
-
-            .btn-primary {
-                background-color: #007bff; /* Keep button color for visibility */
-                border: none;
-            }
-
-            .btn-primary:hover {
-                background-color: #0056b3; /* Darker shade on hover */
-            }
-        </style>
-    </head>
-
-    <body>
-        <header>
-            <h1 class="site-heading text-center text-faded d-none d-lg-block">
-                <span class="site-heading-upper text-primary mb-3">Premium Legal Attire for Professionals</span>
-                <span class="site-heading-lower">Tbless Legal Store</span>
-            </h1>
-        </header>
-
-        <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="home.html">TLS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="home.html">Home</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
-                        <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">Login</a></li> -->
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <section class="page-section">
-            <div class="container" id="packagesContainer">
-                <!-- Packages will be dynamically added here -->
-            </div>
-        </section>
-
-        <footer class="footer text-faded text-center py-5">
-            <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>
-        </footer>
-
-
-
-
-
-
-<script>
-// Your API base URL
-const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
-
-// Clear previous selection and fetch packages when the page loads
-async function init() {
-    // Clear any previously selected package
-    localStorage.removeItem('selectedPackageCode');
-    console.log('Previous selection cleared from localStorage');
-
-    // Fetch packages after clearing previous selection
-    await fetchPackages();
-}
-
-// Function to fetch packages
-async function fetchPackages() {
-    try {
-        const pageNumber = 0;
-        const pageSize = 10;
-        const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Products</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+    <link href="css/tstyles.css" rel="stylesheet" />
+    <style>
+        /* Custom styles to set text color to light colors */
+        body {
+            color: white; /* Set default text color to white */
+            background-color: #1a1a1a; /* Dark background for contrast */
+        }
         
-        // Check if the response is OK
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for the navbar */
         }
 
-        const jsonResponse = await response.json();
-        const packagesContainer = document.getElementById('packagesContainer');
-        packagesContainer.innerHTML = ''; // Clear previous package items
-
-        // Access the packages directly from the data key
-        if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
-            jsonResponse.data.forEach(package => {
-                const packageItem = document.createElement('div');
-                packageItem.className = 'product-item';
-
-                packageItem.innerHTML = `
-                    <div class="product-item-title d-flex">
-                        <div class="g-faded p-5 d-flex ms-auto rounded">
-                            <h2 class="section-heading mb-0">
-                                <span class="section-heading-upper">${package.packageName}</span>
-                            </h2>
-                        </div>
-                    </div>
-                    <div class="product-item-description d-flex me-auto">
-                        <div class="b-faded p-5 rounded">
-                            <p class="mb-0">
-                                Discover our <strong>${package.packageName}</strong>, designed for legal professionals. 
-                                <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.
-                            </p>
-                            <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}', this)">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
-                                Select Package
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                packagesContainer.appendChild(packageItem);
-            });
-        } else {
-            packagesContainer.innerHTML = '<p>No packages available.</p>';
+        .site-heading-upper,
+        .site-heading-lower,
+        .product-item-title {
+            color: #f8f9fa; /* Light color for headings and product titles */
         }
 
-        // Check if there's a previously selected package and highlight it
-        const selectedPackageCode = localStorage.getItem('selectedPackageCode');
-        if (selectedPackageCode) {
-            highlightSelectedPackage(selectedPackageCode);
+        .product-item-description p {
+            color: #e0e0e0; /* Slightly darker light color for descriptions */
         }
 
-    } catch (error) {
-        console.error('Error fetching packages:', error);
-        const packagesContainer = document.getElementById('packagesContainer');
-        packagesContainer.innerHTML = '<p>Error fetching packages. Please try again later.</p>';
-    }
-}
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for footer */
+            color: #f8f9fa; /* Light color for footer text */
+        }
 
-// Function to handle package selection
-// function selectPackage(packageCode, button) {
-//     // Disable the button and show the spinner
-//     button.disabled = true;
-//     const spinner = button.querySelector('.spinner-border');
-//     spinner.style.display = 'inline-block';
+        .btn-primary {
+            background-color: #007bff; /* Keep button color for visibility */
+            border: none;
+        }
 
-//     // Store the newly selected package code in localStorage
-//     localStorage.setItem('selectedPackageCode', packageCode);
-//     console.log(`New package selected: ${packageCode}`);
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
 
-//     // Simulate a slight delay for user experience before redirecting
-//     setTimeout(() => {
-//         window.location.href = 'google-login-page.html'; 
-//     }, 1000);
-// }
+<body>
+    <header>
+        <h1 class="site-heading text-center text-faded d-none d-lg-block">
+            <span class="site-heading-upper text-primary mb-3">Premium Legal Attire for Professionals</span>
+            <span class="site-heading-lower">Tbless Legal Store</span>
+        </h1>
+    </header>
 
+    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="home.html">TLS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="home.html">Home</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-function selectPackage(packageCode, button) {
-    // Disable the button and show the spinner
-    button.disabled = true;
-    const spinner = button.querySelector('.spinner-border');
-    spinner.style.display = 'inline-block';
+    <section class="page-section">
+        <div class="container" id="packagesContainer">
+            <!-- Packages will be dynamically added here -->
+        </div>
+    </section>
 
-    // Store the newly selected package code in localStorage
-    localStorage.setItem('selectedPackageCode', packageCode);
-    console.log(`New package selected: ${packageCode}`);
+    <footer class="footer text-faded text-center py-5">
+        <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>
+    </footer>
 
-    // Check if token and emailAddress are in localStorage
-    const token = localStorage.getItem('token');
-    const selectedPackageCode = localStorage.getItem('selectedPackageCode');
-    const emailAddress = localStorage.getItem('email');
+    <script>
+        // Your API base URL
+        const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
 
-    // Determine the redirect URL based on the conditions
-    let redirectUrl;
+        // Clear previous selection and fetch packages when the page loads
+        async function init() {
+            // Clear any previously selected package
+            localStorage.removeItem('selectedPackageCode');
+            console.log('Previous selection cleared from localStorage');
 
-    // Check if both token and emailAddress are present
-    if (token !== null && token !== "" && emailAddress !== null && emailAddress !== "") {
-        // If both token and emailAddress are valid
-        redirectUrl = 'google-customer-transaction-form.html';
-    } else {
-        // If either token or emailAddress is invalid
-        redirectUrl = 'google-login-page.html';
-    }
+            // Fetch packages after clearing previous selection
+            await fetchPackages();
+        }
 
-    // Simulate a slight delay for user experience before redirecting
-    setTimeout(() => {
-        window.location.href = redirectUrl; 
-    }, 1000);
-}
+        // Function to fetch packages
+        async function fetchPackages() {
+            try {
+                const pageNumber = 0;
+                const pageSize = 10;
+                const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+                
+                // Check if the response is OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
+                const jsonResponse = await response.json();
+                const packagesContainer = document.getElementById('packagesContainer');
+                packagesContainer.innerHTML = ''; // Clear previous package items
 
-// Function to highlight the selected package in the UI
-function highlightSelectedPackage(packageCode) {
-    const buttons = document.querySelectorAll('.btn-primary');
-    buttons.forEach(button => {
-        if (button.onclick.toString().includes(packageCode)) {
-            button.disabled = true; // Disable the button for the selected package
+                // Access the packages directly from the data key
+                if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
+                    jsonResponse.data.forEach(package => {
+                        const packageItem = document.createElement('div');
+                        packageItem.className = 'product-item';
+
+                        packageItem.innerHTML = `
+                            <div class="product-item-title d-flex">
+                                <div class="g-faded p-5 d-flex ms-auto rounded">
+                                    <h2 class="section-heading mb-0">
+                                        <span class="section-heading-upper">${package.packageName}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="product-item-description d-flex me-auto">
+                                <div class="b-faded p-5 rounded">
+                                    <p class="mb-0">
+                                        Discover our <strong>${package.packageName}</strong>, designed for legal professionals. 
+                                        <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.
+                                    </p>
+                                    <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}', this)">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
+                                        Select Package
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+
+                        packagesContainer.appendChild(packageItem);
+                    });
+                } else {
+                    packagesContainer.innerHTML = '<p>No packages available.</p>';
+                }
+
+                // Check if there's a previously selected package and highlight it
+                const selectedPackageCode = localStorage.getItem('selectedPackageCode');
+                if (selectedPackageCode) {
+                    highlightSelectedPackage(selectedPackageCode);
+                }
+
+            } catch (error) {
+                console.error('Error fetching packages:', error);
+                const packagesContainer = document.getElementById('packagesContainer');
+                packagesContainer.innerHTML = '<p>Error fetching packages. Please try again later.</p>';
+            }
+        }
+
+        // Function to handle package selection
+        function selectPackage(packageCode, button) {
+            // Disable the button and show the spinner
+            button.disabled = true;
             const spinner = button.querySelector('.spinner-border');
-            spinner.style.display = 'inline-block'; // Show the spinner
+            spinner.style.display = 'inline-block';
+
+            // Store the newly selected package code in localStorage
+            localStorage.setItem('selectedPackageCode', packageCode);
+            console.log(`New package selected: ${packageCode}`);
+
+            // Check if token and emailAddress are in localStorage
+            const token = localStorage.getItem('token');
+            const emailAddress = localStorage.getItem('email');
+
+            // Determine the redirect URL based on the conditions
+            let redirectUrl = (token && emailAddress) ? 'google-customer-transaction-form.html' : 'google-login-page.html';
+
+            // Simulate a slight delay for user experience before redirecting
+            setTimeout(() => {
+                window.location.href = redirectUrl; 
+            }, 1000);
         }
-    });
-}
 
-// Initialize fetching packages when the page loads
-window.onload = init;
-</script>
+        // Function to highlight the selected package in the UI
+        function highlightSelectedPackage(packageCode) {
+            const buttons = document.querySelectorAll('.btn-primary');
+            buttons.forEach(button => {
+                if (button.onclick.toString().includes(packageCode)) {
+                    button.disabled = true; // Disable the button for the selected package
+                    const spinner = button.querySelector('.spinner-border');
+                    spinner.style.display = 'inline-block'; // Show the spinner
+                }
+            });
+        }
 
-<!-- HTML Structure Example -->
-<div id="packagesContainer"></div>
-    </body>
+        // Initialize fetching packages when the page loads
+        window.onload = init;
+    </script>
+</body>
 
-    </html>
+</html>
