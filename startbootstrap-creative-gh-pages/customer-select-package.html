@@ -168,7 +168,7 @@ function selectPackage(packageCode, button) {
     // Check if token is in localStorage
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
-
+    
     // Redirect logic
     if (!token || token.trim() === '' && !email || email.trim() === 'email') {
         console.log(`Token to login page: ${token}`);
