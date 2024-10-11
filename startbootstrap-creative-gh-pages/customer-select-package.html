@@ -44,6 +44,12 @@
         .btn-primary:hover {
             background-color: #0056b3; /* Darker shade on hover */
         }
+        .package-item {
+    border-bottom: 1px solid #ccc; /* Thin line with light gray color */
+    padding-bottom: 10px; /* Optional: add some space below the item */
+    margin-bottom: 10px; /* Optional: add some space above the next item */
+}
+
     </style>
 </head>
 
@@ -113,14 +119,10 @@
                     jsonResponse.data.forEach(package => {
                         const packageItem = document.createElement('div');
                         packageItem.className = 'product-item mb-4';
-
+                        packageItem.classList.add('package-item');
                         packageItem.innerHTML = `
                             <div class="product-item-title d-flex">
-                                <div class="g-faded p-5 d-flex ms-auto rounded">
-                                    <h2 class="section-heading mb-0">
                                         <span class="section-heading-upper">${package.packageName}</span>
-                                    </h2>
-                                </div>
                             </div>
                             <div class="product-item-description d-flex me-auto">
                                 <div class="b-faded p-5 rounded">
