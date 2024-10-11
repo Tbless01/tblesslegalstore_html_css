@@ -168,9 +168,9 @@ function selectPackage(packageCode, button) {
     // Check if token is in localStorage
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
-    
+
     // Redirect logic
-    if (!token || token.trim() === '' && !email || email.trim() === 'email') {
+    if (!token || token.trim() === '') {
         console.log(`Token to login page: ${token}`);
         // If there is no token, redirect to the login page
         window.location.href = 'google-login-page.html'; 

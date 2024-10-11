@@ -91,7 +91,6 @@ async function authenticateGoogleCustomer(customerRequest) {
 
         if (response.ok) {
             const data = await response.json();
-            localStorage.removeItem('token');
             // Save token and other relevant information to localStorage
             localStorage.setItem('token', data.token); // Ensure you are saving the correct token
             localStorage.setItem('email', data.email); // Or wherever the email is coming from
@@ -99,7 +98,7 @@ async function authenticateGoogleCustomer(customerRequest) {
             console.log("Token from localStorage:", localStorage.getItem('token'));
             console.log("Email from localStorage:", localStorage.getItem('email'));
             // Redirect to payment page
-            window.location.href = 'payment-page.html';
+            window.location.href = 'google-customer-transaction-form.html';
         } else {
             console.error('Authentication failed:', responseData.message);
             // Optionally handle error responses here
