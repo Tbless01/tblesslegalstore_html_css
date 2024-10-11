@@ -77,6 +77,10 @@ async function authenticateGoogleCustomer(customerRequest) {
         const responseData = await response.json();
         console.log('Authentication successful:', responseData);
 
+        const selectedPackageCode = localStorage.getItem('selectedPackageCode');
+        if (selectedPackageCode) {
+            window.location.href = 'customer-select-package.html';
+        }
         // Check if the response data contains the expected fields
         if (responseData.status === 200 && responseData.token && responseData.data) {
             localStorage.removeItem('token');
