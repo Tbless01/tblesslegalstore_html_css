@@ -49,13 +49,36 @@ function decodeJwtResponse(token) {
 }
 
 // Sign out function
-function signOut() {
-    google.accounts.id.disableAutoSelect(); // Disable auto sign-in
-    $(".g_id_signin").css("display", "block");
-    $(".data").css("display", "none");
+// function signOut() {
+//     google.accounts.id.disableAutoSelect(); // Disable auto sign-in
+//     // $(".g_id_signin").css("display", "block");
+//     // $(".data").css("display", "none");
+//     localStorage.removeItem('token');
+//     localStorage.clear()
+//     window.location.href = 'home.html';
+//     alert('User signed out successfully.');
+// }
 
+
+
+function signOut() {
+    // Display the modal to confirm logout
+    let logoutModal = new bootstrap.Modal(document.getElementById('confirmLogoutModal'), {
+        backdrop: 'static',
+        keyboard: false
+    });
+    logoutModal.show();
+}
+
+function confirmSignOut() {
+    google.accounts.id.disableAutoSelect(); // Disable auto sign-in
+    localStorage.removeItem('token');
+    localStorage.clear();
+    window.location.href = 'home.html';
     alert('User signed out successfully.');
 }
+
+
 
 
 
