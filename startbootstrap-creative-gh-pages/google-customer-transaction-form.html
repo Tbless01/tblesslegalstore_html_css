@@ -250,10 +250,10 @@
             }
 
             console.log("Token:", token);
-            // if (!token) {
-            //     window.location.href = 'google-login-page.html';
-            //     return;
-            // }
+            if (!token) {
+                window.location.href = 'google-login-page.html';
+                return;
+            }
             // Fetch package details using packageCode
             if (packageCode && token) {
                 const packageNameInput = document.getElementById('packageName');

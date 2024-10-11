@@ -13,11 +13,6 @@ function onSignIn(response) {
     $("#email").text(responsePayload.email);
     $("#image").attr('src', responsePayload.picture);
     
-    // Show user data and hide sign-in button
-    // $(".data").css("display", "block");
-    // $(".g_id_signin").css("display", "none");
-
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + firstName);
     console.log('Image URL: ' + lastName);
     console.log('Email: ' + responsePayload.email);
@@ -59,29 +54,6 @@ function signOut() {
     alert('User signed out successfully.');
 }
 
-
-
-// function signOut() {
-//     // Display the modal to confirm logout
-//     let logoutModal = new bootstrap.Modal(document.getElementById('confirmLogoutModal'), {
-//         backdrop: 'static',
-//         keyboard: false
-//     });
-//     logoutModal.show();
-// }
-
-// function confirmSignOut() {
-//     google.accounts.id.disableAutoSelect(); // Disable auto sign-in
-//     localStorage.removeItem('token');
-//     localStorage.clear();
-//     window.location.href = 'home.html';
-//     alert('User signed out successfully.');
-// }
-
-
-
-
-
 async function authenticateGoogleCustomer(customerRequest) {
     const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
     try {
@@ -105,7 +77,8 @@ async function authenticateGoogleCustomer(customerRequest) {
             window.location.href = 'customer-select-package.html';
         }
         // Check if the response data contains the expected fields
-        if (responseData.status === 200 && responseData.token && responseData.data) {
+        // if (responseData.status === 200 && responseData.token && responseData.data) {
+            if (responseData.data) {
             localStorage.removeItem('token');
             // Save the token and email in localStorage
             localStorage.setItem('token', responseData.token);
