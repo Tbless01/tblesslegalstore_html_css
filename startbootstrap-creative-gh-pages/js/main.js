@@ -88,7 +88,7 @@ async function authenticateGoogleCustomer(customerRequest) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('email');
                 localStorage.removeItem('customerCode');
-                console.log('Token and user data removed from localStorage after expiration time.');
+                console.log('Token and user data removed after expiration time.');
                 window.location.href = 'home.html'; 
             }, 7200 * 1000); // Convert seconds to milliseconds
 

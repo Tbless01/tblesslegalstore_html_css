@@ -71,6 +71,50 @@
                 background-color: #0056b3;
             }
         }
+
+        .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
     </style>
 </head>
 
@@ -94,8 +138,11 @@
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">Login</a></li>
+                    <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">Login</a></li> -->
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>
+                    <li class="nav-item px-lg-4">
+                        <a href="#" class="btn" id="signOutButton">Sign Out</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -140,6 +187,53 @@
 
     <!-- Custom JS -->
     <script>
+
+function signOut() {
+        // Remove the authentication token from localStorage
+        localStorage.removeItem('token'); // Change 'authToken' to the actual key you use for storing the token
+
+        // Disable auto select for Google accounts
+        google.accounts.id.disableAutoSelect(); 
+
+        // Redirect to home page after signing out
+        window.location.href = 'home.html'; // Change to your actual home page URL
+    }
+
+    // Attach event listener to the sign out button
+    document.getElementById('signOutButton').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default anchor click behavior
+
+        // Show the sign-out confirmation modal
+        const modal = document.getElementById('signOutModal');
+        modal.style.display = 'block';
+    });
+
+    // Attach event listener to close button
+    document.querySelector('.close-button').addEventListener('click', function() {
+        const modal = document.getElementById('signOutModal');
+        modal.style.display = 'none';
+    });
+
+    // Attach event listener to cancel button
+    document.getElementById('cancelSignOut').addEventListener('click', function() {
+        const modal = document.getElementById('signOutModal');
+        modal.style.display = 'none';
+    });
+
+    // Attach event listener to confirm button
+    document.getElementById('confirmSignOut').addEventListener('click', function() {
+        signOut(); // Call the signOut function
+    });
+
+    // Close the modal if the user clicks anywhere outside of the modal
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('signOutModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+
         document.addEventListener('DOMContentLoaded', async function () {
             // Function to safely retrieve from localStorage
             const getLocalStorageItem = (key) => {
@@ -242,6 +336,7 @@
             });
         });
     </script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 
 </html>
