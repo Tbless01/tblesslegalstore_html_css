@@ -275,6 +275,12 @@
                         })
                     });
 
+                    if (paymentResponse.status === 401 || paymentResponse.status === 403) {
+        // If token is expired or invalid, redirect to home page
+        console.log('Token expired or unauthorized. Redirecting to home page...');
+        window.location.href = 'home.html';  // Redirect to home page
+        return;
+    }
                     if (!paymentResponse.ok) {
                         const errorMessage = await paymentResponse.text();
                         throw new Error('Failed to submit payment: ' + errorMessage);
