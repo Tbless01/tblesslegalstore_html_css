@@ -88,7 +88,7 @@ async function authenticateGoogleCustomer(customerRequest) {
             localStorage.setItem('customerCode', responseData.data.customerCode); // Extract customerCode from data
 
             // Redirect to payment page
-            window.location.href = 'payment-page.html'; // Adjust according to your desired redirection
+            window.location.href = 'google-customer-transaction-form.html'; // Adjust according to your desired redirection
         } else {
             console.error('Invalid response structure:', responseData);
         }
