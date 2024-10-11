@@ -72,10 +72,13 @@ async function authenticateGoogleCustomer(customerRequest) {
         const responseData = await response.json();
         console.log('Authentication successful:', responseData);
 
-        const selectedPackageCode = localStorage.getItem('selectedPackageCode');
-        if (selectedPackageCode) {
-            window.location.href = 'customer-select-package.html';
-        }
+        // const selectedPackageCode = localStorage.getItem('selectedPackageCode');
+        // if (selectedPackageCode) {
+        //     window.location.href = 'customer-select-package.html';
+        // }
+
+
+
         // Check if the response data contains the expected fields
         // if (responseData.status === 200 && responseData.token && responseData.data) {
         // if (responseData.status === 200 && responseData.token && responseData.data) {
@@ -89,7 +92,9 @@ async function authenticateGoogleCustomer(customerRequest) {
         // //     window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
         // // } else {
 
-        if (response.json().data) {
+        // if (response.json().data) {
+        
+        if (responseData.status === 200 && responseData.token && responseData.data) {
             const data = await response.json();
             localStorage.removeItem('token');
             // Save token and other relevant information to localStorage
