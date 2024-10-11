@@ -271,7 +271,7 @@
                     }
                     
                     const packageData = await response.json();
-                    console.log('Token expired or unauthorized. Redirecting to home page...' + packageData + packageData);
+                    console.log('Token expired or unauthorized. Redirecting to home page...' + packageData.toString() + packageData.toString());
                     document.getElementById('packageName').value = packageData.data.packageName;
                     console.log("Package Name:", packageData.data.packageName);
 
