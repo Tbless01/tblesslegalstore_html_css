@@ -96,7 +96,17 @@
 
 <script>
 // Your API base URL
-const BASE_URL = 'https://drab-rozamond-tbless01e.koyeb.app/tblesslegalstore/v1/api';
+const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
+
+// Clear previous selection and fetch packages when the page loads
+async function init() {
+    // Clear any previously selected package
+    localStorage.removeItem('selectedPackageCode');
+    console.log('Previous selection cleared from localStorage');
+
+    // Fetch packages after clearing previous selection
+    await fetchPackages();
+}
 
 // Function to fetch packages
 async function fetchPackages() {
@@ -104,8 +114,13 @@ async function fetchPackages() {
         const pageNumber = 0;
         const pageSize = 10;
         const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`);
-        const jsonResponse = await response.json();
+        
+        // Check if the response is OK
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
+        const jsonResponse = await response.json();
         const packagesContainer = document.getElementById('packagesContainer');
         packagesContainer.innerHTML = ''; // Clear previous package items
 
@@ -142,6 +157,13 @@ async function fetchPackages() {
         } else {
             packagesContainer.innerHTML = '<p>No packages available.</p>';
         }
+
+        // Check if there's a previously selected package and highlight it
+        const selectedPackageCode = localStorage.getItem('selectedPackageCode');
+        if (selectedPackageCode) {
+            highlightSelectedPackage(selectedPackageCode);
+        }
+
     } catch (error) {
         console.error('Error fetching packages:', error);
         const packagesContainer = document.getElementById('packagesContainer');
@@ -156,8 +178,8 @@ function selectPackage(packageCode, button) {
     const spinner = button.querySelector('.spinner-border');
     spinner.style.display = 'inline-block';
 
-    // Store the newly selected package code in sessionStorage
-    sessionStorage.setItem('selectedPackageCode', packageCode);
+    // Store the newly selected package code in localStorage
+    localStorage.setItem('selectedPackageCode', packageCode);
     console.log(`New package selected: ${packageCode}`);
 
     // Simulate a slight delay for user experience before redirecting
@@ -166,21 +188,19 @@ function selectPackage(packageCode, button) {
     }, 1000);
 }
 
-// Clear previous selection and fetch packages when the page loads
-async function init() {
-    sessionStorage.removeItem('selectedPackageCode');
-    console.log('Previous selection cleared from sessionStorage');
-    await fetchPackages();
+// Function to highlight the selected package in the UI
+function highlightSelectedPackage(packageCode) {
+    const buttons = document.querySelectorAll('.btn-primary');
+    buttons.forEach(button => {
+        if (button.onclick.toString().includes(packageCode)) {
+            button.disabled = true; // Disable the button for the selected package
+            const spinner = button.querySelector('.spinner-border');
+            spinner.style.display = 'inline-block'; // Show the spinner
+        }
+    });
 }
 
-// Refresh the page if it's being shown from the cache
-window.onpageshow = function(event) {
-    if (event.persisted) {
-        window.location.reload();
-    }
-};
-
-// Fetch packages when the page loads
+// Initialize fetching packages when the page loads
 window.onload = init;
 </script>
 
