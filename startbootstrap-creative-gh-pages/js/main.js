@@ -80,9 +80,9 @@ async function authenticateGoogleCustomer(customerRequest) {
         // Check if the response data contains the expected fields
         if (responseData.status === 200 && responseData.token && responseData.data) {
             // Save the token and email in localStorage
-            localStorage.setItem('token', responseData.token);
-            localStorage.setItem('email', responseData.data.email);
-            localStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
+            sessionStorage.setItem('token', responseData.token);
+            sessionStorage.setItem('email', responseData.data.email);
+            sessionStorage.setItem('customerCode', responseData.data.customerCode) // Make sure 'email' is accessible
 
             // Redirect or perform an action after successful authentication
             window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
