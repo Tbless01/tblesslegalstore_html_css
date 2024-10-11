@@ -236,6 +236,13 @@
                         method: 'GET'
                     });
 
+                    if (response.status === 401 || response.status === 403) {
+        // If token is expired or invalid, redirect to home page
+        console.log('Token expired or unauthorized. Redirecting to home page...');
+        window.location.href = '/home';  // Redirect to home page
+        return;
+    }
+
                     console.log("Token:", token);
                     if (!response.ok) {
                         const errorMessage = await response.text();
