@@ -224,7 +224,9 @@
             }
 
             console.log("Token:", token);
-
+if (!token) {
+    window.location.href = 'google-login-page.html'; 
+}
             // Fetch package details using packageCode
             if (packageCode && token) {
                 const packageNameInput = document.getElementById('packageName');
@@ -239,10 +241,17 @@
                     if (response.status === 401 || response.status === 403) {
         // If token is expired or invalid, redirect to home page
         console.log('Token expired or unauthorized. Redirecting to home page...');
+        console.log('Token expired or unauthorized. Redirecting to home page... '+localStorage.getItem('token')+
+                localStorage.getItem('email')+
+                localStorage.getItem('customerCode'));
         localStorage.removeItem('token');
                 localStorage.removeItem('email');
                 localStorage.removeItem('customerCode');
                 console.log('Token and user data removed after expiration time.');
+                
+        console.log('Token expired or unauthorized. Redirecting to home page... '+localStorage.getItem('token')+
+                localStorage.getItem('email')+
+                localStorage.getItem('customerCode'));
         window.location.href = 'google-login-page.html';  // Redirect to home page
         return;
     }
