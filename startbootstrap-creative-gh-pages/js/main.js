@@ -91,6 +91,7 @@ async function authenticateGoogleCustomer(customerRequest) {
 
         if (response.ok) {
             const data = await response.json();
+            // localStorage.removeItem('token');
             // Save token and other relevant information to localStorage
             localStorage.setItem('token', data.token); // Ensure you are saving the correct token
             localStorage.setItem('email', data.email); // Or wherever the email is coming from
