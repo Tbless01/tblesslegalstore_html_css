@@ -232,6 +232,9 @@ button {
     const customerCode = localStorage.getItem('customerCode');
     const token = localStorage.getItem('token');
 
+console.log("customerCode dsfgh" + customerCode);
+console.log("token dsfgh " + token);
+
     if (!token) {
         window.location.href = 'google-login-page.html';
     }
