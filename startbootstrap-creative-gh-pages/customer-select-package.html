@@ -90,17 +90,9 @@
         </footer>
 
         <!-- Bootstrap core JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
- <script>
+        <script>
 // Your API base URL
 const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
-
-// Clear sessionStorage when the page loads
-function clearPreviousSelection() {
-    sessionStorage.removeItem('selectedPackageCode');
-    console.log('Previous selection cleared from sessionStorage');
-}
 
 // Function to fetch packages
 async function fetchPackages() {
@@ -111,7 +103,7 @@ async function fetchPackages() {
         const jsonResponse = await response.json();
 
         const packagesContainer = document.getElementById('packagesContainer');
-        packagesContainer.innerHTML = '';
+        packagesContainer.innerHTML = ''; // Clear previous packages
 
         // Access the packages directly from the data key
         if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
@@ -143,8 +135,10 @@ async function fetchPackages() {
 
                 packagesContainer.appendChild(packageItem);
             });
+            console.log('Packages rendered:', jsonResponse.data);
         } else {
             packagesContainer.innerHTML = '<p>No packages available.</p>';
+            console.log('No packages available');
         }
     } catch (error) {
         console.error('Error fetching packages:', error);
@@ -164,18 +158,32 @@ function selectPackage(packageCode, button) {
     sessionStorage.setItem('selectedPackageCode', packageCode);
     console.log(`New package selected: ${packageCode}`);
 
-    // Simulate a slight delay for user experience before redirecting
+    // Update the UI immediately to reflect the new selection
+    updateSelectedPackageUI(packageCode);
+
+    // Optionally, you can set a timeout to enable the button back after some time
     setTimeout(() => {
-        window.location.href = 'google-login-page.html'; 
+        button.disabled = false;
+        spinner.style.display = 'none';
     }, 1000);
+}
+
+// Function to update the UI with the selected package
+function updateSelectedPackageUI(packageCode) {
+    const selectedPackageInfo = document.getElementById('selectedPackageInfo'); // Assuming you have an element to show the selected package
+    selectedPackageInfo.textContent = `You have selected: ${packageCode}`;
+    console.log(`UI updated with selected package: ${packageCode}`);
 }
 
 // Fetch packages when the page loads
 window.onload = function () {
-    clearPreviousSelection();
     fetchPackages();
 };
 </script>
+
+<!-- HTML Structure Example -->
+<div id="packagesContainer"></div>
+<div id="selectedPackageInfo"></div> <!-- Add this to show selected package -->
     </body>
 
     </html>
