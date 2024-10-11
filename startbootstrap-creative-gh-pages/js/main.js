@@ -89,7 +89,7 @@ async function authenticateGoogleCustomer(customerRequest) {
         // //     window.location.href = 'google-customer-transaction-form.html'; // Change to your desired page
         // // } else {
 
-        if (response.ok) {
+        if (response.json().data) {
             const data = await response.json();
             localStorage.removeItem('token');
             // Save token and other relevant information to localStorage
@@ -104,7 +104,7 @@ async function authenticateGoogleCustomer(customerRequest) {
             console.log("Email:", localStorage.getItem('email'));
             console.log("Customer Code:", localStorage.getItem('customerCode'));
 
-            
+
             // Redirect to payment page
             window.location.href = 'google-customer-transaction-form.html';
         } else {
