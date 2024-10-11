@@ -199,20 +199,20 @@ function selectPackage(packageCode, button) {
     localStorage.setItem('selectedPackageCode', packageCode);
     console.log(`New package selected: ${packageCode}`);
 
-    // Check if token or packageCode is in localStorage
+    // Check if token and emailAddress are in localStorage
     const token = localStorage.getItem('token');
     const selectedPackageCode = localStorage.getItem('selectedPackageCode');
     const emailAddress = localStorage.getItem('email');
+
     // Determine the redirect URL based on the conditions
     let redirectUrl;
-    if (token!== null || emailAddress!== null || emailAddress!== "") {
-        // If both token and packageCode are present
+
+    // Check if both token and emailAddress are present
+    if (token !== null && token !== "" && emailAddress !== null && emailAddress !== "") {
+        // If both token and emailAddress are valid
         redirectUrl = 'google-customer-transaction-form.html';
-        // console.log("adkasldkasklas "+ selectedPackageCode);
-        // console.log("adkasldkasklas "+ token);
-        
     } else {
-        // If either token is null or selectedPackageCode is null
+        // If either token or emailAddress is invalid
         redirectUrl = 'google-login-page.html';
     }
 
@@ -221,6 +221,7 @@ function selectPackage(packageCode, button) {
         window.location.href = redirectUrl; 
     }, 1000);
 }
+
 
 // Function to highlight the selected package in the UI
 function highlightSelectedPackage(packageCode) {
