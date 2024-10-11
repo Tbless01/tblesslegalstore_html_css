@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,49 +73,48 @@
             }
         }
 
+        /* Modal Styles */
         .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    text-align: center;
-}
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            text-align: center;
+        }
 
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-.close-button:hover,
-.close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -138,7 +138,6 @@ button {
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
-                    <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="login-admin.html">Login</a></li> -->
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>
                     <li class="nav-item px-lg-4">
                         <a href="#" class="btn" id="signOutButton">Sign Out</a>
@@ -187,55 +186,39 @@ button {
 
     <!-- Custom JS -->
     <script>
+        function signOut() {
+            localStorage.removeItem('token');
+            google.accounts.id.disableAutoSelect(); 
+            window.location.href = 'home.html';
+        }
 
-function signOut() {
-        // Remove the authentication token from localStorage
-        localStorage.removeItem('token'); // Change 'authToken' to the actual key you use for storing the token
+        // Attach event listener to the sign out button
+        document.getElementById('signOutButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            const modal = document.getElementById('signOutModal');
+            modal.style.display = 'block';
+        });
 
-        // Disable auto select for Google accounts
-        google.accounts.id.disableAutoSelect(); 
-
-        // Redirect to home page after signing out
-        window.location.href = 'home.html'; // Change to your actual home page URL
-    }
-
-    // Attach event listener to the sign out button
-    document.getElementById('signOutButton').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default anchor click behavior
-
-        // Show the sign-out confirmation modal
-        const modal = document.getElementById('signOutModal');
-        modal.style.display = 'block';
-    });
-
-    // Attach event listener to close button
-    document.querySelector('.close-button').addEventListener('click', function() {
-        const modal = document.getElementById('signOutModal');
-        modal.style.display = 'none';
-    });
-
-    // Attach event listener to cancel button
-    document.getElementById('cancelSignOut').addEventListener('click', function() {
-        const modal = document.getElementById('signOutModal');
-        modal.style.display = 'none';
-    });
-
-    // Attach event listener to confirm button
-    document.getElementById('confirmSignOut').addEventListener('click', function() {
-        signOut(); // Call the signOut function
-    });
-
-    // Close the modal if the user clicks anywhere outside of the modal
-    window.addEventListener('click', function(event) {
-        const modal = document.getElementById('signOutModal');
-        if (event.target === modal) {
+        // Close modal function
+        function closeModal() {
+            const modal = document.getElementById('signOutModal');
             modal.style.display = 'none';
         }
-    });
 
+        // Attach event listeners for modal buttons
+        document.querySelector('.close-button').addEventListener('click', closeModal);
+        document.getElementById('cancelSignOut').addEventListener('click', closeModal);
+        document.getElementById('confirmSignOut').addEventListener('click', signOut);
 
-        document.addEventListener('DOMContentLoaded', async function () {
-            // Function to safely retrieve from localStorage
+        // Close the modal if the user clicks outside of it
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('signOutModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async function() {
             const getLocalStorageItem = (key) => {
                 try {
                     return localStorage.getItem(key);
@@ -252,91 +235,74 @@ function signOut() {
 
             if (email) {
                 document.getElementById('email').value = email;
-                console.log("Email:", email);
+            } else {
+                alert("Email not found in local storage.");
             }
 
-            console.log("Token:", token);
-
-            // Fetch package details using packageCode
-            if (packageCode && token) {
-                console.log("Package Code:", packageCode);
-
+            if (packageCode) {
+                // Fetch package name based on the packageCode
                 try {
-                    const response = await fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/${packageCode}`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-
-                    console.log("Token:", token);
-                    if (!response.ok) {
-                        const errorMessage = await response.text(); 
-                        throw new Error('Failed to fetch package details: ' + errorMessage);
-                    }
-
+                    const response = await fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/api/packages/${packageCode}`);
+                    if (!response.ok) throw new Error('Network response was not ok');
                     const packageData = await response.json();
-                    document.getElementById('packageName').value = packageData.data.packageName;
-                    console.log("Package Name:", packageData.data.packageName);
-                    
-                    localStorage.setItem('packageName', packageData.data.packageName);
-
+                    document.getElementById('packageName').value = packageData.name;
                 } catch (error) {
-                    console.error('Error fetching package details:', error);
+                    console.error("Error fetching package data:", error);
                 }
+            } else {
+                alert("Package code not found in local storage.");
             }
 
-            // Form submission
-            const form = document.getElementById('paymentForm');
-            form.addEventListener('submit', async function (e) {
-                e.preventDefault();
-
+            // Handle form submission
+            document.getElementById('paymentForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
                 const phoneNumber = document.getElementById('phoneNumber').value;
                 const address = document.getElementById('address').value;
                 const voucherCode = document.getElementById('voucherCode').value;
 
-                const paymentRequest = {
-                    email,
+                if (!token) {
+                    alert("Please sign in to make a payment.");
+                    return;
+                }
+
+                const paymentData = {
                     phoneNumber,
                     address,
-                    transactionRequest: {
-                        customerCode,
-                        packageCode,
-                        voucherCode
-                    }
+                    voucherCode,
+                    customerCode
                 };
 
                 try {
-                    const response = await fetch('https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/google-customer', {
+                    const response = await fetch('https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/api/payments', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify(paymentRequest)
+                        body: JSON.stringify(paymentData)
                     });
 
-                    if (!response.ok) {
-                        const errorMessage = await response.text();
-                        throw new Error('Network response was not ok: ' + errorMessage);
-                    }
-
-                    const responseObj = await response.json();
-
-                    if (responseObj.status && responseObj.data && responseObj.data.authorization_url) {
-                        window.location.href = responseObj.data.authorization_url;
-                    } else {
-                        throw new Error('Invalid response structure');
-                    }
-
+                    if (!response.ok) throw new Error('Payment submission failed');
+                    const result = await response.json();
+                    alert(`Payment successful! Transaction ID: ${result.transactionId}`);
+                    window.location.href = 'home.html';
                 } catch (error) {
-                    console.error('Error during payment submission:', error);
-                    alert('Payment submission failed: ' + error.message);
+                    console.error("Error submitting payment:", error);
+                    alert("There was a problem processing your payment. Please try again.");
                 }
             });
         });
     </script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Modal -->
+    <div id="signOutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Are you sure you want to sign out?</h2>
+            <button id="cancelSignOut">Cancel</button>
+            <button id="confirmSignOut">Sign Out</button>
+        </div>
+    </div>
 </body>
 
 </html>
