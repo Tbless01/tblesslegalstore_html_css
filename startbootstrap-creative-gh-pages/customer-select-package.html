@@ -109,6 +109,9 @@
             packagesContainer.innerHTML = '';
 
 
+sessionStorage.removeItem('selectedPackageCode');
+
+
             // Access the packages directly from the data key
             if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
                 jsonResponse.data.forEach(package => {
