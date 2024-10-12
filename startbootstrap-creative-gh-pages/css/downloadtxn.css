@@ -1,0 +1,27 @@
+.main-section {
+    background-color: #343a40; /* Example background color */
+    color: white;
+    padding: 20px;
+}
+.dynamic-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.dynamic-table th, .dynamic-table td {
+    border: 1px solid white;
+    padding: 8px;
+    text-align: left;
+}
+/* Hide the download table */
+#downloadTable {
+    display: none;
+}
+/* Style for the vertical download table */
+.vertical-download-table {
+    border: none; /* Remove borders for a cleaner look */
+    width: 100%; /* Full width for better fit */
+}
+.vertical-download-table div {
+    border-bottom: 1px solid #ccc; /* Add a separator for each transaction */
+    padding: 10px 0; /* Add padding for better spacing */
+}
