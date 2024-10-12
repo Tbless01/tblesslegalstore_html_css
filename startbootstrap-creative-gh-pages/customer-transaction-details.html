@@ -180,6 +180,8 @@ button {
         </div>
     </section>
 
+    <button id="downloadPDF">Download as PDF</button>
+    <button id="downloadImage">Download as Image</button>
     <!-- Social Links -->
     <div class="social-links mt-3">
         <a href="https://www.instagram.com/tblesslegal_store?igsh=MTBkZjFmcjhnN2djMQ%3D%3D&utm_source=qr" target="_blank" class="mx-2">
@@ -210,6 +212,39 @@ button {
     <script src="js/tscripts.js"></script>
 
     <script>
+
+
+document.getElementById("downloadPDF").addEventListener("click", function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const elementHTML = document.getElementById("transactionTable").outerHTML;
+
+            doc.html(elementHTML, {
+                callback: function (doc) {
+                    doc.save("transaction-details.pdf");
+                },
+                x: 10,
+                y: 10
+            });
+        });
+
+
+
+
+
+        document.getElementById("downloadImage").addEventListener("click", function() {
+            html2canvas(document.getElementById("contentToCapture")).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL("image/png");
+                link.download = 'transaction-details.png';
+                link.click();
+            });
+        });
+
+
+
+
+
         // Sign Out Function
         function signOut() {
         // Remove the authentication token from localStorage
