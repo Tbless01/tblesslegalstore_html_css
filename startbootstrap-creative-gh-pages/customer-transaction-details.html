@@ -9,10 +9,10 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap) -->
-    <link rel="stylesheet" href="css/downloadtxn.css">
+    <link href="css/tstyles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <link href="css/downloadtxn.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/downloadtxn.css">
     
     <!-- Include jsPDF -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -21,6 +21,96 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
+
+/* Styling the main section */
+.main-section {
+    background-color: #343a40;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the dynamic table */
+.dynamic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dynamic-table th {
+    background-color: #495057;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid #6c757d;
+}
+
+.dynamic-table td {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Add zebra striping for table rows */
+.dynamic-table tbody tr:nth-child(even) {
+    background-color: #3e444a;
+}
+.dynamic-table tbody tr:hover {
+    background-color: #495057;
+    color: #f8f9fa;
+    cursor: pointer;
+}
+
+/* Styling the download table */
+#downloadTable {
+    display: none;
+}
+
+.vertical-download-table {
+    width: 100%;
+    border: none;
+    margin-top: 10px;
+}
+
+.vertical-download-table div {
+    border-bottom: 1px solid #ccc;
+    padding: 12px 0;
+    font-size: 16px;
+}
+
+/* Responsive adjustments */
+@media print {
+    .main-section {
+        background-color: white;
+        color: black;
+        box-shadow: none;
+    }
+
+    .dynamic-table th {
+        background-color: #f1f1f1;
+        color: black;
+    }
+
+    .dynamic-table td {
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 .social-links {
     position: fixed;
     bottom: 20px;
