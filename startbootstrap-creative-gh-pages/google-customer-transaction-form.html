@@ -352,7 +352,15 @@
                         throw new Error('Failed to submit payment: ' + errorMessage);
                     }
 
-                    const paymentData = await paymentResponse.json();
+                    const responseData = await paymentResponse.json();  // Parse the JSON response
+
+// Extract the authorization URL from the response
+const authorizationUrl = responseData.data.authorization_url;
+
+if (authorizationUrl) {
+    console.log('Opening authorization URL:', authorizationUrl);
+    window.location.href = authorizationUrl;  // Redirect to the URL
+}
                     alert('Payment submitted successfully!');
 
                     // Optionally, redirect or clear the form
