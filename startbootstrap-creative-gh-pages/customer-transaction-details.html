@@ -320,10 +320,18 @@ console.log("token dsfgh " + token);
         return ['th', 'st', 'nd', 'rd'][day % 10] || 'th';
     };
 
-    // Get the formatted date
+    // Get formatted date
     const formattedDate = `${day}${getSuffix(day)} ${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`;
+
+    // Extracting time components
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
     
-    return formattedDate;
+    // Format time to AM/PM
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+
+    return `${formattedDate} ${formattedTime}`;
 }
 
 const formattedDate = formatDate(transaction.dateLastPaymentMade);
