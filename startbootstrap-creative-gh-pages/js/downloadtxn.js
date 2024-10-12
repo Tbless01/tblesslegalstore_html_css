@@ -91,6 +91,7 @@ function formatDate(dateString) {
 
 
 // Download PDF
+// Download PDF
 document.getElementById("downloadPDFButton").addEventListener("click", () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({
@@ -103,36 +104,36 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
     const downloadContent = document.getElementById("downloadContent");
     downloadContent.innerHTML = [...document.querySelectorAll("#transactionDataBody tr")]
         .map((row, index) => `
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+            <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid #ddd;">
                 <h3 style="color: #4a4a4a; font-size: 18px; margin-bottom: 10px;">Transaction ${index + 1}</h3>
                 <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-                    <tr>
-                        <td style="width: 30%; font-weight: bold; padding: 5px;">Transaction Code:</td>
-                        <td style="width: 70%; padding: 5px;">${row.cells[0].textContent}</td>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="width: 30%; font-weight: bold; padding: 10px; border: 1px solid #ddd;">Transaction Code:</td>
+                        <td style="width: 70%; padding: 10px; border: 1px solid #ddd;">${row.cells[0].textContent}</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: bold; padding: 5px;">Package Name:</td>
-                        <td style="padding: 5px;">${row.cells[1].textContent}</td>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Package Name:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[1].textContent}</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: bold; padding: 5px;">Total Amount:</td>
-                        <td style="padding: 5px;">${row.cells[2].textContent}</td>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Total Amount:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[2].textContent}</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: bold; padding: 5px;">Amount Paid:</td>
-                        <td style="padding: 5px;">${row.cells[3].textContent}</td>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Amount Paid:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[3].textContent}</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: bold; padding: 5px;">Balance:</td>
-                        <td style="padding: 5px;">${row.cells[4].textContent}</td>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Balance:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[4].textContent}</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: bold; padding: 5px;">Date Last Payment:</td>
-                        <td style="padding: 5px;">${row.cells[5].textContent}</td>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Date Last Payment:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[5].textContent}</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: bold; padding: 5px;">Status:</td>
-                        <td style="padding: 5px;">${row.cells[6].textContent}</td>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Status:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[6].textContent}</td>
                     </tr>
                 </table>
             </div>`).join('');
@@ -151,6 +152,14 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
 });
 
 
+
+
+
+
+
+
+// Download Image
+
 // Download Image
 document.getElementById("downloadImageButton").addEventListener("click", function() {
     const hiddenTable = document.getElementById("downloadContent");
@@ -160,7 +169,47 @@ document.getElementById("downloadImageButton").addEventListener("click", functio
         return;
     }
 
-    html2canvas(hiddenTable).then(canvas => {
+    // Style the download content for better appearance in the image
+    hiddenTable.innerHTML = [...document.querySelectorAll("#transactionDataBody tr")]
+        .map((row, index) => `
+            <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid #ddd;">
+                <h3 style="color: #4a4a4a; font-size: 18px; margin-bottom: 10px;">Transaction ${index + 1}</h3>
+                <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="width: 30%; font-weight: bold; padding: 10px; border: 1px solid #ddd;">Transaction Code:</td>
+                        <td style="width: 70%; padding: 10px; border: 1px solid #ddd;">${row.cells[0].textContent}</td>
+                    </tr>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Package Name:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[1].textContent}</td>
+                    </tr>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Total Amount:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[2].textContent}</td>
+                    </tr>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Amount Paid:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[3].textContent}</td>
+                    </tr>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Balance:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[4].textContent}</td>
+                    </tr>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Date Last Payment:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[5].textContent}</td>
+                    </tr>
+                    <tr style="border: 1px solid #ddd;">
+                        <td style="font-weight: bold; padding: 10px; border: 1px solid #ddd;">Status:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${row.cells[6].textContent}</td>
+                    </tr>
+                </table>
+            </div>`).join('');
+
+    html2canvas(hiddenTable, {
+        useCORS: true,
+        backgroundColor: "#fff"  // Set a white background for the image
+    }).then(canvas => {
         const link = document.createElement('a');
         link.href = canvas.toDataURL("image/png");
         link.download = 'transaction-details.png';
@@ -170,3 +219,5 @@ document.getElementById("downloadImageButton").addEventListener("click", functio
 
 // Call the function on page load
 fetchTransactionData();
+
+
