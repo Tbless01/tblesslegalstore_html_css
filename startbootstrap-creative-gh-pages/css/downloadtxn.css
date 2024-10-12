@@ -1,27 +1,78 @@
+/* Styling the main section */
 .main-section {
-    background-color: #343a40; /* Example background color */
+    background-color: #343a40;
     color: white;
-    padding: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Styling for the dynamic table */
 .dynamic-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
 }
-.dynamic-table th, .dynamic-table td {
-    border: 1px solid white;
-    padding: 8px;
-    text-align: left;
+
+.dynamic-table th {
+    background-color: #495057;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid #6c757d;
 }
-/* Hide the download table */
+
+.dynamic-table td {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Add zebra striping for table rows */
+.dynamic-table tbody tr:nth-child(even) {
+    background-color: #3e444a;
+}
+.dynamic-table tbody tr:hover {
+    background-color: #495057;
+    color: #f8f9fa;
+    cursor: pointer;
+}
+
+/* Styling the download table */
 #downloadTable {
     display: none;
 }
-/* Style for the vertical download table */
+
 .vertical-download-table {
-    border: none; /* Remove borders for a cleaner look */
-    width: 100%; /* Full width for better fit */
+    width: 100%;
+    border: none;
+    margin-top: 10px;
 }
+
 .vertical-download-table div {
-    border-bottom: 1px solid #ccc; /* Add a separator for each transaction */
-    padding: 10px 0; /* Add padding for better spacing */
+    border-bottom: 1px solid #ccc;
+    padding: 12px 0;
+    font-size: 16px;
+}
+
+/* Responsive adjustments */
+@media print {
+    .main-section {
+        background-color: white;
+        color: black;
+        box-shadow: none;
+    }
+
+    .dynamic-table th {
+        background-color: #f1f1f1;
+        color: black;
+    }
+
+    .dynamic-table td {
+        border-bottom: 1px solid #ddd;
+    }
 }
