@@ -255,7 +255,7 @@ console.log("token dsfgh " + token);
             return response.json();
         })
         .then(transactionData => {
-            if (transactionData.success && transactionData.data) {
+            if (transactionData.data) {
                 const transaction = transactionData.data;
 
                 console.log("transaction.packageCode "+ transaction.packageCode);
@@ -276,7 +276,7 @@ console.log("token dsfgh " + token);
                     return packageResponse.json();
                 })
                 .then(packageData => {
-                    if (packageData.success && packageData.data) {
+                    if (packageData.data) {
                         const packageName = packageData.data.packageName; // Adjust according to your package response structure
                         // Populate the table with transaction details, including package name
                         document.getElementById('transaction-details').innerHTML = `
