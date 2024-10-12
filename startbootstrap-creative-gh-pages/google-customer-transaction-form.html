@@ -316,7 +316,7 @@
                 const voucherCode = document.getElementById('voucherCode').value;
 
                 try {
-                    const paymentResponse = await fetch('https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/payments', {
+                    const paymentResponse = await fetch('https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/google-customer', {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${token}`,
