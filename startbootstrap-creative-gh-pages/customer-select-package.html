@@ -76,13 +76,19 @@
     padding-bottom: 10px; /* Optional: add some space below the item */
     margin-bottom: 10px; /* Optional: add some space above the next item */
 }
-.page-section{
-    margin-top: -5%;
+
+#details {
+    background-color: rgba(255, 255, 255, 0.3); /* White background with 30% opacity */
+    color: white; /* White text color */
+    padding: 10px 15px; /* Optional: padding to make it look more button-like */
+    border-radius: 5px; /* Optional: rounded corners */
+    transition: background-color 0.3s; /* Optional: smooth transition for hover effect */
 }
 
-#details{
-    color: #f0f0f0;
+#details:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly more opaque on hover */
 }
+
     </style>
 </head>
 
@@ -110,8 +116,10 @@
             </div>
         </div>
     </nav>
-    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" id="details" href="customer-transaction-details.html">Transaction Details</a></li> 
-
+    <li class="nav-item px-lg-4">
+        <a class="nav-link text-uppercase" href="customer-transaction-details.html" id="details">Transaction Details</a>
+    </li>
+    
     <section class="page-section">
         <div class="container" id="packagesContainer">
             <!-- Packages will be dynamically added here -->
