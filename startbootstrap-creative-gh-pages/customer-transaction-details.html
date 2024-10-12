@@ -308,6 +308,26 @@ console.log("token dsfgh " + token);
                     if (packageData.data) {
                         const packageName = packageData.data.packageName; // Adjust according to your package response structure
                         // Populate the table with transaction details, including package name
+                        
+
+                        function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    
+    // Function to get the suffix for the day (st, nd, rd, th)
+    const getSuffix = (day) => {
+        if (day > 3 && day < 21) return 'th'; // for 4-20, always 'th'
+        return ['th', 'st', 'nd', 'rd'][day % 10] || 'th';
+    };
+
+    // Get the formatted date
+    const formattedDate = `${day}${getSuffix(day)} ${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`;
+    
+    return formattedDate;
+}
+
+const formattedDate = formatDate(transaction.dateLastPaymentMade);
+                        
                         document.getElementById('transaction-details').innerHTML = `
                             <tr>
                                 <td>${transaction.transactionCode}</td>
@@ -315,7 +335,7 @@ console.log("token dsfgh " + token);
                                 <td>${transaction.totalAmountPaid.toLocaleString()}</td>
                                 <td>${transaction.amountLastPaid.toLocaleString()}</td>
                                 <td>${transaction.balance.toLocaleString()}</td>
-                                <td>${transaction.dateLastPaymentMade}</td>
+                                <td>${formattedDate}</td>
                                 <td>${transaction.status}</td>
                             </tr>
                         `;
