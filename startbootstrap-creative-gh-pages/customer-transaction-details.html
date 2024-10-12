@@ -50,6 +50,9 @@
 .transaction-table th {
     background-color: #f2f2f2;
 }
+#transaction-details{
+    color: white;
+}
 
 /* Responsive styling */
 @media (max-width: 768px) {
@@ -309,9 +312,9 @@ console.log("token dsfgh " + token);
                             <tr>
                                 <td>${transaction.transactionCode}</td>
                                 <td>${packageName}</td> <!-- Display package name -->
-                                <td>${transaction.totalAmountPaid}</td>
-                                <td>${transaction.amountLastPaid}</td>
-                                <td>${transaction.balance}</td>
+                                <td>${transaction.totalAmountPaid.toLocaleString()}</td>
+                                <td>${transaction.amountLastPaid.toLocaleString()}</td>
+                                <td>${transaction.balance.toLocaleString()}</td>
                                 <td>${transaction.dateLastPaymentMade}</td>
                                 <td>${transaction.status}</td>
                             </tr>
