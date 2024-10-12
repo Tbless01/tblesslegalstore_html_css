@@ -100,7 +100,11 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
     downloadContent.innerHTML = [...document.querySelectorAll("#transactionDataBody tr")]
         .map((row, index) => `
             <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid #ddd;">
-                <h3 style="color: #4a4a4a; font-size: 18px; margin-bottom: 10px;"><strong>Tbless Legal Store</strong><br/> Transaction</h3>
+            <div style="display: flex; align-items: center; font-family: Arial, sans-serif;">
+    <strong style="font-size: 24px; font-weight: 600; color: #4a4a4a; margin-right: 10px;">Tbless Legal Store</strong>
+    <span style="font-size: 18px; font-weight: 400; color: #888;">Your Trusted Source for Legal Attire</span>
+            </div>
+                <h3 style="color: #4a4a4a; font-size: 18px; margin-bottom: 10px;">Transaction Details</h3>
                 <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
                     <tr style="border: 1px solid #ddd;">
                         <td style="width: 30%; font-weight: bold; padding: 10px; border: 1px solid #ddd;">Transaction Code:</td>
