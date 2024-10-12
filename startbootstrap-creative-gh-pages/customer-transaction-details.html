@@ -232,7 +232,7 @@ button {
     const customerCode = localStorage.getItem('customerCode');
     const token = localStorage.getItem('token');
 
-console.log("customerCode dsfgh" + customerCode);
+console.log("customerCode dsfgh " + customerCode);
 console.log("token dsfgh " + token);
 
     if (!token) {
@@ -257,6 +257,9 @@ console.log("token dsfgh " + token);
         .then(transactionData => {
             if (transactionData.success && transactionData.data) {
                 const transaction = transactionData.data;
+
+                console.log("transaction.packageCode "+ transaction.packageCode);
+                
 
                 // Fetch package details using the package code
                 fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/${transaction.packageCode}`, {
