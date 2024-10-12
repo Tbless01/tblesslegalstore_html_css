@@ -322,13 +322,23 @@
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json',
                         },
+                        // body: JSON.stringify({
+                        //     customerCode: customerCode,
+                        //     packageCode: packageCode,
+                        //     phoneNumber: phoneNumber,
+                        //     deliveryAddress: address,
+                        //     voucherCode: voucherCode
+                        // })
                         body: JSON.stringify({
-                            customerCode: customerCode,
-                            packageCode: packageCode,
-                            phoneNumber: phoneNumber,
-                            deliveryAddress: address,
-                            voucherCode: voucherCode
-                        })
+    email: "ayomitobi1@gmail.com", // add email field
+    phoneNumber: phoneNumber,
+    address: address, // use the variable for delivery address
+    transactionRequest: {
+        voucherCode: voucherCode,
+        packageCode: packageCode
+    }
+})
+
                     });
 
                     if (paymentResponse.status === 401 || paymentResponse.status === 403) {
