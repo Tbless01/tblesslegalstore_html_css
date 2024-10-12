@@ -53,7 +53,7 @@ async function fetchTransactionData() {
             <tr>
                 <td>${transaction.transactionCode}</td>
                 <td>${packageName}</td>
-                <td>${transaction.customerPackagePrice.toLocaleString()}</td>
+                <td>${transaction.customerPackagePrice}</td>
                 <td>${transaction.amountLastPaid.toLocaleString()}</td>
                 <td>${transaction.balance.toLocaleString()}</td>
                 <td>${formattedDate}</td>
