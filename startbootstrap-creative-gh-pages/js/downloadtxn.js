@@ -92,7 +92,8 @@ function formatDate(dateString) {
 
 // Download PDF
 // Download PDF
-document.getElementById("downloadPDFButton").addEventListener("click", () => {
+// document.getElementById("downloadPDFButton").addEventListener("click", () => {
+    function downloadPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({
         orientation: 'portrait', // 'landscape' if needed
@@ -105,7 +106,7 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
     downloadContent.innerHTML = [...document.querySelectorAll("#transactionDataBody tr")]
         .map((row, index) => `
             <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid #ddd;">
-                <h3 style="color: #4a4a4a; font-size: 18px; margin-bottom: 10px;">Transaction ${index + 1}</h3>
+                <h3 style="color: #4a4a4a; font-size: 18px; margin-bottom: 10px;">Transaction TLS</h3>
                 <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
                     <tr style="border: 1px solid #ddd;">
                         <td style="width: 30%; font-weight: bold; padding: 10px; border: 1px solid #ddd;">Transaction Code:</td>
@@ -151,7 +152,14 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
     });
 });
 
+// Get the button element
+const downloadPDFButton = document.getElementById("downloadPDFButton");
 
+// Remove any existing listener first
+downloadPDFButton.removeEventListener("click", downloadPDF); // This line removes an existing listener
+
+// Add the event listener
+downloadPDFButton.addEventListener("click", downloadPDF);
 
 
 
@@ -161,7 +169,10 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
 // Download Image
 
 // Download Image
-document.getElementById("downloadImageButton").addEventListener("click", function() {
+// Add event listener for download button only once
+document.getElementById("downloadImageButton").addEventListener("click", handleDownloadImage);
+
+function handleDownloadImage() {
     const hiddenTable = document.getElementById("downloadContent");
 
     if (!hiddenTable.children.length) {
@@ -206,6 +217,8 @@ document.getElementById("downloadImageButton").addEventListener("click", functio
                 </table>
             </div>`).join('');
 
+    console.log("Content prepared for download:", hiddenTable.innerHTML); // Check the content before generating the image
+
     html2canvas(hiddenTable, {
         useCORS: true,
         backgroundColor: "#fff"  // Set a white background for the image
@@ -215,9 +228,7 @@ document.getElementById("downloadImageButton").addEventListener("click", functio
         link.download = 'transaction-details.png';
         link.click();
     }).catch(err => console.error("Error generating image:", err));
-});
+}
 
 // Call the function on page load
 fetchTransactionData();
-
-
