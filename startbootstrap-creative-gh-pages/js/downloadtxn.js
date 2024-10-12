@@ -86,37 +86,70 @@ function formatDate(dateString) {
     return `${formattedDate} ${formattedTime}`;
 }
 
+
+
+
+
 // Download PDF
-document.getElementById("downloadPDFButton").addEventListener("click", function() {
+document.getElementById("downloadPDFButton").addEventListener("click", () => {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const downloadContent = document.getElementById("downloadContent");
-
-    downloadContent.innerHTML = '';  // Clear previous content
-
-    const rows = document.querySelectorAll("#transactionDataBody tr");
-    rows.forEach(row => {
-        downloadContent.innerHTML += `
-            <div>
-                <strong>Transaction Code:</strong> ${row.cells[0].textContent} <br>
-                <strong>Package Name:</strong> ${row.cells[1].textContent} <br>
-                <strong>Total Amount:</strong> ${row.cells[2].textContent} <br>
-                <strong>Amount Paid:</strong> ${row.cells[3].textContent} <br>
-                <strong>Balance:</strong> ${row.cells[4].textContent} <br>
-                <strong>Date Last Payment Made:</strong> ${row.cells[5].textContent} <br>
-                <strong>Status:</strong> ${row.cells[6].textContent}
-            </div>
-        `;
+    const doc = new jsPDF({
+        orientation: 'portrait', // 'landscape' if needed
+        unit: 'px',
+        format: 'a4'
     });
 
+    // Prepare the content with better alignment (side-by-side key-value layout)
+    const downloadContent = document.getElementById("downloadContent");
+    downloadContent.innerHTML = [...document.querySelectorAll("#transactionDataBody tr")]
+        .map((row, index) => `
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+                <h3 style="color: #4a4a4a; font-size: 18px; margin-bottom: 10px;">Transaction ${index + 1}</h3>
+                <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 30%; font-weight: bold; padding: 5px;">Transaction Code:</td>
+                        <td style="width: 70%; padding: 5px;">${row.cells[0].textContent}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 5px;">Package Name:</td>
+                        <td style="padding: 5px;">${row.cells[1].textContent}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 5px;">Total Amount:</td>
+                        <td style="padding: 5px;">${row.cells[2].textContent}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 5px;">Amount Paid:</td>
+                        <td style="padding: 5px;">${row.cells[3].textContent}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 5px;">Balance:</td>
+                        <td style="padding: 5px;">${row.cells[4].textContent}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 5px;">Date Last Payment:</td>
+                        <td style="padding: 5px;">${row.cells[5].textContent}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; padding: 5px;">Status:</td>
+                        <td style="padding: 5px;">${row.cells[6].textContent}</td>
+                    </tr>
+                </table>
+            </div>`).join('');
+
+    // Configure PDF and generate content
     doc.html(downloadContent, {
         callback: function (doc) {
-            doc.save("transaction-details.pdf");
+            doc.setFont("helvetica", "normal");  // Use professional-looking font
+            doc.setTextColor(40, 40, 40);  // Dark gray text color
+            doc.save("transaction-details.pdf");  // Save PDF
         },
-        x: 10,
-        y: 10
-    }).catch(err => console.error("Error generating PDF:", err));
+        x: 30,  // Horizontal margin
+        y: 20,  // Vertical margin
+        html2canvas: { scale: 0.9 },  // Slight scaling for better fit
+    });
 });
+
 
 // Download Image
 document.getElementById("downloadImageButton").addEventListener("click", function() {
