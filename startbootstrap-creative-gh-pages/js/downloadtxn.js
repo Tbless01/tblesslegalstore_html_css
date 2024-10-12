@@ -152,13 +152,14 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
 });
 
 // Get the button element
-const downloadPDFButton = document.getElementById("downloadPDFButton");
+// const downloadPDFButton = document.getElementById("downloadPDFButton");
 
 // Remove any existing listener first
-downloadPDFButton.removeEventListener("click", downloadPDF); // This line removes an existing listener
+// downloadPDFButton.removeEventListener("click", downloadPDF); 
+// // This line removes an existing listener
 
-// Add the event listener
-downloadPDFButton.addEventListener("click", downloadPDF);
+// // Add the event listener
+// downloadPDFButton.addEventListener("click", downloadPDF);
 
 
 
