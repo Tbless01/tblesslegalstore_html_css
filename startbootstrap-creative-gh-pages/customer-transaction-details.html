@@ -36,37 +36,29 @@
     width: 100%;
     margin: 20px auto;
     border-collapse: collapse;
-    overflow-x: auto; /* Enable horizontal scroll on small screens */
-    display: block; /* Make the table block-level for better handling */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .transaction-table th, .transaction-table td {
     border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left; /* Align text to the left */
+    padding: 10px;
 }
 
-.transaction-table th {
-    background-color: #f2f2f2;
-}
-#transaction-details{
-    color: white;
+.transaction-table td {
+    vertical-align: top; /* Aligns the text at the top */
 }
 
-/* Responsive styling */
-@media (max-width: 768px) {
-    .transaction-table th, .transaction-table td {
-        padding: 12px; /* Add more padding on smaller screens */
-        font-size: 14px; /* Adjust font size for readability */
-    }
-
+@media (max-width: 600px) {
     .transaction-table {
-        display: block; /* Enable block display for mobile */
-        overflow-x: auto; /* Allow horizontal scrolling */
-        white-space: nowrap; /* Prevent table content from wrapping */
+        display: block; /* Allows for responsive behavior */
+        overflow-x: auto; /* Enables horizontal scrolling if necessary */
+    }
+
+    .transaction-table th, .transaction-table td {
+        display: block; /* Stack table headers and data vertically */
+        width: 100%; /* Full width for each block */
     }
 }
+
 
 .btn {
     padding: 10px 20px;
@@ -158,19 +150,13 @@ button {
     </nav>
 
     <!-- Transaction Details Section -->
-    <section class="page-section">
+    <section class="page-section"> 
         <div class="container">
             <h2 class="section-heading text-center" style="color: white;">Transaction Details</h2>
             <table class="transaction-table">
                 <thead>
                     <tr>
-                        <th>Transaction Code</th>
-                        <th>Package Name</th>
-                        <th>Total Amount</th>
-                        <th>Amount Paid</th>
-                        <th>Balance</th>
-                        <th>Date Last Payment Made</th>
-                        <th>Status</th>
+                        <th>Transaction Details</th>
                     </tr>
                 </thead>
                 <tbody id="transaction-details">
@@ -179,6 +165,7 @@ button {
             </table>
         </div>
     </section>
+    
 
     <!-- Social Links -->
     <div class="social-links mt-3">
@@ -336,28 +323,29 @@ console.log("token dsfgh " + token);
 
 const formattedDate = formatDate(transaction.dateLastPaymentMade);
                         
-                        document.getElementById('transaction-details').innerHTML = `
-                            <tr>
-                                <td>${transaction.transactionCode}</td>
-                                <td>${packageName}</td> <!-- Display package name -->
-                                <td>${transaction.totalAmountPaid.toLocaleString()}</td>
-                                <td>${transaction.amountLastPaid.toLocaleString()}</td>
-                                <td>${transaction.balance.toLocaleString()}</td>
-                                <td>${formattedDate}</td>
-                                <td>${transaction.status}</td>
-                            </tr>
-                        `;
-                    } else {
-                        document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">No package details found</td></tr>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching package details:', error);
-                    document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">Error fetching package details</td></tr>`;
-                });
-            } else {
-                document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">No transaction details found</td></tr>`;
-            }
+            if (transactions.length > 0) {
+                transactions.forEach(transaction => {
+        // Create a new transaction row
+                  const transactionRow = document.createElement('tr');
+                transactionRow.innerHTML = `
+            <td>
+                <strong>Transaction Code:</strong> ${transaction.transactionCode || 'N/A'}<br>
+                <strong>Package Name:</strong> ${transaction.packageName || 'N/A'}<br>
+                <strong>Total Amount:</strong> $${transaction.totalAmount || '0.00'}<br>
+                <strong>Amount Paid:</strong> $${transaction.amountPaid || '0.00'}<br>
+                <strong>Balance:</strong> $${transaction.balance || '0.00'}<br>
+                <strong>Date Last Payment Made:</strong> ${formatDate(transaction.dateLastPaymentMade)}<br>
+                <strong>Status:</strong> ${transaction.status || 'N/A'}<br>
+            </td>
+        `;
+
+        // Append the transaction row to the container
+        transactionDetailsContainer.appendChild(transactionRow);
+    });
+} else {
+    // Handle the case where there are no transaction details
+    transactionDetailsContainer.innerHTML = `<tr><td colspan="7">No package details found</td></tr>`;
+}
         })
         .catch(error => {
             console.error('Error fetching transaction details:', error);
