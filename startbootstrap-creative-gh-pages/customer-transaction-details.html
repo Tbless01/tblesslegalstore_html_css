@@ -11,6 +11,12 @@
     <!-- Core theme CSS (includes Bootstrap) -->
     <link href="css/tstyles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- Include jsPDF -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+        <!-- Include html2canvas -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <style>
 .social-links {
     position: fixed;
@@ -180,8 +186,10 @@ button {
         </div>
     </section>
 
-    <!-- <button id="downloadPDF">Download as PDF</button>
-    <button id="downloadImage">Download as Image</button> -->
+    <button id="downloadPDF">Download as PDF</button>
+    <button id="downloadImage">Download as Image</button>
+
+
     <!-- Social Links -->
     <div class="social-links mt-3">
         <a href="https://www.instagram.com/tblesslegal_store?igsh=MTBkZjFmcjhnN2djMQ%3D%3D&utm_source=qr" target="_blank" class="mx-2">
@@ -212,6 +220,33 @@ button {
     <script src="js/tscripts.js"></script>
 
     <script>
+
+
+
+
+
+document.getElementById("downloadPDF").addEventListener("click", function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.html(document.getElementById("transactionTable"), {
+                callback: function (doc) {
+                    doc.save("transaction-details.pdf");
+                },
+                x: 10,
+                y: 10
+            });
+        });
+
+        document.getElementById("downloadImage").addEventListener("click", function() {
+            html2canvas(document.getElementById("transactionTable")).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL("image/png");
+                link.download = 'transaction-details.png';
+                link.click();
+            });
+        });
+
 
 
 
@@ -284,6 +319,23 @@ console.log("token dsfgh " + token);
             }
         })
         .then(response => {
+            if (response.status === 401 || response.status === 403) {
+        // If token is expired or invalid, redirect to home page
+        console.log('Token expired or unauthorized. Redirecting to home page...');
+        console.log('Token expired or unauthorized. Redirecting to home page... '+localStorage.getItem('token')+
+                localStorage.getItem('email')+
+                localStorage.getItem('customerCode'));
+        localStorage.removeItem('token');
+                localStorage.removeItem('email');
+                localStorage.removeItem('customerCode');
+                console.log('Token and user data removed after expiration time.');
+                
+        console.log('Token expired or unauthorized. Redirecting to home page... '+localStorage.getItem('token')+
+                localStorage.getItem('email')+
+                localStorage.getItem('customerCode'));
+        window.location.href = 'google-login-page-for-txn.html';  // Redirect to home page
+        return;
+    }
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
