@@ -33,32 +33,41 @@
 }
 
 .transaction-table {
-    width: 100%;
-    margin: 20px auto;
-    border-collapse: collapse;
-}
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            overflow-x: auto; /* Enable horizontal scroll on small screens */
+            display: block; /* Make the table block-level for better handling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
 
-.transaction-table th, .transaction-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-}
+        .transaction-table th, .transaction-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left; /* Align text to the left */
+        }
 
-.transaction-table td {
-    vertical-align: top; /* Aligns the text at the top */
-}
+        .transaction-table th {
+            background-color: #f2f2f2;
+        }
 
-@media (max-width: 600px) {
-    .transaction-table {
-        display: block; /* Allows for responsive behavior */
-        overflow-x: auto; /* Enables horizontal scrolling if necessary */
-    }
+        #transaction-details {
+            color: white;
+        }
 
-    .transaction-table th, .transaction-table td {
-        display: block; /* Stack table headers and data vertically */
-        width: 100%; /* Full width for each block */
-    }
-}
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .transaction-table th, .transaction-table td {
+                padding: 12px; /* Add more padding on smaller screens */
+                font-size: 14px; /* Adjust font size for readability */
+            }
 
+            .transaction-table {
+                display: block; /* Enable block display for mobile */
+                overflow-x: auto; /* Allow horizontal scrolling */
+                white-space: nowrap; /* Prevent table content from wrapping */
+            }
+        }
 
 .btn {
     padding: 10px 20px;
@@ -149,7 +158,6 @@ button {
         </div>
     </nav>
 
-    <!-- Transaction Details Section -->
     <section class="page-section"> 
         <div class="container">
             <h2 class="section-heading text-center" style="color: white;">Transaction Details</h2>
@@ -256,104 +264,111 @@ console.log("token dsfgh " + token);
     }
 
     if (customerCode) {
-        // Fetch transaction details from backend
-        fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/${customerCode}`, {
-            method: 'GET', // Use GET method
-            headers: {
-                'Authorization': `Bearer ${token}`, // Include token in the Authorization header
-                'Content-Type': 'application/json' // Set the content type
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(transactionData => {
-            if (transactionData.data) {
-                const transaction = transactionData.data;
+    // Fetch transaction details from backend
+    fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/${customerCode}`, {
+        method: 'GET', // Use GET method
+        headers: {
+            'Authorization': `Bearer ${token}`, // Include token in the Authorization header
+            'Content-Type': 'application/json' // Set the content type
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(transactionData => {
+        if (transactionData.data) {
+            const transaction = transactionData.data;
 
-                console.log("transaction.packageCode "+ transaction.packageCode);
-                
+            console.log("transaction.packageCode: " + transaction.packageCode);
 
-                // Fetch package details using the package code
-                fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/${transaction.packageCode}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(packageResponse => {
-                    if (!packageResponse.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return packageResponse.json();
-                })
-                .then(packageData => {
-                    if (packageData.data) {
-                        const packageName = packageData.data.packageName; // Adjust according to your package response structure
-                        // Populate the table with transaction details, including package name
+            // Fetch package details using the package code
+            fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/${transaction.packageCode}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(packageResponse => {
+                if (!packageResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return packageResponse.json();
+            })
+            .then(packageData => {
+                const transactionDetails = document.getElementById('transaction-details');
+                transactionDetails.innerHTML = ''; // Clear previous details
+
+                if (packageData.data) {
+                    const packageName = packageData.data.packageName; // Adjust according to your package response structure
+
+                    // Format date function
+                    function formatDate(dateString) {
+                        const date = new Date(dateString);
+                        const day = date.getDate();
+
+                        // Function to get the suffix for the day (st, nd, rd, th)
+                        const getSuffix = (day) => {
+                            if (day > 3 && day < 21) return 'th'; // for 4-20, always 'th'
+                            return ['th', 'st', 'nd', 'rd'][day % 10] || 'th';
+                        };
+
+                        // Get formatted date
+                        const formattedDate = `${day}${getSuffix(day)} ${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`;
+
+                        // Extracting time components
+                        const hours = date.getHours();
+                        const minutes = date.getMinutes();
                         
+                        // Format time to AM/PM
+                        const ampm = hours >= 12 ? 'PM' : 'AM';
+                        const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
 
-                        function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    
-    // Function to get the suffix for the day (st, nd, rd, th)
-    const getSuffix = (day) => {
-        if (day > 3 && day < 21) return 'th'; // for 4-20, always 'th'
-        return ['th', 'st', 'nd', 'rd'][day % 10] || 'th';
-    };
+                        return `${formattedDate} ${formattedTime}`;
+                    }
 
-    // Get formatted date
-    const formattedDate = `${day}${getSuffix(day)} ${date.toLocaleString('default', { month: 'long' })}, ${date.getFullYear()}`;
-
-    // Extracting time components
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    
-    // Format time to AM/PM
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
-
-    return `${formattedDate} ${formattedTime}`;
-}
-
-const formattedDate = formatDate(transaction.dateLastPaymentMade);
-                        
-            if (transactions.length > 0) {
-                transactions.forEach(transaction => {
-        // Create a new transaction row
-                  const transactionRow = document.createElement('tr');
-                transactionRow.innerHTML = `
-            <td>
-                <strong>Transaction Code:</strong> ${transaction.transactionCode || 'N/A'}<br>
-                <strong>Package Name:</strong> ${transaction.packageName || 'N/A'}<br>
-                <strong>Total Amount:</strong> $${transaction.totalAmount || '0.00'}<br>
-                <strong>Amount Paid:</strong> $${transaction.amountPaid || '0.00'}<br>
-                <strong>Balance:</strong> $${transaction.balance || '0.00'}<br>
-                <strong>Date Last Payment Made:</strong> ${formatDate(transaction.dateLastPaymentMade)}<br>
-                <strong>Status:</strong> ${transaction.status || 'N/A'}<br>
-            </td>
-        `;
-
-        // Append the transaction row to the container
-        transactionDetailsContainer.appendChild(transactionRow);
+                    const formattedDate = formatDate(transaction.dateLastPaymentMade);
+                    
+                    // Populate transaction details
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <strong>Transaction Code:</strong> ${transaction.transactionCode}<br>
+                            <strong>Package Name:</strong> ${packageName}<br>
+                            <strong>Total Amount:</strong> ${transaction.totalAmount.toLocaleString()}<br>
+                            <strong>Amount Paid:</strong> ${transaction.amountPaid.toLocaleString()}<br>
+                            <strong>Balance:</strong> ${transaction.balance.toLocaleString()}<br>
+                            <strong>Date Last Payment Made:</strong> ${formattedDate}<br>
+                            <strong>Status:</strong> ${transaction.status}<br>
+                        </td>
+                    `;
+                    transactionDetails.appendChild(row);
+                } else {
+                    transactionDetails.innerHTML = `<tr><td colspan="7">No package details found</td></tr>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching package details:', error);
+                document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">Error fetching package details</td></tr>`;
+            });
+        } else {
+            document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">No transaction details found</td></tr>`;
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching transaction details:', error);
+        document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">Error fetching transaction details</td></tr>`;
     });
 } else {
-    // Handle the case where there are no transaction details
-    transactionDetailsContainer.innerHTML = `<tr><td colspan="7">No package details found</td></tr>`;
+    document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">No customer code found</td></tr>`;
 }
-        })
-        .catch(error => {
-            console.error('Error fetching transaction details:', error);
-            document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">Error fetching transaction details</td></tr>`;
-        });
-    } else {
-        document.getElementById('transaction-details').innerHTML = `<tr><td colspan="7">No customer code found</td></tr>`;
-    }
+
+// Fetch transaction details on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Assume customerCode and token are defined or fetched from somewhere
 });
 
     </script>
