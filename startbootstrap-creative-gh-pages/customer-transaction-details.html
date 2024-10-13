@@ -268,13 +268,11 @@ button {
         // Sign Out Function
         function signOut() {
         // Remove the authentication token from localStorage
-        localStorage.removeItem('token'); // Change 'authToken' to the actual key you use for storing the token
+        localStorage.removeItem('token'); 
 
-        // Disable auto select for Google accounts
         google.accounts.id.disableAutoSelect(); 
-
-        // Redirect to home page after signing out
-        window.location.href = 'home.html'; // Change to your actual home page URL
+        localStorage.clear();
+        window.location.href = 'home.html'; 
     }
 
     // Attach event listener to the sign out button
