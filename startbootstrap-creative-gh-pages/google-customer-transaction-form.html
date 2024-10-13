@@ -361,9 +361,8 @@ if (authorizationUrl) {
     console.log('Opening authorization URL:', authorizationUrl);
     window.location.href = authorizationUrl;  // Redirect to the URL
 }
-                    alert('Payment submitted successfully!');
+                    alert('Payment in progress!');
 
-                    // Optionally, redirect or clear the form
                     document.getElementById('paymentForm').reset();
                 } catch (error) {
                     console.error("Error submitting payment:", error);
