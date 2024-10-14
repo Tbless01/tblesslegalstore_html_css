@@ -101,30 +101,29 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
     const downloadContent = document.getElementById("downloadContent");
 downloadContent.innerHTML = `
     <style>
-        /* Container for the entire transaction */
+        /* Ensure the main content is centered and wider */
         .transaction-container {
-            width: 90%;  /* Adjust the width to be 90% of the parent container */
-            max-width: 900px;  /* Ensure it does not exceed 900px */
-            margin: 0 auto;  /* Center the container */
+            width: 90%; /* Set to 90% of the screen width */
+            max-width: 1200px; /* Cap the width for readability */
+            margin: 0 auto; /* Center the content */
             padding-bottom: 15px;
             border-bottom: 2px solid #ddd;
             margin-bottom: 30px;
         }
-        
+
         /* Header styling */
         .transaction-header {
             text-align: center;
             color: #4a4a4a;
-            font-size: 20px;
+            font-size: 22px;
             margin-bottom: 20px;
         }
 
         /* Table styling */
         .transaction-table {
-            width: 100%;
+            width: 100%; /* Ensure the table takes up full width of the container */
             font-size: 16px;
             border-collapse: collapse;
-            margin: 0 auto;
         }
 
         /* Table cell styling */
@@ -135,8 +134,13 @@ downloadContent.innerHTML = `
 
         /* First column styling */
         .transaction-table td:first-child {
-            width: 35%;
+            width: 30%; /* Control width of the first column */
             font-weight: bold;
+        }
+
+        /* Second column takes remaining space */
+        .transaction-table td:nth-child(2) {
+            width: 70%;
         }
     </style>
     ${[...document.querySelectorAll("#transactionDataBody tr")]
