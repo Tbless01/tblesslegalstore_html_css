@@ -99,86 +99,42 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
 
     // Prepare the content with better alignment
     const downloadContent = document.getElementById("downloadContent");
-downloadContent.innerHTML = `
-    <style>
-        /* Ensure the main content is centered and wider */
-        .transaction-container {
-            width: 90%; /* Set to 90% of the screen width */
-            max-width: 1200px; /* Cap the width for readability */
-            margin: 0 auto; /* Center the content */
-            padding-bottom: 15px;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 30px;
-        }
-
-        /* Header styling */
-        .transaction-header {
-            text-align: center;
-            color: #4a4a4a;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        /* Table styling */
-        .transaction-table {
-            width: 100%; /* Ensure the table takes up full width of the container */
-            font-size: 16px;
-            border-collapse: collapse;
-        }
-
-        /* Table cell styling */
-        .transaction-table td {
-            padding: 15px;
-            border: 1px solid #ddd;
-        }
-
-        /* First column styling */
-        .transaction-table td:first-child {
-            width: 30%; /* Control width of the first column */
-            font-weight: bold;
-        }
-
-        /* Second column takes remaining space */
-        .transaction-table td:nth-child(2) {
-            width: 70%;
-        }
-    </style>
-    ${[...document.querySelectorAll("#transactionDataBody tr")]
-        .map((row) => `
-            <div class="transaction-container">
-                <h3 class="transaction-header"><strong>TLS</strong><br/> Transaction</h3>
-                <table class="transaction-table">
-                    <tr>
-                        <td>Transaction Code:</td>
-                        <td>${row.cells[0].textContent}</td>
-                    </tr>
-                    <tr>
-                        <td>Package Name:</td>
-                        <td>${row.cells[1].textContent}</td>
-                    </tr>
-                    <tr>
-                        <td>Total Amount:</td>
-                        <td>${row.cells[2].textContent}</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Paid:</td>
-                        <td>${row.cells[3].textContent}</td>
-                    </tr>
-                    <tr>
-                        <td>Balance:</td>
-                        <td>${row.cells[4].textContent}</td>
-                    </tr>
-                    <tr>
-                        <td>Date Last Payment:</td>
-                        <td>${row.cells[5].textContent}</td>
-                    </tr>
-                    <tr>
-                        <td>Status:</td>
-                        <td>${row.cells[6].textContent}</td>
-                    </tr>
-                </table>
-            </div>`
-        ).join('')}`;
+downloadContent.innerHTML = [...document.querySelectorAll("#transactionDataBody tr")]
+    .map((row, index) => `
+        <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid #ddd; width: 90%; max-width: 1200px; margin: 0 auto;">
+            <h3 style="color: #4a4a4a; font-size: 22px; margin-bottom: 20px; text-align: center;"><strong>TLS</strong><br/> Transaction</h3>
+            <table style="width: 100%; font-size: 16px; border-collapse: collapse; margin: 0 auto;">
+                <tr style="border: 1px solid #ddd;">
+                    <td style="width: 30%; font-weight: bold; padding: 15px; border: 1px solid #ddd;">Transaction Code:</td>
+                    <td style="width: 70%; padding: 15px; border: 1px solid #ddd;">${row.cells[0].textContent}</td>
+                </tr>
+                <tr style="border: 1px solid #ddd;">
+                    <td style="font-weight: bold; padding: 15px; border: 1px solid #ddd;">Package Name:</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">${row.cells[1].textContent}</td>
+                </tr>
+                <tr style="border: 1px solid #ddd;">
+                    <td style="font-weight: bold; padding: 15px; border: 1px solid #ddd;">Total Amount:</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">${row.cells[2].textContent}</td>
+                </tr>
+                <tr style="border: 1px solid #ddd;">
+                    <td style="font-weight: bold; padding: 15px; border: 1px solid #ddd;">Amount Paid:</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">${row.cells[3].textContent}</td>
+                </tr>
+                <tr style="border: 1px solid #ddd;">
+                    <td style="font-weight: bold; padding: 15px; border: 1px solid #ddd;">Balance:</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">${row.cells[4].textContent}</td>
+                </tr>
+                <tr style="border: 1px solid #ddd;">
+                    <td style="font-weight: bold; padding: 15px; border: 1px solid #ddd;">Date Last Payment:</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">${row.cells[5].textContent}</td>
+                </tr>
+                <tr style="border: 1px solid #ddd;">
+                    <td style="font-weight: bold; padding: 15px; border: 1px solid #ddd;">Status:</td>
+                    <td style="padding: 15px; border: 1px solid #ddd;">${row.cells[6].textContent}</td>
+                </tr>
+            </table>
+        </div>`
+    ).join('');
 
 
 
