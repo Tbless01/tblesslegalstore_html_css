@@ -95,8 +95,10 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
         format: 'a4'
     });
 
+
+
     // Prepare the content with better alignment
-    const downloadContent = document.getElementById("downloadContent");
+        const downloadContent = document.getElementById("downloadContent");
     downloadContent.innerHTML = [...document.querySelectorAll("#transactionDataBody tr")]
         .map((row, index) => `
             <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid #ddd;">
@@ -132,6 +134,11 @@ document.getElementById("downloadPDFButton").addEventListener("click", () => {
                     </tr>
                 </table>
             </div>`).join('');
+
+
+
+
+
 
     // Configure PDF and generate content
     doc.html(downloadContent, {
