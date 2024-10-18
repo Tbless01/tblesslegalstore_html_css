@@ -394,8 +394,7 @@ document.getElementById('uploadImageForm').addEventListener('submit', async (eve
         if (response.ok) {
             alert(result.message); // Success message
             $('#uploadImageModal').modal('hide'); // Close the modal
-
-            location.reload();
+            // location.reload();
         } else {
             console.error('Image upload failed:', result.message);
             alert('Failed to upload image.');
