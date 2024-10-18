@@ -15,16 +15,16 @@ async function fetchTransactionData() {
             }
         );
 
-        if (transactionResponse.status === 401 || transactionResponse.status === 403) {
+        if (transactionResponse.status === 401 || transactionResponse.status === 403|| !transactionResponse.ok) {
             console.log('Token expired or unauthorized. Redirecting to home page...');
             localStorage.clear();  // Clear all local storage items
             window.location.href = 'google-login-page-for-txn.html';
             return;
         }
 
-        if (!transactionResponse.ok) {
-            throw new Error('Failed to fetch transaction data');
-        }
+        // if (!transactionResponse.ok) {
+        //     throw new Error('Failed to fetch transaction data');
+        // }
 
         const transactionData = await transactionResponse.json();
         const transaction = transactionData.data;
