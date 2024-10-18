@@ -179,6 +179,37 @@
         </div>
     </div>
 
+
+
+
+<!-- Modal for Uploading Package Image -->
+<div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadImageModalLabel">Upload Package Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadImageForm" enctype="multipart/form-data">
+                    <input type="hidden" id="packageCode" name="packageCode">
+                    <div class="form-group">
+                        <label for="imageFile">Select Image</label>
+                        <input type="file" class="form-control-file" id="imageFile" name="file" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload Image</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
     <script>
         const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
         let deletePackageCode = null; // Store package code to be deleted
@@ -224,6 +255,7 @@
                         <button class="btn btn-primary btn-view" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">View</button>
                         <button class="btn btn-warning btn-edit" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">Edit</button>
                         <button class="btn btn-danger btn-delete" onclick="confirmDelete('${pkg.packageCode}')">Delete</button>
+                        <button class="btn btn-info" onclick="showUploadImageModal('${pkg.packageCode}')">Upload Image</button>
                     </div>
                 `;
                 packagesList.innerHTML += packageHtml;
@@ -325,6 +357,50 @@
 
         // Initial fetch of packages when page loads
         fetchPackages();
+
+
+
+
+
+
+
+
+   function showUploadImageModal(packageCode) {
+    document.getElementById('packageCode').value = packageCode;
+    $('#uploadImageModal').modal('show');
+}
+
+// Function to handle the image upload
+document.getElementById('uploadImageForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent form from refreshing the page
+
+    const packageCode = document.getElementById('packageCode').value;
+    const fileInput = document.getElementById('imageFile');
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    try {
+        const response = await fetch(`${BASE_URL}/packages/upload-image/${packageCode}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`
+            },
+            body: formData
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert(result.message); // Success message
+            $('#uploadImageModal').modal('hide'); // Close the modal
+        } else {
+            console.error('Image upload failed:', result.message);
+            alert('Failed to upload image.');
+        }
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        alert('Error uploading image.');
+    }
+});
     </script>
 
     <!-- Bootstrap JS and dependencies -->

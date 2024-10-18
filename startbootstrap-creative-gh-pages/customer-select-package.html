@@ -69,6 +69,44 @@
 
 
 
+
+
+
+        .spinner-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 2000; /* Above other content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3; /* Light grey border */
+    border-top: 8px solid #3498db; /* Blue border for animation */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+
+
+
+
+
             .social-links {
                 position: fixed; /* Fixed positioning */
                 bottom: 20px; /* Distance from the bottom of the viewport */
@@ -146,6 +184,7 @@
 </head>
 
 <body>
+    
     <header>
         <h1 class="site-heading text-center text-faded d-none d-lg-block">
             <span class="site-heading-upper text-primary mb-3">Premium Legal Attire for Professionals</span>
@@ -173,6 +212,23 @@
         <a class="nav-link text-uppercase" href="customer-transaction-details.html" id="details">Transaction Details</a>
     </li>
     
+
+
+    
+
+
+
+    <div id="loadingSpinner" style="display: none; justify-content: center; align-items: center; height: 100vh;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    
+
+
+
+
+
     <section class="page-section">
         <div class="container" id="packagesContainer">
             <!-- Packages will be dynamically added here -->
@@ -195,8 +251,26 @@
             await fetchPackages();
         }
 
+
+
+
+
+        function showSpinner() {
+            document.getElementById('loadingSpinner').style.display = 'flex';
+        }
+
+        // Function to hide the loading spinner
+        function hideSpinner() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+
+
+
+
+
         // Function to fetch packages
         async function fetchPackages() {
+            showSpinner();
             try {
                 const response = await fetch(`${BASE_URL}/packages/all?pageNumber=0&pageSize=10`);
                 
@@ -257,6 +331,8 @@
                 console.error('Error fetching packages:', error);
                 const packagesContainer = document.getElementById('packagesContainer');
                 packagesContainer.innerHTML = '<p>Error fetching packages. Please try again later.</p>';
+            } finally {
+                hideSpinner(); // Hide the spinner after fetching data
             }
         }
 
@@ -321,35 +397,7 @@ function selectPackage(packageCode, button) {
 
         // Initialize the page
         init();
-    </script>
-    <script>
-        let scale = 1; // Initial scale
-        const img = document.getElementById('img01');
-    
-        img.addEventListener('click', function () {
-            if (scale === 1) {
-                scale = 2; // Zoom in
-            } else {
-                scale = 1; // Zoom out
-            }
-            img.style.transform = `scale(${scale})`; // Apply scale
-        });
-    
-        function openModal(src) {
-            const modal = document.getElementById("myModal");
-            const imgElement = document.getElementById("img01");
-            imgElement.src = src;
-            modal.style.display = "flex"; // Show modal
-        }
-    
-        function closeModal() {
-            const modal = document.getElementById("myModal");
-            modal.style.display = "none"; // Hide modal
-            scale = 1; // Reset scale
-            img.style.transform = `scale(${scale})`; // Reset transform
-        }
-    </script>
-    
+    </script>    
        <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script> -->
    
