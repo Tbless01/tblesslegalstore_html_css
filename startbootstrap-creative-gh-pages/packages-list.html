@@ -199,7 +199,13 @@
                         <label for="imageFile">Select Image</label>
                         <input type="file" class="form-control-file" id="imageFile" name="file" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Upload Image</button>
+                    
+                    <button type="submit" class="btn btn-primary" id="uploadButton" disabled>
+                        <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        Upload Image
+                    </button>
+                    
+
                 </form>
             </div>
         </div>
@@ -401,6 +407,42 @@ document.getElementById('uploadImageForm').addEventListener('submit', async (eve
         alert('Error uploading image.');
     }
 });
+
+
+
+
+
+
+document.getElementById('uploadButton').addEventListener('click', async function (event) {
+    event.preventDefault(); // Prevent the default form submission
+    
+    const uploadButton = document.getElementById('uploadButton');
+    const spinner = document.getElementById('spinner');
+
+    // Disable the button and show the spinner
+    uploadButton.disabled = true;
+    spinner.classList.remove('d-none');
+
+    try {
+        // Simulate upload process (replace with actual upload logic)
+        await new Promise(resolve => setTimeout(resolve, 3000)); 
+
+        alert('Image uploaded successfully!');
+    } catch (error) {
+        console.error('Upload failed:', error);
+        alert('Upload failed. Please try again.');
+    } finally {
+        // Re-enable the button and hide the spinner
+        uploadButton.disabled = false;
+        spinner.classList.add('d-none');
+    }
+});
+
+
+
+
+
+
     </script>
 
     <!-- Bootstrap JS and dependencies -->
