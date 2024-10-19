@@ -327,6 +327,18 @@
             spinner.style.display = 'inline-block'; // Show spinner
             button.innerHTML += ' Processing...'; // Change button text
 
+
+
+
+
+if(packagCode === null){
+window.location.href = 'google-login-page.html';
+}
+
+
+
+
+
                 try {
                     const paymentResponse = await fetch('https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/google-customer', {
                         method: 'POST',
@@ -353,10 +365,10 @@
 
                     });
 
-                    if (paymentResponse.status === 401 || paymentResponse.status === 403 || packagCode === null) {
+                    if (paymentResponse.status === 401 || paymentResponse.status === 403 ) {
         // If token is expired or invalid, redirect to home page
         console.log('Token expired or unauthorized. Redirecting to home page...');
-        window.location.href = 'google-login-page.html';  // Redirect to home page
+        window.location.href = 'home.html';  // Redirect to home page
         return;
     }
                     if (!paymentResponse.ok) {
