@@ -310,6 +310,17 @@
                     document.getElementById('packageName').value = packageData.data.packageName;
                     console.log("Package Name:", packageData.data.packageName);
 
+
+
+const packageName = packageData.data.packageName;
+
+if (!packageName) {
+    console.log('Package Name is null or empty. Redirecting to the home page...');
+    window.location.href = 'google-login-page.html'; // or another page
+    return;
+}
+
+
                 } catch (error) {
                     console.error("Error fetching package details:", error);
                 }
