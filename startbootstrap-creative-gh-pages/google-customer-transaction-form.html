@@ -254,7 +254,12 @@
             }
 
             console.log("Token:", token);
-            if (!token) {
+
+
+
+
+
+            if (!token || !packageCode) {
                 window.location.href = 'google-login-page.html';
                 return;
             }
@@ -326,16 +331,6 @@
             button.disabled = true;
             spinner.style.display = 'inline-block'; // Show spinner
             button.innerHTML += ' Processing...'; // Change button text
-
-
-
-
-
-if(packagCode === null){
-window.location.href = 'google-login-page.html';
-}
-
-
 
 
 
