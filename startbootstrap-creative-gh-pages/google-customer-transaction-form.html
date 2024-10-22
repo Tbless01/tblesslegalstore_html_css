@@ -445,21 +445,31 @@ if (authorizationUrl) {
             });
 
             if (response.ok) {
-                const packages = await response.json();
-                packages.forEach(pkg => {
-                    const option = document.createElement('option');
-                    option.value = pkg.packageCode; // Use the package code as the value
-                    option.textContent = pkg.packageName; // Display the package name
-                    packageSelect.appendChild(option);
-                });
+                const responseData = await response.json();
+                console.log("Fetched Response Data:", responseData); // Log the fetched response to check its structure
 
-                // Set the initial selected package if packageCode exists
-                if (packageCode) {
-                    packageSelect.value = packageCode; // Set the selected value based on the stored package code
-                    const selectedPackage = packages.find(pkg => pkg.packageCode === packageCode);
-                    if (selectedPackage) {
-                        packageNameInput.value = selectedPackage.packageName; // Update the package name input
+                // Assuming the packages are in responseData.data (adjust based on your actual response structure)
+                const packages = responseData.data; // Access the packages list here
+
+                // Check if packages is an array
+                if (Array.isArray(packages)) {
+                    packages.forEach(pkg => {
+                        const option = document.createElement('option');
+                        option.value = pkg.packageCode; // Use the package code as the value
+                        option.textContent = pkg.packageName; // Display the package name
+                        packageSelect.appendChild(option);
+                    });
+
+                    // Set the initial selected package if packageCode exists
+                    if (packageCode) {
+                        packageSelect.value = packageCode; // Set the selected value based on the stored package code
+                        const selectedPackage = packages.find(pkg => pkg.packageCode === packageCode);
+                        if (selectedPackage) {
+                            packageNameInput.value = selectedPackage.packageName; // Update the package name input
+                        }
                     }
+                } else {
+                    console.error('Fetched packages is not an array:', packages);
                 }
             }
         } catch (error) {
