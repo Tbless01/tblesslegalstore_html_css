@@ -272,6 +272,11 @@
             }
 
             console.log("Token:", token);
+
+
+
+
+
             if (!token) {
                 window.location.href = 'google-login-page.html';
                 return;
@@ -323,6 +328,17 @@
                     document.getElementById('packageName').value = packageData.data.packageName;
                     console.log("Package Name:", packageData.data.packageName);
 
+
+
+const packageName = packageData.data.packageName;
+
+if (!packageName) {
+    console.log('Package Name is null or empty. Redirecting to the home page...');
+    window.location.href = 'google-login-page.html'; // or another page
+    return;
+}
+
+
                 } catch (error) {
                     console.error("Error fetching package details:", error);
                 }
@@ -344,6 +360,8 @@
             button.disabled = true;
             spinner.style.display = 'inline-block'; // Show spinner
             button.innerHTML += ' Processing...'; // Change button text
+
+
 
                 try {
                     const paymentResponse = await fetch('https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/google-customer', {
@@ -371,7 +389,7 @@
 
                     });
 
-                    if (paymentResponse.status === 401 || paymentResponse.status === 403) {
+                    if (paymentResponse.status === 401 || paymentResponse.status === 403 ) {
         // If token is expired or invalid, redirect to home page
         console.log('Token expired or unauthorized. Redirecting to home page...');
         window.location.href = 'home.html';  // Redirect to home page
