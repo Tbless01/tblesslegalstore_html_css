@@ -479,9 +479,9 @@ if (authorizationUrl) {
 
     // Event listener for package selection change
     packageSelect.addEventListener('change', function () {
-        const selectedPackageCode = this.value;
+        const newSelectedPackageCode = this.value;
         localStorage.removeItem('selectedPackageCode');
-        localStorage.setItem('selectedPackageCode', selectedPackageCode); // Store the selected package code
+        localStorage.setItem('selectedPackageCode', newSelectedPackageCode); // Store the selected package code
 
         // Update the package name input based on the selected package
         const selectedPackage = Array.from(packageSelect.options).find(option => option.value === selectedPackageCode);
