@@ -179,18 +179,25 @@
             
 
 
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="packageName" class="form-label">Current Package Name</label>
                 <input type="text" class="form-control loading-dots" id="packageName" placeholder="Current package name" readonly>
-            </div>
-        
+            </div> -->
+
             <div class="mb-3">
-                <label for="selectPackage" class="form-label">Select Another Package</label>
+                <label for="packageName" class="form-label">Package Name</label>
+                <input type="text" class="form-control loading-dots" id="packageName" placeholder="Package name" readonly>
+            </div>
+            
+            <div class="mb-3"> 
+                <label for="selectPackage" class="form-label">Select Your Package</label>
                 <select class="form-select" id="selectPackage" required>
-                    <option value="" disabled selected>Select a package</option>
+                    <option value="" disabled>Select a package</option>
                     <!-- Packages will be dynamically populated here -->
                 </select>
             </div>
+            
+            
 
 
 
@@ -420,10 +427,13 @@ if (authorizationUrl) {
         });
 
 
-
         document.addEventListener('DOMContentLoaded', async function () { 
-    // Fetch packages and populate dropdown
+    const packageSelect = document.getElementById('selectPackage');
+    const packageNameInput = document.getElementById('packageName');
     const token = localStorage.getItem('token');
+    const packageCode = localStorage.getItem('packageCode'); // Ensure packageCode is retrieved from localStorage
+
+    // Fetch packages and populate dropdown
     if (token) {
         try {
             const response = await fetch(`https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/all`, {
@@ -434,36 +444,43 @@ if (authorizationUrl) {
                 }
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch packages');
+            if (response.ok) {
+                const packages = await response.json();
+                packages.forEach(pkg => {
+                    const option = document.createElement('option');
+                    option.value = pkg.packageCode; // Use the package code as the value
+                    option.textContent = pkg.packageName; // Display the package name
+                    packageSelect.appendChild(option);
+                });
+
+                // Set the initial selected package if packageCode exists
+                if (packageCode) {
+                    packageSelect.value = packageCode; // Set the selected value based on the stored package code
+                    const selectedPackage = packages.find(pkg => pkg.packageCode === packageCode);
+                    if (selectedPackage) {
+                        packageNameInput.value = selectedPackage.packageName; // Update the package name input
+                    }
+                }
             }
-
-            const packageList = await response.json();
-            const selectPackage = document.getElementById('selectPackage');
-
-            packageList.data.forEach(package => {
-                const option = document.createElement('option');
-                option.value = package.packageCode; // Package code is the value
-                option.textContent = package.packageName; // Package name is the text
-                selectPackage.appendChild(option);
-            });
-
-            // Add an event listener to update package code and name inputs
-            const packageCodeInput = document.getElementById('packageCode'); // Input for package code
-            const packageNameInput = document.getElementById('packageName'); // Input for package name
-
-            selectPackage.addEventListener('change', function () {
-                const selectedOption = selectPackage.options[selectPackage.selectedIndex];
-                packageCodeInput.value = selectedOption.value; // Update package code input
-                packageNameInput.value = selectedOption.textContent; // Update package name input
-            });
-
         } catch (error) {
             console.error('Error fetching packages:', error);
         }
     }
+
+    // Event listener for package selection change
+    packageSelect.addEventListener('change', function () {
+        const selectedPackageCode = this.value;
+        localStorage.setItem('packageCode', selectedPackageCode); // Store the selected package code
+
+        // Update the package name input based on the selected package
+        const selectedPackage = Array.from(packageSelect.options).find(option => option.value === selectedPackageCode);
+        if (selectedPackage) {
+            packageNameInput.value = selectedPackage.textContent; // Set the package name input
+        }
+    });
 });
 
+    
     </script>
 </body>
 
