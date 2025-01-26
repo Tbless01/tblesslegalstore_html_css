@@ -5,7 +5,7 @@ async function fetchTransactionData() {
 
     try {
         const transactionResponse = await fetch(
-            `https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/transactions/${customerCode}`, 
+            `https://doubtful-bellanca-tbless01-141bda75.koyeb.apptblesslegalstore/v1/api/transactions/${customerCode}`, 
             {
                 method: 'GET',
                 headers: {
@@ -30,7 +30,7 @@ async function fetchTransactionData() {
         const transaction = transactionData.data;
 
         const packageResponse = await fetch(
-            `https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api/packages/${transaction.packageCode}`,
+            `https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api/packages/${transaction.packageCode}`,
             {
                 method: 'GET',
                 headers: {

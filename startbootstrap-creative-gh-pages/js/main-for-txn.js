@@ -55,7 +55,7 @@ function signOut() {
 }
 
 async function authenticateGoogleCustomer(customerRequest) {
-    const BASE_URL = 'https://drab-rozamond-tbless01-2ae1501e.koyeb.app/tblesslegalstore/v1/api';
+    const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
     try {
         const response = await fetch(`${BASE_URL}/authentication/google-customer`, {
             method: 'POST',
