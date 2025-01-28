@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Login</title>
+    <title>Send Custom Email</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
@@ -45,28 +45,27 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-9 col-lg-8 mx-auto">
-                                <h3 class="login-heading mb-4">Welcome back!</h3>
-                                <!-- Sign In Form -->
-                                <form id="loginForm">
+                                <h3 class="login-heading mb-4">Send Custom Email</h3>
+                                <!-- Custom Email Form -->
+                                <form id="emailForm">
                                     <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" name="emailAddress" id="floatingInput" placeholder="name@example.com" required>
-                                        <label for="floatingInput">Email address</label>
+                                        <input type="text" class="form-control" name="customerName" id="floatingName" placeholder="Optional: Your Name">
+                                        <label for="floatingName">Recipient Name (Optional)</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password" required>
-                                        <label for="floatingPassword">Password</label>
+                                        <input type="email" class="form-control" name="customerEmail" id="floatingEmail" placeholder="name@example.com" required>
+                                        <label for="floatingEmail">Recipient Email</label>
                                     </div>
-                                    <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
-                                        <label class="form-check-label" for="rememberPasswordCheck">
-                                            Remember password
-                                        </label>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" name="subject" id="floatingSubject" placeholder="Subject" required>
+                                        <label for="floatingSubject">Subject</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control" name="message" id="floatingMessage" placeholder="Message" required></textarea>
+                                        <label for="floatingMessage">Message</label>
                                     </div>
                                     <div class="d-grid">
-                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign in</button>
-                                        <div class="text-center">
-                                            <a class="small" href="#">Forgot password?</a>
-                                        </div>
+                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Send Email</button>
                                     </div>
                                 </form>
                             </div>
@@ -87,36 +86,38 @@
     <script type="module">
          const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
         // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
-
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        
+        document.getElementById('emailForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const email = document.querySelector('input[name="emailAddress"]').value;
-            const password = document.querySelector('input[name="password"]').value;
+            const customerName = document.querySelector('input[name="customerName"]').value;
+            const customerEmail = document.querySelector('input[name="customerEmail"]').value;
+            const subject = document.querySelector('input[name="subject"]').value;
+            const message = document.querySelector('textarea[name="message"]').value;
+            const authToken = localStorage.getItem('authToken');
 
-            fetch(`${BASE_URL}/authentication/admin`, {
+            fetch(`${BASE_URL}/custom`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
                 },
                 body: JSON.stringify({
-                    emailAddress: email,
-                    password: password,
+                    customerName: customerName,
+                    customerEmail: customerEmail,
+                    subject: subject,
+                    message: message,
                 }),
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 200) {
-                    // Save the token in localStorage
-                    localStorage.setItem('authToken', data.token);
-
-                    // Optionally, save user details if needed
-                    localStorage.setItem('userData', JSON.stringify(data.data));
-
-                    // Redirect to the home page
-                    window.location.href = 'index.html';
-                } else {
-                    alert('Login failed: ' + data.message);
+                // if (data.status === 200) {
+                //     alert('Email sent successfully!');
+                
+                if (!data.cancelled) { // Check if cancelled is false
+        alert('Email sent successfully!');
+                }else {
+                    alert('Failed to send email: ' + data.message);
                 }
             })
             .catch(error => {
