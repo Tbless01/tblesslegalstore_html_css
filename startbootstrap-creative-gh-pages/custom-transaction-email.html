@@ -12,6 +12,11 @@
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap) -->
     <link href="css/tstyles.css" rel="stylesheet" />
+    <style>
+        .spinner-border {
+            display: none; /* Initially hide the spinner */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -85,7 +90,10 @@
                                         <label for="floatingBalance">Balance</label>
                                     </div>
                                     <div class="d-grid">
-                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Send Transaction Email</button>
+                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">
+                                            Send Transaction Email
+                                            <span class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -104,8 +112,8 @@
     <script src="/startbootstrap-creative-gh-pages/landing_and_admin/startbootstrap-business-casual-gh-pages/js/scripts.js"></script>
     <!-- Import Configuration and Handle Form Submission -->
     <script type="module">
-        // const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
-        const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
+         const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
+         // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
 
         document.getElementById('transactionEmailForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -121,10 +129,12 @@
             const balance = document.querySelector('input[name="balance"]').value;
             const authToken = localStorage.getItem('authToken');
 
-            // Show loading indicator
-            const loadingIndicator = document.createElement('div');
-            loadingIndicator.textContent = 'Sending transaction email...';
-            document.body.appendChild(loadingIndicator);
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const spinner = submitButton.querySelector('.spinner-border');
+
+            // Show spinner and disable button
+            spinner.style.display = 'inline-block';
+            submitButton.disabled = true;
 
             fetch(`${BASE_URL}/custom/transaction`, {
                 method: 'POST',
@@ -144,23 +154,24 @@
                     balance: balance,
                 }),
             })
-            .then(response => {
-                // Remove loading indicator
-                document.body.removeChild(loadingIndicator);
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
+                // Hide spinner and enable button
+                spinner.style.display = 'none';
+                submitButton.disabled = false;
+
                 if (!data.cancelled) { // Check if cancelled is false
-                    alert('Transaction email sent successfully!');
+                    alert(' Transaction email sent successfully!');
                 } else {
                     alert('Failed to send transaction email: ' + data.message);
                 }
             })
             .catch(error => {
-                // // Remove loading indicator
-                document.body.removeChild(loadingIndicator);
-                alert('An error occurred while sending the transaction email. Please try again later.');
                 console.error('Error:', error);
+                // Hide spinner and enable button
+                spinner.style.display = 'none';
+                submitButton.disabled = false;
+                alert('An error occurred while sending the transaction email. Please try again later.');
             });
         });
     </script>

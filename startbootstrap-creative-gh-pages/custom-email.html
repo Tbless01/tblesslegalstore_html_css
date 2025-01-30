@@ -12,6 +12,11 @@
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap) -->
     <link href="css/tstyles.css" rel="stylesheet" />
+    <style>
+        .spinner-border {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -65,7 +70,10 @@
                                         <label for="floatingMessage">Message</label>
                                     </div>
                                     <div class="d-grid">
-                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Send Email</button>
+                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">
+                                            Send Email
+                                            <span class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -84,7 +92,7 @@
     <script src="/startbootstrap-creative-gh-pages/landing_and_admin/startbootstrap-business-casual-gh-pages/js/scripts.js"></script>
     <!-- Import Configuration and Handle Form Submission -->
     <script type="module">
-         const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
+        const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
         // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
         
         document.getElementById('emailForm').addEventListener('submit', function(event) {
@@ -95,6 +103,13 @@
             const subject = document.querySelector('input[name="subject"]').value;
             const message = document.querySelector('textarea[name="message"]').value;
             const authToken = localStorage.getItem('authToken');
+
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const spinner = submitButton.querySelector('.spinner-border');
+
+            // Show spinner and disable button
+            spinner.style.display = 'inline-block';
+            submitButton.disabled = true;
 
             fetch(`${BASE_URL}/custom`, {
                 method: 'POST',
@@ -111,19 +126,23 @@
             })
             .then(response => response.json())
             .then(data => {
-                // if (data.status === 200) {
-                //     alert('Email sent successfully!');
-                
+                // Hide spinner and enable button
+                spinner.style.display = 'none';
+                submitButton.disabled = false;
+
                 if (!data.cancelled) { // Check if cancelled is false
-        alert('Email sent successfully!');
-                }else {
+                    alert('Email sent successfully!');
+                } else {
                     alert('Failed to send email: ' + data.message);
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                // console.error('Error:', error);
+                // Hide spinner and enable button
+                spinner.style.display = 'none';
+                submitButton.disabled = false;
             });
         });
     </script>
 </body>
-</html>
+</html> 
