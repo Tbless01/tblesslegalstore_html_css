@@ -2,405 +2,1898 @@
 <!-- const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api'; -->
 
 
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--    <head>-->
+<!--        <meta charset="utf-8" />-->
+<!--        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+<!--        <meta name="description" content="" />-->
+<!--        <meta name="author" content="" />-->
+<!--        <title>Packages</title>-->
+<!--        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
+<!--        &lt;!&ndash; Google fonts&ndash;&gt;-->
+<!--        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />-->
+<!--        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />-->
+<!--        &lt;!&ndash; Core theme CSS (includes Bootstrap)&ndash;&gt;-->
+<!--        <link href="css/tstyles.css" rel="stylesheet" />-->
+
+<!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">-->
+<!--        -->
+<!--        <style>-->
+
+<!--.package-image {-->
+<!--            max-width: 150px; /* Set maximum width */-->
+<!--            max-height: 150px; /* Set maximum height */-->
+<!--            object-fit: cover; /* Ensure the image covers the area */-->
+<!--            cursor: pointer; /* Change cursor to pointer on hover */-->
+<!--        }-->
+
+<!--        .modal {-->
+<!--            display: none; /* Hidden by default */-->
+<!--            position: fixed; /* Stay in place */-->
+<!--            z-index: 1000; /* Sit on top */-->
+<!--            left: 0;-->
+<!--            top: 0;-->
+<!--            width: 100%; /* Full width */-->
+<!--            height: 100%; /* Full height */-->
+<!--            overflow: auto; /* Enable scroll if needed */-->
+<!--            background-color: rgba(0,0,0,0.9); /* Black with opacity */-->
+<!--        }-->
+
+<!--        .modal-content {-->
+<!--            margin: auto;-->
+<!--            display: block;-->
+<!--            width: 80%;-->
+<!--            max-width: 700px;-->
+<!--            margin-top: 20%;-->
+<!--        }-->
+
+<!--        .close {-->
+<!--            position: absolute;-->
+<!--            top: 15px;-->
+<!--            right: 35px;-->
+<!--            color: #fff;-->
+<!--            font-size: 40px;-->
+<!--            font-weight: bold;-->
+<!--            transition: 0.3s;-->
+<!--        }-->
+
+<!--        .close:hover,-->
+<!--        .close:focus {-->
+<!--            color: #bbb;-->
+<!--            text-decoration: none;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+
+
+
+
+
+
+
+<!--        .spinner-container {-->
+<!--    display: none; /* Hidden by default */-->
+<!--    position: fixed;-->
+<!--    top: 0;-->
+<!--    left: 0;-->
+<!--    width: 100%;-->
+<!--    height: 100%;-->
+<!--    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */-->
+<!--    z-index: 2000; /* Above other content */-->
+<!--    display: flex;-->
+<!--    justify-content: center;-->
+<!--    align-items: center;-->
+<!--}-->
+
+<!--.spinner {-->
+<!--    border: 8px solid #f3f3f3; /* Light grey border */-->
+<!--    border-top: 8px solid #3498db; /* Blue border for animation */-->
+<!--    border-radius: 50%;-->
+<!--    width: 60px;-->
+<!--    height: 60px;-->
+<!--    animation: spin 1s linear infinite;-->
+<!--}-->
+
+<!--@keyframes spin {-->
+<!--    0% { transform: rotate(0deg); }-->
+<!--    100% { transform: rotate(360deg); }-->
+<!--}-->
+
+
+
+
+
+
+
+
+<!--            .social-links {-->
+<!--                position: fixed; /* Fixed positioning */-->
+<!--                bottom: 20px; /* Distance from the bottom of the viewport */-->
+<!--                right: 20px; /* Distance from the right of the viewport */-->
+<!--                z-index: 1000; /* Ensures the icons are on top of other content */-->
+<!--            }-->
+<!--            -->
+<!--            -->
+<!--            -->
+<!--            .social-links a { -->
+<!--                color: #333333; /* Dark color for icons */-->
+<!--                font-size: 1.5rem; /* Adjust the size of the icons */-->
+<!--                margin: 0 10px; /* Spacing between icons */-->
+<!--                text-decoration: none; /* Remove underline */-->
+<!--                text-shadow: 0px 0px 10px white; /* Solid white shadow, no offset, more blur */-->
+<!--            }-->
+<!--            -->
+<!--            .social-links a:hover {-->
+<!--                color: #f0f0f0; /* Light color on hover */-->
+<!--                text-shadow: 0px 0px 15px white; /* More intense, solid white shadow on hover */-->
+<!--            }-->
+<!--        .navbar {-->
+<!--    position: relative; /* Ensure navbar is positioned relative for z-index to work */-->
+<!--    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for the navbar */-->
+<!--    z-index: 1000; /* Ensure it's above other content */-->
+<!--}-->
+
+<!--        .navbar {-->
+<!--            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for the navbar */-->
+<!--        }-->
+
+<!--        .site-heading-upper,-->
+<!--        .site-heading-lower,-->
+<!--        .product-item-title {-->
+<!--            color: #f8f9fa; /* Light color for headings and product titles */-->
+<!--        }-->
+
+<!--        .product-item-description p {-->
+<!--            color: #e0e0e0; /* Slightly darker light color for descriptions */-->
+<!--        }-->
+
+<!--        .footer {-->
+<!--            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for footer */-->
+<!--            color: #f8f9fa; /* Light color for footer text */-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            background-color: #007bff; /* Button color */-->
+<!--            border: none;-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background-color: #0056b3; /* Darker shade on hover */-->
+<!--        }-->
+<!--        .package-item {-->
+<!--    border-bottom: 1px solid #ccc; /* Thin line with light gray color */-->
+<!--    padding-bottom: 10px; /* Optional: add some space below the item */-->
+<!--    margin-bottom: 10px; /* Optional: add some space above the next item */-->
+<!--}-->
+
+<!--#details {-->
+<!--    background-color: rgba(255, 255, 255, 0.3); /* White background with 30% opacity */-->
+<!--    color: white; /* White text color */-->
+<!--    padding: 10px 15px; /* Optional: padding to make it look more button-like */-->
+<!--    border-radius: 5px; /* Optional: rounded corners */-->
+<!--    transition: background-color 0.3s; /* Optional: smooth transition for hover effect */-->
+<!--}-->
+
+<!--#details:hover {-->
+<!--    background-color: rgba(255, 255, 255, 0.5); /* Slightly more opaque on hover */-->
+<!--}-->
+
+
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    -->
+<!--    <header>-->
+<!--        <h1 class="site-heading text-center text-faded d-none d-lg-block">-->
+<!--            <span class="site-heading-upper text-primary mb-3">Premium Legal Attire for Professionals</span>-->
+<!--            <span class="site-heading-lower">Tbless Legal Store</span>-->
+<!--        </h1>-->
+<!--    </header>-->
+
+<!--    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">-->
+<!--        <div class="container">-->
+<!--            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="home.html">TLS</a>-->
+<!--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>-->
+<!--            <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--                <ul class="navbar-nav mx-auto">-->
+<!--                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="home.html">Home</a></li>-->
+<!--                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>-->
+<!--                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>-->
+<!--                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>-->
+<!--                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>-->
+<!--                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-transaction-details.html">Transaction Details</a></li> -->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--    <li class="nav-item px-lg-4">-->
+<!--        <a class="nav-link text-uppercase" href="customer-transaction-details.html" id="details">Transaction Details</a>-->
+<!--    </li>-->
+<!--    -->
+
+
+<!--    -->
+
+
+
+<!--    <div id="loadingSpinner" style="display: none; justify-content: center; align-items: center; height: 100vh;">-->
+<!--        <div class="spinner-border text-primary" role="status">-->
+<!--            <span class="visually-hidden">Loading...</span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    -->
+
+
+
+
+
+<!--    <section class="page-section">-->
+<!--        <div class="container" id="packagesContainer">-->
+<!--            &lt;!&ndash; Packages will be dynamically added here &ndash;&gt;-->
+<!--        </div>-->
+<!--    </section>-->
+
+<!--    <footer class="footer text-faded text-center py-5">-->
+<!--        <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>-->
+<!--    </footer>-->
+
+<!--    <script>-->
+<!--        // Your API base URL-->
+<!--        const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';-->
+<!--        // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';-->
+
+<!--        // Clear previous selection and fetch packages when the page loads-->
+<!--        async function init() {-->
+<!--            localStorage.removeItem('selectedPackageCode');-->
+<!--            console.log('Previous selection cleared from localStorage');-->
+<!--            await fetchPackages();-->
+<!--        }-->
+
+
+
+
+
+<!--        function showSpinner() {-->
+<!--            document.getElementById('loadingSpinner').style.display = 'flex';-->
+<!--        }-->
+
+<!--        // Function to hide the loading spinner-->
+<!--        function hideSpinner() {-->
+<!--            document.getElementById('loadingSpinner').style.display = 'none';-->
+<!--        }-->
+
+
+
+
+
+<!--        // Function to fetch packages-->
+<!--        async function fetchPackages() {-->
+<!--            showSpinner();-->
+<!--            try {-->
+<!--                const response = await fetch(`${BASE_URL}/packages/all?pageNumber=0&pageSize=10`);-->
+<!--                -->
+<!--                // Check if the response is OK-->
+<!--                if (!response.ok) {-->
+<!--                    throw new Error(`HTTP error! status: ${response.status}`);-->
+<!--                }-->
+
+<!--                const jsonResponse = await response.json();-->
+<!--                const packagesContainer = document.getElementById('packagesContainer');-->
+<!--                packagesContainer.innerHTML = ''; // Clear previous package items-->
+
+<!--                // Access the packages directly from the data key-->
+<!--                if (jsonResponse.data && Array.isArray(jsonResponse.data)) {-->
+<!--                    jsonResponse.data.forEach(package => {-->
+<!--                        const packageItem = document.createElement('div');-->
+<!--                        packageItem.className = 'product-item mb-4';-->
+<!--                        packageItem.classList.add('package-item');-->
+<!--                        packageItem.innerHTML = `-->
+<!--                            <div class="product-item-title d-flex">-->
+<!--                                        <span class="section-heading-upper">${package.packageName}</span>-->
+<!--                            </div>-->
+<!--                            <div class="space"></div>-->
+<!--                           <div class="product-item-description d-flex me-auto">-->
+<!--                                <div class="b-faded p-5 rounded">-->
+<!--                                    <p class="mb-0">-->
+<!--                                        Discover our <strong>${package.packageName} <span> package</span></strong>, designed for legal professionals. -->
+<!--                                        <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.-->
+<!--                                    </p>-->
+<!--                                        <img src="${package.imageUrl}" class="package-image" alt="Image of ${package.name}" onclick="openModal(this.src, '${package.name}')" />-->
+<!--                         -->
+<!--                                                <div id="myModal" class="modal">-->
+<!--                                                    <span class="close" onclick="closeModal()">&times;</span>-->
+<!--                                                    <img class="modal-content" id="img01">-->
+<!--                                                    <div id="caption"></div>-->
+<!--                                                </div>                               -->
+<!--                                    <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}', this)">-->
+<!--                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>-->
+<!--                                        Select Package-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        `;-->
+
+<!--                        packagesContainer.appendChild(packageItem);-->
+<!--                    });-->
+<!--                } else {-->
+<!--                    packagesContainer.innerHTML = '<p>No packages available.</p>';-->
+<!--                }-->
+
+<!--                // Highlight previously selected package-->
+<!--                const selectedPackageCode = localStorage.getItem('selectedPackageCode');-->
+<!--                if (selectedPackageCode) {-->
+<!--                    highlightSelectedPackage(selectedPackageCode);-->
+<!--                }-->
+
+<!--            } catch (error) {-->
+<!--                console.error('Error fetching packages:', error);-->
+<!--                const packagesContainer = document.getElementById('packagesContainer');-->
+<!--                packagesContainer.innerHTML = '<p>Error fetching packages. Please try again later.</p>';-->
+<!--            } finally {-->
+<!--                hideSpinner(); // Hide the spinner after fetching data-->
+<!--            }-->
+<!--        }-->
+
+<!--// Function to handle package selection-->
+<!--function selectPackage(packageCode, button) {-->
+<!--    button.disabled = true; // Disable the button-->
+<!--    const spinner = button.querySelector('.spinner-border');-->
+<!--    spinner.style.display = 'inline-block'; // Show the spinner-->
+
+<!--    // Store the selected package code in localStorage-->
+<!--    localStorage.setItem('selectedPackageCode', packageCode);-->
+<!--    console.log(`New package selected: ${packageCode}`);-->
+
+<!--    // Check if token is in localStorage-->
+<!--    const token = localStorage.getItem('token');-->
+<!--    const email = localStorage.getItem('email');-->
+
+<!--    // Redirect logic-->
+<!--    if (!token || token.trim() === '') {-->
+<!--        console.log(`Token to login page: ${token}`);-->
+<!--        // If there is no token, redirect to the login page-->
+<!--        window.location.href = 'google-login-page.html'; -->
+<!--    } else {-->
+<!--        -->
+<!--        console.log(`Token to transaction form: ${token}`);-->
+<!--        // If there is a token, redirect to the transaction form-->
+<!--        window.location.href = 'google-customer-transaction-form.html'; -->
+<!--    }-->
+<!--}-->
+
+
+<!--        // Function to highlight the selected package-->
+<!--        function highlightSelectedPackage(packageCode) {-->
+<!--            const buttons = document.querySelectorAll('.btn-primary');-->
+<!--            buttons.forEach(button => {-->
+<!--                if (button.onclick.toString().includes(packageCode)) {-->
+<!--                    button.disabled = true; // Disable the button-->
+<!--                    button.innerHTML = 'Selected'; // Change button text-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+
+<!--        function closeModal() {-->
+<!--        const modal = document.getElementById('myModal');-->
+<!--        modal.style.display = "none"; // Hide the modal-->
+<!--    }-->
+
+<!--    // Function to open the modal with the selected image-->
+<!--    function openModal(imageSrc, imageName) {-->
+<!--        const modal = document.getElementById('myModal');-->
+<!--        const modalImg = document.getElementById('img01');-->
+<!--        const captionText = document.getElementById('caption');-->
+<!--        -->
+<!--        modal.style.display = "block"; // Show the modal-->
+<!--        modalImg.src = imageSrc; // Set the image source-->
+<!--        captionText.innerHTML = imageName; // Set the caption text-->
+<!--    }-->
+
+<!--        // Call init function when the page loads-->
+<!--        // window.onload = init;-->
+
+<!--        // Initialize the page-->
+<!--        init();-->
+<!--    </script>    -->
+<!--       &lt;!&ndash; <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>-->
+<!--       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script> &ndash;&gt;-->
+<!--   -->
+<!--</body>-->
+
+<!--</html>-->
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="utf-8" />-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+<!--    <meta name="description" content="Premium Legal Attire for Professionals - Tbless Legal Store" />-->
+<!--    <meta name="author" content="Tbless Legal Store" />-->
+<!--    <title>Tbless Legal Store - Premium Packages</title>-->
+<!--    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
+<!--    &lt;!&ndash; Google fonts&ndash;&gt;-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />-->
+<!--    &lt;!&ndash; Core theme CSS (includes Bootstrap)&ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link href="css/tstyles.css" rel="stylesheet" />     -->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">-->
+
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #1a365d;-->
+<!--            &#45;&#45;secondary-color: #d4af37;-->
+<!--            &#45;&#45;accent-color: #4a5568;-->
+<!--            &#45;&#45;light-color: #f8f9fa;-->
+<!--            &#45;&#45;dark-color: #1a202c;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            font-family: 'Montserrat', sans-serif;-->
+<!--            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1589994965851-a7f82d10b7bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;-->
+<!--            background-size: cover;-->
+<!--            color: var(&#45;&#45;light-color);-->
+<!--            position: relative;-->
+<!--            min-height: 100vh;-->
+<!--        }-->
+
+<!--        /* Header Styles */-->
+<!--        header {-->
+<!--            padding: 3rem 0;-->
+<!--            text-align: center;-->
+<!--            background: rgba(26, 54, 93, 0.85);-->
+<!--            margin-bottom: 2rem;-->
+<!--            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);-->
+<!--        }-->
+
+<!--        .site-heading-upper {-->
+<!--            font-size: 1.2rem;-->
+<!--            text-transform: uppercase;-->
+<!--            letter-spacing: 3px;-->
+<!--            font-weight: 500;-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            font-family: 'Montserrat', sans-serif;-->
+<!--            margin-bottom: 0.5rem;-->
+<!--        }-->
+
+<!--        .site-heading-lower {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 3rem;-->
+<!--            font-weight: 700;-->
+<!--            line-height: 1.2;-->
+<!--            color: var(&#45;&#45;light-color);-->
+<!--            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);-->
+<!--        }-->
+
+<!--        /* Navigation Styles */-->
+<!--        .navbar {-->
+<!--            padding: 1rem 0;-->
+<!--            background-color: rgba(26, 32, 44, 0.9) !important;-->
+<!--            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);-->
+<!--            transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        .navbar-dark .navbar-nav .nav-link {-->
+<!--            color: var(&#45;&#45;light-color);-->
+<!--            font-weight: 500;-->
+<!--            text-transform: uppercase;-->
+<!--            font-size: 0.9rem;-->
+<!--            letter-spacing: 0.5px;-->
+<!--            padding: 0.5rem 1rem;-->
+<!--            transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        .navbar-dark .navbar-nav .nav-link:hover {-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            transform: translateY(-2px);-->
+<!--        }-->
+
+<!--        .navbar-dark .navbar-brand {-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            font-weight: 700;-->
+<!--            font-size: 1.5rem;-->
+<!--        }-->
+
+<!--        /* Package Container Styles */-->
+<!--        .page-section {-->
+<!--            padding: 4rem 0;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            max-width: 1140px;-->
+<!--        }-->
+
+<!--        .package-card {-->
+<!--            background: rgba(26, 32, 44, 0.8);-->
+<!--            border-radius: 8px;-->
+<!--            overflow: hidden;-->
+<!--            margin-bottom: 2rem;-->
+<!--            transition: all 0.3s ease;-->
+<!--            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);-->
+<!--            border-left: 4px solid var(&#45;&#45;secondary-color);-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+
+<!--        .package-card:hover {-->
+<!--            transform: translateY(-10px);-->
+<!--            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);-->
+<!--        }-->
+
+<!--        .package-header {-->
+<!--            background: rgba(26, 54, 93, 0.95);-->
+<!--            padding: 1.5rem;-->
+<!--            border-bottom: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--        }-->
+
+<!--        .package-title {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 1.8rem;-->
+<!--            color: var(&#45;&#45;light-color);-->
+<!--            margin-bottom: 0.5rem;-->
+<!--            font-weight: 600;-->
+<!--        }-->
+
+<!--        .package-subtitle {-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            font-size: 0.9rem;-->
+<!--            text-transform: uppercase;-->
+<!--            letter-spacing: 2px;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .package-body {-->
+<!--            padding: 1.5rem;-->
+<!--            flex-grow: 1;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+
+<!--        .package-description {-->
+<!--            margin-bottom: 1.5rem;-->
+<!--            line-height: 1.6;-->
+<!--            color: rgba(255, 255, 255, 0.9);-->
+<!--            flex-grow: 1;-->
+<!--        }-->
+
+<!--        .package-price {-->
+<!--            font-size: 1.6rem;-->
+<!--            font-weight: 700;-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            margin: 1rem 0;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .package-image-container {-->
+<!--            position: relative;-->
+<!--            overflow: hidden;-->
+<!--            border-radius: 8px;-->
+<!--            margin: 1rem 0;-->
+<!--            height: 200px;-->
+<!--            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);-->
+<!--        }-->
+
+<!--        .package-image {-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            object-fit: cover;-->
+<!--            transition: transform 0.6s ease;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        .package-image:hover {-->
+<!--            transform: scale(1.05);-->
+<!--        }-->
+
+<!--        .select-btn {-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            color: var(&#45;&#45;dark-color);-->
+<!--            border: none;-->
+<!--            font-weight: 600;-->
+<!--            letter-spacing: 1px;-->
+<!--            padding: 0.75rem 1.5rem;-->
+<!--            border-radius: 4px;-->
+<!--            transition: all 0.3s ease;-->
+<!--            text-transform: uppercase;-->
+<!--            font-size: 0.9rem;-->
+<!--            width: 100%;-->
+<!--            margin-top: auto;-->
+<!--        }-->
+
+<!--        .select-btn:hover {-->
+<!--            background-color: #e5c254;-->
+<!--            transform: translateY(-2px);-->
+<!--            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);-->
+<!--        }-->
+
+<!--        .select-btn:disabled {-->
+<!--            background-color: #a6a6a6;-->
+<!--            cursor: not-allowed;-->
+<!--            transform: none;-->
+<!--            box-shadow: none;-->
+<!--        }-->
+
+<!--        /* Modal Styles */-->
+<!--        .modal {-->
+<!--            display: none;-->
+<!--            position: fixed;-->
+<!--            z-index: 1050;-->
+<!--            left: 0;-->
+<!--            top: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            overflow: auto;-->
+<!--            background-color: rgba(0, 0, 0, 0.9);-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--        }-->
+
+<!--        .modal-content {-->
+<!--            margin: auto;-->
+<!--            display: block;-->
+<!--            max-width: 80%;-->
+<!--            max-height: 80%;-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);-->
+<!--            animation: zoom 0.3s ease;-->
+<!--        }-->
+
+<!--        @keyframes zoom {-->
+<!--            from {transform: scale(0.1)}-->
+<!--            to {transform: scale(1)}-->
+<!--        }-->
+
+<!--        .close {-->
+<!--            position: absolute;-->
+<!--            top: 20px;-->
+<!--            right: 35px;-->
+<!--            color: var(&#45;&#45;light-color);-->
+<!--            font-size: 40px;-->
+<!--            font-weight: bold;-->
+<!--            transition: 0.3s;-->
+<!--            z-index: 1060;-->
+<!--        }-->
+
+<!--        .close:hover {-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            text-decoration: none;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        #caption {-->
+<!--            margin-top: 15px;-->
+<!--            display: block;-->
+<!--            width: 80%;-->
+<!--            max-width: 700px;-->
+<!--            text-align: center;-->
+<!--            color: #ccc;-->
+<!--            padding: 10px 0;-->
+<!--            font-size: 1.2rem;-->
+<!--        }-->
+
+<!--        /* Loading Spinner */-->
+<!--        .spinner-container {-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background-color: rgba(0, 0, 0, 0.7);-->
+<!--            z-index: 2000;-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .spinner {-->
+<!--            width: 60px;-->
+<!--            height: 60px;-->
+<!--            border: 5px solid rgba(255, 255, 255, 0.3);-->
+<!--            border-radius: 50%;-->
+<!--            border-top-color: var(&#45;&#45;secondary-color);-->
+<!--            animation: spin 1s ease-in-out infinite;-->
+<!--        }-->
+
+<!--        @keyframes spin {-->
+<!--            to { transform: rotate(360deg); }-->
+<!--        }-->
+
+<!--        /* Footer Styles */-->
+<!--        .footer {-->
+<!--            background-color: rgba(26, 32, 44, 0.9);-->
+<!--            padding: 2rem 0;-->
+<!--            position: relative;-->
+<!--            margin-top: 3rem;-->
+<!--        }-->
+
+<!--        .footer-content {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .footer-logo {-->
+<!--            font-family: 'Playfair Display', serif;-->
+<!--            font-size: 1.5rem;-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--            margin-bottom: 1rem;-->
+<!--        }-->
+
+<!--        .footer-links {-->
+<!--            display: flex;-->
+<!--            margin-bottom: 1.5rem;-->
+<!--        }-->
+
+<!--        .footer-links a {-->
+<!--            color: var(&#45;&#45;light-color);-->
+<!--            margin: 0 15px;-->
+<!--            font-size: 0.9rem;-->
+<!--            text-decoration: none;-->
+<!--            transition: color 0.3s ease;-->
+<!--        }-->
+
+<!--        .footer-links a:hover {-->
+<!--            color: var(&#45;&#45;secondary-color);-->
+<!--        }-->
+
+<!--        .social-links {-->
+<!--            margin-bottom: 1.5rem;-->
+<!--        }-->
+
+<!--        .social-links a {-->
+<!--            display: inline-block;-->
+<!--            width: 36px;-->
+<!--            height: 36px;-->
+<!--            background: rgba(255, 255, 255, 0.1);-->
+<!--            border-radius: 50%;-->
+<!--            margin: 0 8px;-->
+<!--            color: var(&#45;&#45;light-color);-->
+<!--            text-align: center;-->
+<!--            line-height: 36px;-->
+<!--            transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        .social-links a:hover {-->
+<!--            background: var(&#45;&#45;secondary-color);-->
+<!--            color: var(&#45;&#45;dark-color);-->
+<!--            transform: translateY(-3px);-->
+<!--        }-->
+
+<!--        .copyright {-->
+<!--            font-size: 0.8rem;-->
+<!--            color: rgba(255, 255, 255, 0.6);-->
+<!--        }-->
+
+<!--        /* Notification Badge */-->
+<!--        .notification-badge {-->
+<!--            position: absolute;-->
+<!--            top: -5px;-->
+<!--            right: -5px;-->
+<!--            width: 20px;-->
+<!--            height: 20px;-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            color: var(&#45;&#45;dark-color);-->
+<!--            border-radius: 50%;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            font-size: 0.7rem;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        /* Responsive Styles */-->
+<!--        @media (max-width: 992px) {-->
+<!--            .site-heading-lower {-->
+<!--                font-size: 2.5rem;-->
+<!--            }-->
+
+<!--            .package-title {-->
+<!--                font-size: 1.5rem;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .site-heading-lower {-->
+<!--                font-size: 2rem;-->
+<!--            }-->
+
+<!--            .site-heading-upper {-->
+<!--                font-size: 1rem;-->
+<!--            }-->
+
+<!--            .package-card {-->
+<!--                margin-bottom: 2rem;-->
+<!--            }-->
+
+<!--            .package-image-container {-->
+<!--                height: 150px;-->
+<!--            }-->
+<!--        }-->
+
+<!--        /* Transaction Details Button */-->
+<!--        .transaction-btn {-->
+<!--            position: fixed;-->
+<!--            bottom: 30px;-->
+<!--            right: 30px;-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            color: var(&#45;&#45;dark-color);-->
+<!--            border: none;-->
+<!--            border-radius: 50px;-->
+<!--            padding: 12px 25px;-->
+<!--            font-weight: 600;-->
+<!--            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);-->
+<!--            transition: all 0.3s ease;-->
+<!--            z-index: 999;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .transaction-btn i {-->
+<!--            margin-right: 8px;-->
+<!--        }-->
+
+<!--        .transaction-btn:hover {-->
+<!--            background-color: #e5c254;-->
+<!--            transform: translateY(-3px);-->
+<!--            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);-->
+<!--        }-->
+
+<!--        /* Animation */-->
+<!--        @keyframes fadeIn {-->
+<!--            from { opacity: 0; transform: translateY(20px); }-->
+<!--            to { opacity: 1; transform: translateY(0); }-->
+<!--        }-->
+
+<!--        .fade-in {-->
+<!--            animation: fadeIn 0.8s ease forwards;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<div id="loadingSpinner" class="spinner-container">-->
+<!--    <div class="spinner"></div>-->
+<!--</div>-->
+
+<!--<header>-->
+<!--    <div class="container">-->
+<!--        <h1 class="site-heading text-center">-->
+<!--            <span class="site-heading-upper">Premium Legal Attire for Professionals</span>-->
+<!--            <span class="site-heading-lower">Tbless Legal Store</span>-->
+<!--        </h1>-->
+<!--    </div>-->
+<!--</header>-->
+
+<!--<nav class="navbar navbar-expand-lg navbar-dark sticky-top">-->
+<!--    <div class="container">-->
+<!--        <a class="navbar-brand" href="home.html">TLS</a>-->
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--            <ul class="navbar-nav mx-auto">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="home.html">-->
+<!--                        <i class="fas fa-home me-1"></i> Home-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="about.html">-->
+<!--                        <i class="fas fa-info-circle me-1"></i> About-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link active" href="products.html">-->
+<!--                        <i class="fas fa-box me-1"></i> Packages-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="store.html">-->
+<!--                        <i class="fas fa-store me-1"></i> Store-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="customer-select-package.html">-->
+<!--                        <i class="fas fa-tasks me-1"></i> Choose Package-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<!--<section class="page-section">-->
+<!--    <div class="container">-->
+<!--        <div class="text-center mb-5 fade-in">-->
+<!--            <h2 class="mb-4" style="font-family: 'Playfair Display', serif; color: var(&#45;&#45;secondary-color);">-->
+<!--                Exclusive Legal Packages-->
+<!--            </h2>-->
+<!--            <p class="lead">-->
+<!--                Select from our premium collections designed specifically for legal professionals-->
+<!--            </p>-->
+<!--        </div>-->
+
+<!--        <div class="row" id="packagesContainer">-->
+<!--            &lt;!&ndash; Packages will be dynamically added here &ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!--&lt;!&ndash; Modal for Package Images &ndash;&gt;-->
+<!--<div id="packageModal" class="modal">-->
+<!--    <span class="close" onclick="closeModal()">&times;</span>-->
+<!--    <img class="modal-content" id="modalImage">-->
+<!--    <div id="caption"></div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Transaction Details Button &ndash;&gt;-->
+<!--<a href="javascript:void(0)" onclick="checkTokenAndRedirect()" class="transaction-btn">-->
+<!--    <i class="fas fa-file-invoice"></i> Transaction Details-->
+<!--</a>-->
+
+<!--<footer class="footer">-->
+<!--    <div class="container">-->
+<!--        <div class="footer-content">-->
+<!--            <div class="footer-logo">TLS</div>-->
+<!--            <div class="footer-links">-->
+<!--                <a href="home.html">Home</a>-->
+<!--                <a href="about.html">About</a>-->
+<!--                <a href="products.html">Packages</a>-->
+<!--                <a href="store.html">Store</a>-->
+<!--&lt;!&ndash;                <a href="contact.html">Contact</a>&ndash;&gt;-->
+<!--            </div>-->
+<!--            <div class="social-links">-->
+<!--                <a href="#"><i class="fab fa-facebook-f"></i></a>-->
+<!--                <a href="#"><i class="fab fa-twitter"></i></a>-->
+<!--                <a href="#"><i class="fab fa-instagram"></i></a>-->
+<!--                <a href="#"><i class="fab fa-linkedin-in"></i></a>-->
+<!--            </div>-->
+<!--            <p class="copyright">Copyright &copy; Tbless Legal Store 2024. All rights reserved.</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script>-->
+<!--    // Your API base URL-->
+<!--    const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';-->
+<!--    // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';-->
+
+<!--    // Clear previous selection and fetch packages when the page loads-->
+<!--    async function init() {-->
+<!--        localStorage.removeItem('selectedPackageCode');-->
+<!--        console.log('Previous selection cleared from localStorage');-->
+<!--        await fetchPackages();-->
+<!--    }-->
+
+<!--    function showSpinner() {-->
+<!--        document.getElementById('loadingSpinner').style.display = 'flex';-->
+<!--    }-->
+
+<!--    function hideSpinner() {-->
+<!--        document.getElementById('loadingSpinner').style.display = 'none';-->
+<!--    }-->
+
+<!--    // Function to fetch packages-->
+<!--    async function fetchPackages() {-->
+<!--        showSpinner();-->
+<!--        try {-->
+<!--            const response = await fetch(`${BASE_URL}/packages/all?pageNumber=0&pageSize=10`);-->
+
+<!--            // Check if the response is OK-->
+<!--            if (!response.ok) {-->
+<!--                throw new Error(`HTTP error! status: ${response.status}`);-->
+<!--            }-->
+
+<!--            const jsonResponse = await response.json();-->
+<!--            const packagesContainer = document.getElementById('packagesContainer');-->
+<!--            packagesContainer.innerHTML = ''; // Clear previous package items-->
+
+<!--            // Access the packages directly from the data key-->
+<!--            if (jsonResponse.data && Array.isArray(jsonResponse.data)) {-->
+<!--                jsonResponse.data.forEach((package, index) => {-->
+<!--                    const packageItem = document.createElement('div');-->
+<!--                    packageItem.className = 'col-lg-6 col-md-12 mb-4 fade-in';-->
+<!--                    packageItem.style.animationDelay = `${index * 0.2}s`;-->
+
+<!--                    packageItem.innerHTML = `-->
+<!--                            <div class="package-card">-->
+<!--                                <div class="package-header">-->
+<!--                                    <h3 class="package-title">${package.packageName}</h3>-->
+<!--                                    <p class="package-subtitle">Premium Legal Collection</p>-->
+<!--                                </div>-->
+<!--                                <div class="package-body">-->
+<!--                                    <div class="package-description">-->
+<!--                                        <p>Discover our exclusive <strong>${package.packageName}</strong> package, specially designed for discerning legal professionals who demand quality and attention to detail.</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="package-image-container">-->
+<!--                                        <img src="${package.imageUrl}" class="package-image" alt="Image of ${package.packageName}" onclick="openModal(this.src, '${package.packageName}')" />-->
+<!--                                    </div>-->
+<!--                                    <div class="package-price">-->
+<!--                                        &#8358; ${package.totalAmount.toLocaleString()}-->
+<!--                                    </div>-->
+<!--                                    <button class="select-btn" onclick="selectPackage('${package.packageCode}', this)">-->
+<!--                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="display:none;"></span>-->
+<!--                                        Select Package-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        `;-->
+
+<!--                    packagesContainer.appendChild(packageItem);-->
+<!--                });-->
+<!--            } else {-->
+<!--                packagesContainer.innerHTML = `-->
+<!--                        <div class="col-12 text-center">-->
+<!--                            <div class="alert alert-info py-4">-->
+<!--                                <i class="fas fa-info-circle fa-2x mb-3"></i>-->
+<!--                                <p class="lead">No packages available at the moment.</p>-->
+<!--                                <p>Please check back later or contact our support team.</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    `;-->
+<!--            }-->
+
+<!--            // Highlight previously selected package-->
+<!--            const selectedPackageCode = localStorage.getItem('selectedPackageCode');-->
+<!--            if (selectedPackageCode) {-->
+<!--                highlightSelectedPackage(selectedPackageCode);-->
+<!--            }-->
+
+<!--        } catch (error) {-->
+<!--            console.error('Error fetching packages:', error);-->
+<!--            const packagesContainer = document.getElementById('packagesContainer');-->
+<!--            packagesContainer.innerHTML = `-->
+<!--                    <div class="col-12 text-center">-->
+<!--                        <div class="alert alert-danger py-4">-->
+<!--                            <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>-->
+<!--                            <p class="lead">Unable to load packages</p>-->
+<!--                            <p>We're experiencing technical difficulties. Please try again later.</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                `;-->
+<!--        } finally {-->
+<!--            hideSpinner(); // Hide the spinner after fetching data-->
+<!--        }-->
+<!--    }-->
+
+<!--    // Function to handle package selection-->
+<!--    function selectPackage(packageCode, button) {-->
+<!--        button.disabled = true; // Disable the button-->
+<!--        const spinner = button.querySelector('.spinner-border');-->
+<!--        spinner.style.display = 'inline-block'; // Show the spinner-->
+
+<!--        // Store the selected package code in localStorage-->
+<!--        localStorage.setItem('selectedPackageCode', packageCode);-->
+<!--        console.log(`New package selected: ${packageCode}`);-->
+
+<!--        // Check if token is in localStorage-->
+<!--        const token = localStorage.getItem('token');-->
+<!--        const email = localStorage.getItem('email');-->
+
+<!--        // Redirect logic with slight delay to show the spinner-->
+<!--        setTimeout(() => {-->
+<!--            if (!token || token.trim() === '') {-->
+<!--                console.log(`Token to login page: ${token}`);-->
+<!--                // If there is no token, redirect to the login page-->
+<!--                window.location.href = 'google-login-page.html';-->
+<!--            } else {-->
+<!--                console.log(`Token to transaction form: ${token}`);-->
+<!--                // If there is a token, redirect to the transaction form-->
+<!--                window.location.href = 'google-customer-transaction-form.html';-->
+<!--            }-->
+<!--        }, 800); // 800ms delay to show the spinner-->
+<!--    }-->
+
+<!--    // Function to highlight the selected package-->
+<!--    function highlightSelectedPackage(packageCode) {-->
+<!--        const buttons = document.querySelectorAll('.select-btn');-->
+<!--        buttons.forEach(button => {-->
+<!--            if (button.onclick.toString().includes(packageCode)) {-->
+<!--                button.disabled = true; // Disable the button-->
+<!--                button.innerHTML = '<i class="fas fa-check-circle me-2"></i> Selected'; // Change button text with icon-->
+<!--                button.style.backgroundColor = '#4BB543'; // Change to green to indicate selection-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+
+<!--    // Function to close the modal-->
+<!--    function closeModal() {-->
+<!--        const modal = document.getElementById('packageModal');-->
+<!--        modal.style.display = "none"; // Hide the modal-->
+<!--    }-->
+
+<!--    // Function to open the modal with the selected image-->
+<!--    function openModal(imageSrc, imageName) {-->
+<!--        const modal = document.getElementById('packageModal');-->
+<!--        const modalImg = document.getElementById('modalImage');-->
+<!--        const captionText = document.getElementById('caption');-->
+
+<!--        modal.style.display = "flex"; // Show the modal-->
+<!--        modalImg.src = imageSrc; // Set the image source-->
+<!--        captionText.innerHTML = imageName + " Package"; // Set the caption text-->
+<!--    }-->
+
+<!--    // Function to check for token and redirect appropriately-->
+<!--    function checkTokenAndRedirect() {-->
+<!--        // Check if token is in localStorage-->
+<!--        const token = localStorage.getItem('token');-->
+
+<!--        if (!token || token.trim() === '') {-->
+<!--            console.log('No token found, redirecting to login page');-->
+<!--            // If there is no token, redirect to the login page-->
+<!--            window.location.href = 'google-login-page.html';-->
+<!--        } else {-->
+<!--            console.log('Token found, redirecting to transaction details');-->
+<!--            // If there is a token, redirect to the transaction details page-->
+<!--            window.location.href = 'customer-transaction-details.html';-->
+<!--        }-->
+<!--    }-->
+
+<!--    // Close modal when clicking outside the image-->
+<!--    window.onclick = function(event) {-->
+<!--        const modal = document.getElementById('packageModal');-->
+<!--        if (event.target == modal) {-->
+<!--            closeModal();-->
+<!--        }-->
+<!--    }-->
+
+<!--    // Initialize the page-->
+<!--    document.addEventListener('DOMContentLoaded', init);-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Packages</title>
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/tstyles.css" rel="stylesheet" />
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Premium Legal Attire for Professionals - Tbless Legal Store" />
+    <meta name="author" content="Tbless Legal Store" />
+    <title>Tbless Legal Store - Premium Packages</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Original CSS file -->
+    <link href="css/tstyles.css" rel="stylesheet" />
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        
-        <style>
-
-.package-image {
-            max-width: 150px; /* Set maximum width */
-            max-height: 150px; /* Set maximum height */
-            object-fit: cover; /* Ensure the image covers the area */
-            cursor: pointer; /* Change cursor to pointer on hover */
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #d4af37;
+            --accent-color: #4a5568;
+            --light-color: #f8f9fa;
+            --dark-color: #1a202c;
         }
 
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Keep the original background styling from tstyles.css */
+            /* Additional styling for text color and position */
+            color: var(--light-color);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 3rem 0;
+            text-align: center;
+            background: rgba(26, 54, 93, 0.85);
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .site-heading-upper {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 500;
+            color: var(--secondary-color);
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .site-heading-lower {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--light-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            padding: 1rem 0;
+            background-color: rgba(26, 32, 44, 0.9) !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: var(--light-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .navbar-dark .navbar-brand {
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        /* Package Container Styles */
+        .page-section {
+            padding: 4rem 0;
+        }
+
+        .container {
+            max-width: 1140px;
+        }
+
+        .package-card {
+            background: rgba(26, 32, 44, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .package-header {
+            background: rgba(26, 54, 93, 0.95);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .package-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--light-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .package-subtitle {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .package-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            flex-grow: 1;
+        }
+
+        .package-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .package-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 1rem 0;
+            height: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .package-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+        }
+
+        .package-image:hover {
+            transform: scale(1.05);
+        }
+
+        .select-btn {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            border: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .select-btn:hover {
+            background-color: #e5c254;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .select-btn:disabled {
+            background-color: #a6a6a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Modal Styles */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1050;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.9); /* Black with opacity */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
             margin: auto;
             display: block;
-            width: 80%;
-            max-width: 700px;
-            margin-top: 20%;
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: zoom 0.3s ease;
+        }
+
+        @keyframes zoom {
+            from {transform: scale(0.1)}
+            to {transform: scale(1)}
         }
 
         .close {
             position: absolute;
-            top: 15px;
+            top: 20px;
             right: 35px;
-            color: #fff;
+            color: var(--light-color);
             font-size: 40px;
             font-weight: bold;
             transition: 0.3s;
+            z-index: 1060;
         }
 
-        .close:hover,
-        .close:focus {
-            color: #bbb;
+        .close:hover {
+            color: var(--secondary-color);
             text-decoration: none;
             cursor: pointer;
         }
 
+        #caption {
+            margin-top: 15px;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            font-size: 1.2rem;
+        }
 
-
-
-
-
-
-
+        /* Loading Spinner */
         .spinner-container {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 2000; /* Above other content */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.spinner {
-    border: 8px solid #f3f3f3; /* Light grey border */
-    border-top: 8px solid #3498db; /* Blue border for animation */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-
-
-
-
-
-
-
-            .social-links {
-                position: fixed; /* Fixed positioning */
-                bottom: 20px; /* Distance from the bottom of the viewport */
-                right: 20px; /* Distance from the right of the viewport */
-                z-index: 1000; /* Ensures the icons are on top of other content */
-            }
-            
-            
-            
-            .social-links a { 
-                color: #333333; /* Dark color for icons */
-                font-size: 1.5rem; /* Adjust the size of the icons */
-                margin: 0 10px; /* Spacing between icons */
-                text-decoration: none; /* Remove underline */
-                text-shadow: 0px 0px 10px white; /* Solid white shadow, no offset, more blur */
-            }
-            
-            .social-links a:hover {
-                color: #f0f0f0; /* Light color on hover */
-                text-shadow: 0px 0px 15px white; /* More intense, solid white shadow on hover */
-            }
-        .navbar {
-    position: relative; /* Ensure navbar is positioned relative for z-index to work */
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for the navbar */
-    z-index: 1000; /* Ensure it's above other content */
-}
-
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for the navbar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .site-heading-upper,
-        .site-heading-lower,
-        .product-item-title {
-            color: #f8f9fa; /* Light color for headings and product titles */
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--secondary-color);
+            animation: spin 1s ease-in-out infinite;
         }
 
-        .product-item-description p {
-            color: #e0e0e0; /* Slightly darker light color for descriptions */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
+        /* Footer Styles */
         .footer {
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black for footer */
-            color: #f8f9fa; /* Light color for footer text */
+            background-color: rgba(26, 32, 44, 0.9);
+            padding: 2rem 0;
+            position: relative;
+            margin-top: 3rem;
         }
 
-        .btn-primary {
-            background-color: #007bff; /* Button color */
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light-color);
+            margin: 0 15px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 8px;
+            color: var(--light-color);
+            text-align: center;
+            line-height: 36px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .site-heading-lower {
+                font-size: 2.5rem;
+            }
+
+            .package-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-heading-lower {
+                font-size: 2rem;
+            }
+
+            .site-heading-upper {
+                font-size: 1rem;
+            }
+
+            .package-card {
+                margin-bottom: 2rem;
+            }
+
+            .package-image-container {
+                height: 150px;
+            }
+        }
+
+        /* Transaction Details Button */
+        .transaction-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
             border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
         }
 
-        .btn-primary:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+        .transaction-btn i {
+            margin-right: 8px;
         }
-        .package-item {
-    border-bottom: 1px solid #ccc; /* Thin line with light gray color */
-    padding-bottom: 10px; /* Optional: add some space below the item */
-    margin-bottom: 10px; /* Optional: add some space above the next item */
-}
 
-#details {
-    background-color: rgba(255, 255, 255, 0.3); /* White background with 30% opacity */
-    color: white; /* White text color */
-    padding: 10px 15px; /* Optional: padding to make it look more button-like */
-    border-radius: 5px; /* Optional: rounded corners */
-    transition: background-color 0.3s; /* Optional: smooth transition for hover effect */
-}
+        .transaction-btn:hover {
+            background-color: #e5c254;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
 
-#details:hover {
-    background-color: rgba(255, 255, 255, 0.5); /* Slightly more opaque on hover */
-}
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
     </style>
 </head>
 
 <body>
-    
-    <header>
-        <h1 class="site-heading text-center text-faded d-none d-lg-block">
-            <span class="site-heading-upper text-primary mb-3">Premium Legal Attire for Professionals</span>
+<div id="loadingSpinner" class="spinner-container">
+    <div class="spinner"></div>
+</div>
+
+<header>
+    <div class="container">
+        <h1 class="site-heading text-center">
+            <span class="site-heading-upper">Premium Legal Attire for Professionals</span>
             <span class="site-heading-lower">Tbless Legal Store</span>
         </h1>
-    </header>
+    </div>
+</header>
 
-    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="home.html">TLS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="home.html">Home</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Packages</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-select-package.html">Choose Your Package</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer-transaction-details.html">Transaction Details</a></li> 
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <li class="nav-item px-lg-4">
-        <a class="nav-link text-uppercase" href="customer-transaction-details.html" id="details">Transaction Details</a>
-    </li>
-    
-
-
-    
-
-
-
-    <div id="loadingSpinner" style="display: none; justify-content: center; align-items: center; height: 100vh;">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="home.html">TLS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="home.html">
+                        <i class="fas fa-home me-1"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">
+                        <i class="fas fa-info-circle me-1"></i> About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="products.html">
+                        <i class="fas fa-box me-1"></i> Packages
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="store.html">
+                        <i class="fas fa-store me-1"></i> Store
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="customer-select-package.html">
+                        <i class="fas fa-tasks me-1"></i> Choose Package
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-    
+</nav>
 
+<section class="page-section">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <h2 class="mb-4" style="font-family: 'Playfair Display', serif; color: var(--secondary-color);">
+                Exclusive Legal Packages
+            </h2>
+            <p class="lead">
+                Select from our premium collections designed specifically for legal professionals
+            </p>
+        </div>
 
-
-
-
-    <section class="page-section">
-        <div class="container" id="packagesContainer">
+        <div class="row" id="packagesContainer">
             <!-- Packages will be dynamically added here -->
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer class="footer text-faded text-center py-5">
-        <div class="container"><p class="m-0 small">Copyright &copy; TLS 2024</p></div>
-    </footer>
+<!-- Modal for Package Images -->
+<div id="packageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div id="caption"></div>
+</div>
 
-    <script>
-        // Your API base URL
-        const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
-        // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
+<!-- Transaction Details Button -->
+<a href="javascript:void(0)" onclick="checkTokenAndRedirect()" class="transaction-btn">
+    <i class="fas fa-file-invoice"></i> Transaction Details
+</a>
 
-        // Clear previous selection and fetch packages when the page loads
-        async function init() {
-            localStorage.removeItem('selectedPackageCode');
-            console.log('Previous selection cleared from localStorage');
-            await fetchPackages();
-        }
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">TLS</div>
+            <div class="footer-links">
+                <a href="home.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="products.html">Packages</a>
+                <a href="store.html">Store</a>
+<!--                <a href="contact.html">Contact</a>-->
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="copyright">Copyright &copy; Tbless Legal Store 2024. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Your API base URL
+    const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
+    // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
 
+    // Clear previous selection and fetch packages when the page loads
+    async function init() {
+        localStorage.removeItem('selectedPackageCode');
+        console.log('Previous selection cleared from localStorage');
+        await fetchPackages();
+    }
 
+    function showSpinner() {
+        document.getElementById('loadingSpinner').style.display = 'flex';
+    }
 
+    function hideSpinner() {
+        document.getElementById('loadingSpinner').style.display = 'none';
+    }
 
-        function showSpinner() {
-            document.getElementById('loadingSpinner').style.display = 'flex';
-        }
+    // Function to fetch packages
+    async function fetchPackages() {
+        showSpinner();
+        try {
+            const response = await fetch(`${BASE_URL}/packages/all?pageNumber=0&pageSize=10`);
 
-        // Function to hide the loading spinner
-        function hideSpinner() {
-            document.getElementById('loadingSpinner').style.display = 'none';
-        }
+            // Check if the response is OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
+            const jsonResponse = await response.json();
+            const packagesContainer = document.getElementById('packagesContainer');
+            packagesContainer.innerHTML = ''; // Clear previous package items
 
+            // Access the packages directly from the data key
+            if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
+                jsonResponse.data.forEach((package, index) => {
+                    const packageItem = document.createElement('div');
+                    packageItem.className = 'col-lg-6 col-md-12 mb-4 fade-in';
+                    packageItem.style.animationDelay = `${index * 0.2}s`;
 
-
-
-        // Function to fetch packages
-        async function fetchPackages() {
-            showSpinner();
-            try {
-                const response = await fetch(`${BASE_URL}/packages/all?pageNumber=0&pageSize=10`);
-                
-                // Check if the response is OK
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const jsonResponse = await response.json();
-                const packagesContainer = document.getElementById('packagesContainer');
-                packagesContainer.innerHTML = ''; // Clear previous package items
-
-                // Access the packages directly from the data key
-                if (jsonResponse.data && Array.isArray(jsonResponse.data)) {
-                    jsonResponse.data.forEach(package => {
-                        const packageItem = document.createElement('div');
-                        packageItem.className = 'product-item mb-4';
-                        packageItem.classList.add('package-item');
-                        packageItem.innerHTML = `
-                            <div class="product-item-title d-flex">
-                                        <span class="section-heading-upper">${package.packageName}</span>
-                            </div>
-                            <div class="space"></div>
-                           <div class="product-item-description d-flex me-auto">
-                                <div class="b-faded p-5 rounded">
-                                    <p class="mb-0">
-                                        Discover our <strong>${package.packageName} <span> package</span></strong>, designed for legal professionals. 
-                                        <br/> Priced at <strong>Naira ${package.totalAmount.toLocaleString()}</strong>.
-                                    </p>
-                                        <img src="${package.imageUrl}" class="package-image" alt="Image of ${package.name}" onclick="openModal(this.src, '${package.name}')" />
-                         
-                                                <div id="myModal" class="modal">
-                                                    <span class="close" onclick="closeModal()">&times;</span>
-                                                    <img class="modal-content" id="img01">
-                                                    <div id="caption"></div>
-                                                </div>                               
-                                    <button class="btn btn-primary" onclick="selectPackage('${package.packageCode}', this)">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none;"></span>
+                    packageItem.innerHTML = `
+                            <div class="package-card">
+                                <div class="package-header">
+                                    <h3 class="package-title">${package.packageName}</h3>
+                                    <p class="package-subtitle">Premium Legal Collection</p>
+                                </div>
+                                <div class="package-body">
+                                    <div class="package-description">
+                                        <p>Discover our exclusive <strong>${package.packageName}</strong> package, specially designed for discerning legal professionals who demand quality and attention to detail.</p>
+                                    </div>
+                                    <div class="package-image-container">
+                                        <img src="${package.imageUrl}" class="package-image" alt="Image of ${package.packageName}" onclick="openModal(this.src, '${package.packageName}')" />
+                                    </div>
+                                    <div class="package-price">
+                                        &#8358; ${package.totalAmount.toLocaleString()}
+                                    </div>
+                                    <button class="select-btn" onclick="selectPackage('${package.packageCode}', this)">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="display:none;"></span>
                                         Select Package
                                     </button>
                                 </div>
                             </div>
                         `;
 
-                        packagesContainer.appendChild(packageItem);
-                    });
-                } else {
-                    packagesContainer.innerHTML = '<p>No packages available.</p>';
-                }
-
-                // Highlight previously selected package
-                const selectedPackageCode = localStorage.getItem('selectedPackageCode');
-                if (selectedPackageCode) {
-                    highlightSelectedPackage(selectedPackageCode);
-                }
-
-            } catch (error) {
-                console.error('Error fetching packages:', error);
-                const packagesContainer = document.getElementById('packagesContainer');
-                packagesContainer.innerHTML = '<p>Error fetching packages. Please try again later.</p>';
-            } finally {
-                hideSpinner(); // Hide the spinner after fetching data
+                    packagesContainer.appendChild(packageItem);
+                });
+            } else {
+                packagesContainer.innerHTML = `
+                        <div class="col-12 text-center">
+                            <div class="alert alert-info py-4">
+                                <i class="fas fa-info-circle fa-2x mb-3"></i>
+                                <p class="lead">No packages available at the moment.</p>
+                                <p>Please check back later or contact our support team.</p>
+                            </div>
+                        </div>
+                    `;
             }
+
+            // Highlight previously selected package
+            const selectedPackageCode = localStorage.getItem('selectedPackageCode');
+            if (selectedPackageCode) {
+                highlightSelectedPackage(selectedPackageCode);
+            }
+
+        } catch (error) {
+            console.error('Error fetching packages:', error);
+            const packagesContainer = document.getElementById('packagesContainer');
+            packagesContainer.innerHTML = `
+                    <div class="col-12 text-center">
+                        <div class="alert alert-danger py-4">
+                            <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                            <p class="lead">Unable to load packages</p>
+                            <p>We're experiencing technical difficulties. Please try again later.</p>
+                        </div>
+                    </div>
+                `;
+        } finally {
+            hideSpinner(); // Hide the spinner after fetching data
         }
-
-// Function to handle package selection
-function selectPackage(packageCode, button) {
-    button.disabled = true; // Disable the button
-    const spinner = button.querySelector('.spinner-border');
-    spinner.style.display = 'inline-block'; // Show the spinner
-
-    // Store the selected package code in localStorage
-    localStorage.setItem('selectedPackageCode', packageCode);
-    console.log(`New package selected: ${packageCode}`);
-
-    // Check if token is in localStorage
-    const token = localStorage.getItem('token');
-    const email = localStorage.getItem('email');
-
-    // Redirect logic
-    if (!token || token.trim() === '') {
-        console.log(`Token to login page: ${token}`);
-        // If there is no token, redirect to the login page
-        window.location.href = 'google-login-page.html'; 
-    } else {
-        
-        console.log(`Token to transaction form: ${token}`);
-        // If there is a token, redirect to the transaction form
-        window.location.href = 'google-customer-transaction-form.html'; 
     }
-}
 
+    // Function to handle package selection
+    function selectPackage(packageCode, button) {
+        button.disabled = true; // Disable the button
+        const spinner = button.querySelector('.spinner-border');
+        spinner.style.display = 'inline-block'; // Show the spinner
 
-        // Function to highlight the selected package
-        function highlightSelectedPackage(packageCode) {
-            const buttons = document.querySelectorAll('.btn-primary');
-            buttons.forEach(button => {
-                if (button.onclick.toString().includes(packageCode)) {
-                    button.disabled = true; // Disable the button
-                    button.innerHTML = 'Selected'; // Change button text
-                }
-            });
-        }
+        // Store the selected package code in localStorage
+        localStorage.setItem('selectedPackageCode', packageCode);
+        console.log(`New package selected: ${packageCode}`);
 
+        // Check if token is in localStorage
+        const token = localStorage.getItem('token');
+        const email = localStorage.getItem('email');
 
-        function closeModal() {
-        const modal = document.getElementById('myModal');
+        // Redirect logic with slight delay to show the spinner
+        setTimeout(() => {
+            if (!token || token.trim() === '') {
+                console.log(`Token to login page: ${token}`);
+                // If there is no token, redirect to the login page
+                window.location.href = 'google-login-page.html';
+            } else {
+                console.log(`Token to transaction form: ${token}`);
+                // If there is a token, redirect to the transaction form
+                window.location.href = 'google-customer-transaction-form.html';
+            }
+        }, 800); // 800ms delay to show the spinner
+    }
+
+    // Function to highlight the selected package
+    function highlightSelectedPackage(packageCode) {
+        const buttons = document.querySelectorAll('.select-btn');
+        buttons.forEach(button => {
+            if (button.onclick.toString().includes(packageCode)) {
+                button.disabled = true; // Disable the button
+                button.innerHTML = '<i class="fas fa-check-circle me-2"></i> Selected'; // Change button text with icon
+                button.style.backgroundColor = '#4BB543'; // Change to green to indicate selection
+            }
+        });
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById('packageModal');
         modal.style.display = "none"; // Hide the modal
     }
 
     // Function to open the modal with the selected image
     function openModal(imageSrc, imageName) {
-        const modal = document.getElementById('myModal');
-        const modalImg = document.getElementById('img01');
+        const modal = document.getElementById('packageModal');
+        const modalImg = document.getElementById('modalImage');
         const captionText = document.getElementById('caption');
-        
-        modal.style.display = "block"; // Show the modal
+
+        modal.style.display = "flex"; // Show the modal
         modalImg.src = imageSrc; // Set the image source
-        captionText.innerHTML = imageName; // Set the caption text
+        captionText.innerHTML = imageName + " Package"; // Set the caption text
     }
 
-        // Call init function when the page loads
-        // window.onload = init;
+    // Function to check for token and redirect appropriately
+    function checkTokenAndRedirect() {
+        // Check if token is in localStorage
+        const token = localStorage.getItem('token');
 
-        // Initialize the page
-        init();
-    </script>    
-       <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script> -->
-   
+        if (!token || token.trim() === '') {
+            console.log('No token found, redirecting to login page');
+            // If there is no token, redirect to the login page
+            window.location.href = 'google-login-page.html';
+        } else {
+            console.log('Token found, redirecting to transaction details');
+            // If there is a token, redirect to the transaction details page
+            window.location.href = 'customer-transaction-details.html';
+        }
+    }
+
+    // Close modal when clicking outside the image
+    window.onclick = function(event) {
+        const modal = document.getElementById('packageModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
-
 </html>

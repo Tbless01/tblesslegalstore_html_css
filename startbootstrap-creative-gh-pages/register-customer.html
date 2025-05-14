@@ -1,158 +1,467 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Add Customer</title>-->
+<!--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <style>-->
+<!--        body {-->
+<!--            background-color: #f5f5f5; /* Light grey background */-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            background-color: #fff; /* White background for card */-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        .card-title {-->
+<!--            color: #34495e; /* Dark grey for titles */-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            background-color: #e74c3c; /* Red button */-->
+<!--            border-color: #e74c3c;-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background-color: #c0392b; /* Darker red on hover */-->
+<!--            border-color: #c0392b;-->
+<!--        }-->
+
+<!--        .btn-login {-->
+<!--            background-color: #e74c3c; /* Red button for Save */-->
+<!--            border-color: #e74c3c;-->
+<!--        }-->
+
+<!--        .btn-login:hover {-->
+<!--            background-color: #c0392b; /* Darker red on hover */-->
+<!--            border-color: #c0392b;-->
+<!--        }-->
+
+<!--        .form-floating label {-->
+<!--            color: #7f8c8d; /* Grey color for labels */-->
+<!--        }-->
+
+<!--        .form-floating input {-->
+<!--            border-color: #bdc3c7; /* Light grey border */-->
+<!--        }-->
+
+<!--        .text-success {-->
+<!--            color: #27ae60; /* Green color for success messages */-->
+<!--        }-->
+
+<!--        .text-danger {-->
+<!--            color: #e74c3c; /* Red color for error messages */-->
+<!--        }-->
+
+<!--        .navbar-logo {-->
+<!--            height: 150px;-->
+<!--            width: auto;-->
+<!--            max-height: 100%;-->
+<!--            margin-bottom: -70px;-->
+<!--            margin-top: -40px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-10 col-xl-9 mx-auto">-->
+<!--                <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">-->
+<!--                    <a class="navbar-brand" href="#page-top">-->
+<!--                        <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />-->
+<!--                    </a>-->
+<!--                    <div class="card-body p-4 p-sm-5">-->
+<!--                        <h5 class="card-title text-center mb-5 fw-light fs-5">Add Customer</h5>-->
+<!--                        <a href="index.html" class="btn btn-primary mb-3">Back to Home</a>-->
+<!--                        <form id="registerForm">-->
+<!--                            <div class="form-floating mb-3">-->
+<!--                                <input type="email" class="form-control" id="floatingInputEmail" name="email" placeholder="name@example.com" required>-->
+<!--                                <label for="floatingInputEmail">Email address</label>-->
+<!--                            </div>-->
+<!--                            <hr>-->
+<!--                            <div class="form-floating mb-3">-->
+<!--                                <input type="text" class="form-control" id="floatingInputFirstName" name="firstName" placeholder="first name">-->
+<!--                                <label for="floatingInputFirstName">First name (optional)</label>-->
+<!--                            </div>-->
+<!--                            <hr>-->
+<!--                            <div class="form-floating mb-3">-->
+<!--                                <input type="text" class="form-control" id="floatingInputLastName" name="lastName" placeholder="last name">-->
+<!--                                <label for="floatingInputLastName">Last name (optional)</label>-->
+<!--                            </div>-->
+<!--                            <hr>-->
+<!--                            <div class="form-floating mb-3">-->
+<!--                                <input type="text" class="form-control" id="floatingInputPhoneNumber" name="phoneNumber" placeholder="08109872837">-->
+<!--                                <label for="floatingInputPhoneNumber">Phone number (optional)</label>-->
+<!--                            </div>-->
+<!--                            <div class="d-grid mb-2">-->
+<!--                                <button class="btn btn-lg btn-login btn-login fw-bold text-uppercase" type="submit">Save</button>-->
+<!--                            </div>-->
+<!--                            <hr class="my-4">-->
+<!--                        </form>-->
+<!--                        <div id="responseMessage" class="text-center mt-3"></div> &lt;!&ndash; Container for displaying messages &ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <script>-->
+<!--        document.getElementById('registerForm').addEventListener('submit', function (event) {-->
+<!--            event.preventDefault(); // Prevent the default form submission-->
+
+<!--            const formData = new FormData(this);-->
+<!--            const customerRegRequest = {-->
+<!--                email: formData.get('email'),-->
+<!--                phoneNumber: formData.get('phoneNumber'),-->
+<!--                firstName: formData.get('firstName'),-->
+<!--                lastName: formData.get('lastName') || '' // Send an empty string if lastName is not provided-->
+<!--            };-->
+
+<!--            // Get the JWT token from localStorage-->
+<!--            const token = localStorage.getItem('authToken');-->
+<!--            fetch('https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api/customers', {-->
+<!--                method: 'POST',-->
+<!--                headers: {-->
+<!--                    'Content-Type': 'application/json',-->
+<!--                    'Authorization': `Bearer ${token}` // Include the token in the Authorization header-->
+<!--                },-->
+<!--                body: JSON.stringify(customerRegRequest)-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                const messageContainer = document.getElementById('responseMessage');-->
+<!--                messageContainer.textContent = data.message; // Display the message-->
+<!--                messageContainer.classList.remove('text-success', 'text-danger'); // Remove any previous message classes-->
+<!--                messageContainer.classList.add(data.status === 200 ? 'text-success' : 'text-danger'); // Add success or error class based on status-->
+
+<!--                if (data.status === 200) {-->
+<!--                    // Redirect to the index page after successful registration-->
+<!--                    setTimeout(() => {-->
+<!--                        window.location.href = 'index.html'; // Replace with your index page URL-->
+<!--                    }, 2000); // Redirect after 2 seconds to allow user to see the message-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Error:', error);-->
+<!--                const messageContainer = document.getElementById('responseMessage');-->
+<!--                messageContainer.textContent = 'An error occurred while registering the customer.';-->
+<!--                messageContainer.classList.remove('text-success', 'text-danger');-->
+<!--                messageContainer.classList.add('text-danger');-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Customer</title>
+    <title>Add Customer | TLS Legal Store</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #e74c3c;
+            --primary-dark: #c0392b;
+            --secondary: #34495e;
+            --light-bg: #f8f9fa;
+            --border: #dee2e6;
+            --text-muted: #6c757d;
+        }
+
         body {
-            background-color: #f5f5f5; /* Light grey background */
-            font-family: Arial, sans-serif;
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
         .card {
-            background-color: #fff; /* White background for card */
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
         }
 
-        .card-title {
-            color: #34495e; /* Dark grey for titles */
+        .card:hover {
+            transform: translateY(-5px);
         }
 
-        .btn-primary {
-            background-color: #e74c3c; /* Red button */
-            border-color: #e74c3c;
-        }
-
-        .btn-primary:hover {
-            background-color: #c0392b; /* Darker red on hover */
-            border-color: #c0392b;
-        }
-
-        .btn-login {
-            background-color: #e74c3c; /* Red button for Save */
-            border-color: #e74c3c;
-        }
-
-        .btn-login:hover {
-            background-color: #c0392b; /* Darker red on hover */
-            border-color: #c0392b;
-        }
-
-        .form-floating label {
-            color: #7f8c8d; /* Grey color for labels */
-        }
-
-        .form-floating input {
-            border-color: #bdc3c7; /* Light grey border */
-        }
-
-        .text-success {
-            color: #27ae60; /* Green color for success messages */
-        }
-
-        .text-danger {
-            color: #e74c3c; /* Red color for error messages */
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
         }
 
         .navbar-logo {
-            height: 150px;
+            height: 100px;
             width: auto;
-            max-height: 100%;
-            margin-bottom: -70px;
-            margin-top: -40px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            color: var(--secondary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .card-title:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .btn-primary, .btn-login {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2);
+        }
+
+        .btn-primary:hover, .btn-login:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            height: auto;
+            border: 2px solid var(--border);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+        }
+
+        .form-label {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .required:after {
+            content: '*';
+            color: var(--primary);
+            margin-left: 4px;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 43px;
+            color: var(--text-muted);
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--border);
+            margin: 30px 0;
+        }
+
+        .alert {
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer-text {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .save-btn-container {
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-xl-9 mx-auto">
-                <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
-                    <a class="navbar-brand" href="#page-top">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card">
+                <div class="card-body p-md-5">
+                    <div class="logo-container">
                         <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
-                    </a>
-                    <div class="card-body p-4 p-sm-5">
-                        <h5 class="card-title text-center mb-5 fw-light fs-5">Add Customer</h5>
-                        <a href="index.html" class="btn btn-primary mb-3">Back to Home</a>
-                        <form id="registerForm">
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="floatingInputEmail" name="email" placeholder="name@example.com" required>
-                                <label for="floatingInputEmail">Email address</label>
-                            </div>
-                            <hr>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInputFirstName" name="firstName" placeholder="first name">
-                                <label for="floatingInputFirstName">First name (optional)</label>
-                            </div>
-                            <hr>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInputLastName" name="lastName" placeholder="last name">
-                                <label for="floatingInputLastName">Last name (optional)</label>
-                            </div>
-                            <hr>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInputPhoneNumber" name="phoneNumber" placeholder="08109872837">
-                                <label for="floatingInputPhoneNumber">Phone number (optional)</label>
-                            </div>
-                            <div class="d-grid mb-2">
-                                <button class="btn btn-lg btn-login btn-login fw-bold text-uppercase" type="submit">Save</button>
-                            </div>
-                            <hr class="my-4">
-                        </form>
-                        <div id="responseMessage" class="text-center mt-3"></div> <!-- Container for displaying messages -->
                     </div>
+
+                    <h2 class="card-title text-center">Add Customer</h2>
+
+                    <a href="index.html" class="btn btn-primary mb-4 btn-back">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="email" class="form-label required">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name">
+                            <div class="input-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name">
+                            <div class="input-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="e.g., 08109872837">
+                            <div class="input-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="save-btn-container text-center">
+                            <button class="btn btn-login btn-lg px-5" type="submit">
+                                <i class="fas fa-save mr-2"></i> Save Customer
+                            </button>
+                        </div>
+
+                        <div class="alert" id="responseAlert" role="alert"></div>
+                    </form>
+
+                    <p class="footer-text mt-4">
+                        TLS Legal Store &copy; 2025. All rights reserved.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission
+</div>
 
-            const formData = new FormData(this);
-            const customerRegRequest = {
-                email: formData.get('email'),
-                phoneNumber: formData.get('phoneNumber'),
-                firstName: formData.get('firstName'),
-                lastName: formData.get('lastName') || '' // Send an empty string if lastName is not provided
-            };
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            // Get the JWT token from localStorage
-            const token = localStorage.getItem('authToken');
-            fetch('https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api/customers', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Include the token in the Authorization header
-                },
-                body: JSON.stringify(customerRegRequest)
-            })
+        const formData = new FormData(this);
+        const customerRegRequest = {
+            email: formData.get('email'),
+            phoneNumber: formData.get('phoneNumber') || '',
+            firstName: formData.get('firstName') || '',
+            lastName: formData.get('lastName') || ''
+        };
+
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+        submitBtn.disabled = true;
+
+        // Get the JWT token from localStorage
+        const token = localStorage.getItem('authToken');
+
+        // fetch('https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api/customers', {
+        fetch('https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api/customers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(customerRegRequest)
+        })
             .then(response => response.json())
             .then(data => {
-                const messageContainer = document.getElementById('responseMessage');
-                messageContainer.textContent = data.message; // Display the message
-                messageContainer.classList.remove('text-success', 'text-danger'); // Remove any previous message classes
-                messageContainer.classList.add(data.status === 200 ? 'text-success' : 'text-danger'); // Add success or error class based on status
+                const alert = document.getElementById('responseAlert');
+                alert.textContent = data.message;
+                alert.style.display = 'block';
 
                 if (data.status === 200) {
-                    // Redirect to the index page after successful registration
+                    alert.className = 'alert alert-success';
+                    alert.innerHTML = '<i class="fas fa-check-circle mr-2"></i> ' + data.message;
+
+                    // Reset form on success
+                    document.getElementById('registerForm').reset();
+
+                    // Redirect after showing success message
                     setTimeout(() => {
-                        window.location.href = 'index.html'; // Replace with your index page URL
-                    }, 2000); // Redirect after 2 seconds to allow user to see the message
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    alert.className = 'alert alert-danger';
+                    alert.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> ' + data.message;
                 }
+
+                // Restore button state
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
             })
             .catch(error => {
                 console.error('Error:', error);
-                const messageContainer = document.getElementById('responseMessage');
-                messageContainer.textContent = 'An error occurred while registering the customer.';
-                messageContainer.classList.remove('text-success', 'text-danger');
-                messageContainer.classList.add('text-danger');
+                const alert = document.getElementById('responseAlert');
+                alert.className = 'alert alert-danger';
+                alert.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> An error occurred while registering the customer.';
+                alert.style.display = 'block';
+
+                // Restore button state
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
             });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>

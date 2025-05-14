@@ -1,186 +1,888 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <title>Packages</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            background-color: #f5f5f5; /* Light grey background */-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
+
+<!--        h1 {-->
+<!--            color: #34495e; /* Dark grey for headings */-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            margin-top: 50px;-->
+<!--        }-->
+
+<!--        .package-item {-->
+<!--            background-color: #fff; /* White background for cards */-->
+<!--            margin-bottom: 20px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            padding: 15px;-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */-->
+<!--        }-->
+
+<!--        .package-item h5 {-->
+<!--            color: #2c3e50; /* Heading color for package codes */-->
+<!--        }-->
+
+<!--        .package-item p {-->
+<!--            color: #7f8c8d; /* Muted grey for package details */-->
+<!--        }-->
+
+<!--        /* Button styles */-->
+<!--        .btn-primary {-->
+<!--            background-color: #e74c3c; /* Red button similar to the Delete Transaction */-->
+<!--            border-color: #e74c3c;-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background-color: #c0392b; /* Darker red on hover */-->
+<!--            border-color: #c0392b;-->
+<!--        }-->
+
+<!--        .btn-view, .btn-edit, .btn-delete {-->
+<!--            margin-right: 10px;-->
+<!--        }-->
+
+<!--        .btn-warning {-->
+<!--            background-color: #f39c12; /* Orange edit button */-->
+<!--            border-color: #f39c12;-->
+<!--        }-->
+
+<!--        .btn-warning:hover {-->
+<!--            background-color: #e67e22; /* Darker orange on hover */-->
+<!--        }-->
+
+<!--        .btn-danger {-->
+<!--            background-color: #e74c3c; /* Red for delete button */-->
+<!--            border-color: #e74c3c;-->
+<!--        }-->
+
+<!--        .btn-danger:hover {-->
+<!--            background-color: #c0392b;-->
+<!--        }-->
+
+<!--        /* Navbar Logo Styles */-->
+<!--        .navbar-logo {-->
+<!--            height: 150px;-->
+<!--            width: auto;-->
+<!--            max-height: 100%;-->
+<!--            margin-bottom: -70px;-->
+<!--            margin-top: -40px;-->
+<!--        }-->
+
+<!--        /* Pagination Styles */-->
+<!--        .pagination .page-item.active .page-link {-->
+<!--            background-color: #e74c3c;-->
+<!--            border-color: #e74c3c;-->
+<!--        }-->
+
+<!--        .pagination .page-link {-->
+<!--            color: #2c3e50;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    &lt;!&ndash; Page Content &ndash;&gt;-->
+<!--    <div class="container">-->
+<!--        <a class="navbar-brand" href="#page-top">-->
+<!--            <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />-->
+<!--        </a>-->
+<!--        &lt;!&ndash; Page Heading &ndash;&gt;-->
+<!--        <h1 class="my-4">Packages</h1>-->
+<!--        <a href="index.html" class="btn btn-primary">Back to Home</a>-->
+<!--        <a href="add-package.html" class="btn btn-primary">Add Package</a>-->
+<!--        &lt;!&ndash; Packages List &ndash;&gt;-->
+<!--        <div id="packagesList"></div>-->
+
+<!--        &lt;!&ndash; Pagination &ndash;&gt;-->
+<!--        <ul id="pagination" class="pagination justify-content-center">-->
+<!--            &lt;!&ndash; Pagination buttons will be added here &ndash;&gt;-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; /.container &ndash;&gt;-->
+
+<!--    &lt;!&ndash; Modal for package details &ndash;&gt;-->
+<!--    <div class="modal fade" id="packageModal" tabindex="-1" role="dialog" aria-labelledby="packageModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="packageModalLabel">Package Details</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body" id="packageModalBody">-->
+<!--                    &lt;!&ndash; Package details will be injected here &ndash;&gt;-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Modal for editing package &ndash;&gt;-->
+<!--    <div class="modal fade" id="editPackageModal" tabindex="-1" role="dialog" aria-labelledby="editPackageModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="editPackageModalLabel">Edit Package</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <form id="editPackageForm">-->
+<!--                        <input type="hidden" id="editPackageCode">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="editPackageName">Package Name</label>-->
+<!--                            <input type="text" class="form-control" id="editPackageName" required>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="editTotalAmount">Total Amount</label>-->
+<!--                            <input type="number" class="form-control" id="editTotalAmount" required>-->
+<!--                        </div>-->
+<!--                        <button type="submit" class="btn btn-primary">Save Changes</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Modal for confirmation messages &ndash;&gt;-->
+<!--    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body" id="confirmModalBody">-->
+<!--                    &lt;!&ndash; Confirmation message will be injected here &ndash;&gt;-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>-->
+<!--                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+
+
+<!--&lt;!&ndash; Modal for Uploading Package Image &ndash;&gt;-->
+<!--<div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog" aria-labelledby="uploadImageModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="uploadImageModalLabel">Upload Package Image</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <form id="uploadImageForm" enctype="multipart/form-data">-->
+<!--                    <input type="hidden" id="packageCode" name="packageCode">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="imageFile">Select Image</label>-->
+<!--                        <input type="file" class="form-control-file" id="imageFile" name="file" required>-->
+<!--                    </div>-->
+<!--                    <button type="submit" class="btn btn-primary">Upload Image</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+
+<!--    <script>-->
+<!--        const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';-->
+<!--        // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';-->
+
+<!--        let deletePackageCode = null; // Store package code to be deleted-->
+<!--        let jwtToken = localStorage.getItem('authToken'); // Store JWT token-->
+
+<!--        // Function to fetch packages and display them-->
+<!--        async function fetchPackages(pageNumber = 0, pageSize = 10) {-->
+<!--            try {-->
+<!--                const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`, {-->
+<!--                    headers: {-->
+<!--                        'Authorization': `Bearer ${jwtToken}`-->
+<!--                    }-->
+<!--                });-->
+<!--                const data = await response.json();-->
+
+<!--                if (response.ok) {-->
+<!--                    displayPackages(data.data);-->
+<!--                    setupPagination(pageNumber, pageSize, data.totalCount);-->
+<!--                } else {-->
+<!--                    console.error('Failed to fetch packages:', data.message);-->
+<!--                }-->
+<!--            } catch (error) {-->
+<!--                console.error('Error fetching packages:', error);-->
+<!--            }-->
+<!--        }-->
+
+<!--        // Function to display packages-->
+<!--        function displayPackages(packages) {-->
+<!--            const packagesList = document.getElementById('packagesList');-->
+<!--            packagesList.innerHTML = '';-->
+
+<!--            if (packages.length === 0) {-->
+<!--                packagesList.innerHTML = '<p>No packages available.</p>';-->
+<!--                return;-->
+<!--            }-->
+
+<!--            packages.forEach(pkg => {-->
+<!--                const packageHtml = `-->
+<!--                    <div class="package-item">-->
+<!--                        <h5>${pkg.packageCode}</h5>-->
+<!--                        <p>${pkg.packageName}</p>-->
+<!--                        <p>Total: ${pkg.totalAmount.toFixed(2)}</p>-->
+<!--                        <button class="btn btn-primary btn-view" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">View</button>-->
+<!--                        <button class="btn btn-warning btn-edit" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">Edit</button>-->
+<!--                        <button class="btn btn-danger btn-delete" onclick="confirmDelete('${pkg.packageCode}')">Delete</button>-->
+<!--                        <button class="btn btn-info" onclick="showUploadImageModal('${pkg.packageCode}')">Upload Image</button>-->
+<!--                    </div>-->
+<!--                `;-->
+<!--                packagesList.innerHTML += packageHtml;-->
+<!--            });-->
+<!--        }-->
+
+<!--        // Function to setup pagination-->
+<!--        function setupPagination(currentPage, pageSize, totalCount) {-->
+<!--            const pagination = document.getElementById('pagination');-->
+<!--            pagination.innerHTML = '';-->
+
+<!--            const totalPages = Math.ceil(totalCount / pageSize);-->
+<!--            for (let i = 0; i < totalPages; i++) {-->
+<!--                const isActive = i === currentPage ? 'active' : '';-->
+<!--                const pageHtml = `<li class="page-item ${isActive}"><a class="page-link" href="#" onclick="fetchPackages(${i}, ${pageSize})">${i + 1}</a></li>`;-->
+<!--                pagination.innerHTML += pageHtml;-->
+<!--            }-->
+<!--        }-->
+
+<!--        // Function to show package details-->
+<!--        function showPackageDetails(packageCode, packageName, totalAmount) {-->
+<!--            const packageModalBody = document.getElementById('packageModalBody');-->
+<!--            packageModalBody.innerHTML = `-->
+<!--                <p>Package Code: ${packageCode}</p>-->
+<!--                <p>Package Name: ${packageName}</p>-->
+<!--                <p>Total Amount: ${totalAmount.toFixed(2)}</p>-->
+<!--            `;-->
+<!--            $('#packageModal').modal('show');-->
+<!--        }-->
+
+<!--        // Function to show edit package modal-->
+<!--        function showEditPackageModal(packageCode, packageName, totalAmount) {-->
+<!--            document.getElementById('editPackageCode').value = packageCode;-->
+<!--            document.getElementById('editPackageName').value = packageName;-->
+<!--            document.getElementById('editTotalAmount').value = totalAmount.toFixed(2);-->
+<!--            $('#editPackageModal').modal('show');-->
+<!--        }-->
+
+<!--        // Function to confirm package deletion-->
+<!--        function confirmDelete(packageCode) {-->
+<!--            deletePackageCode = packageCode;-->
+<!--            const confirmModalBody = document.getElementById('confirmModalBody');-->
+<!--            confirmModalBody.innerHTML = `<p>Are you sure you want to delete package with code: ${packageCode}?</p>`;-->
+<!--            $('#confirmModal').modal('show');-->
+<!--        }-->
+
+<!--        // Handle package edit form submission-->
+<!--        document.getElementById('editPackageForm').addEventListener('submit', async function (event) {-->
+<!--            event.preventDefault();-->
+<!--            const packageCode = document.getElementById('editPackageCode').value;-->
+<!--            const packageName = document.getElementById('editPackageName').value;-->
+<!--            const totalAmount = parseFloat(document.getElementById('editTotalAmount').value);-->
+
+<!--            try {-->
+<!--                const response = await fetch(`${BASE_URL}/packages/${packageCode}`, {-->
+<!--                    method: 'POST',-->
+<!--                    headers: {-->
+<!--                        'Authorization': `Bearer ${jwtToken}`,-->
+<!--                        'Content-Type': 'application/json'-->
+<!--                    },-->
+<!--                    body: JSON.stringify({ packageName, totalAmount })-->
+<!--                });-->
+<!--                const data = await response.json();-->
+
+<!--                if (response.ok) {-->
+<!--                    alert('Package updated successfully!');-->
+<!--                    $('#editPackageModal').modal('hide');-->
+<!--                    fetchPackages();-->
+<!--                } else {-->
+<!--                    console.error('Failed to update package:', data.message);-->
+<!--                }-->
+<!--            } catch (error) {-->
+<!--                console.error('Error updating package:', error);-->
+<!--            }-->
+<!--        });-->
+
+
+<!--        // Handle package delete confirmation-->
+<!--        document.getElementById('confirmDeleteBtn').addEventListener('click', async function () {-->
+<!--            try {-->
+<!--                const response = await fetch(`${BASE_URL}/packages/delete/${deletePackageCode}`, {-->
+<!--                    method: 'DELETE',-->
+<!--                    headers: {-->
+<!--                        'Authorization': `Bearer ${jwtToken}`-->
+<!--                    }-->
+<!--                });-->
+<!--                const data = await response.json();-->
+
+<!--                if (response.ok) {-->
+<!--                    alert('Package deleted successfully!');-->
+<!--                    $('#confirmModal').modal('hide');-->
+<!--                    fetchPackages();-->
+<!--                } else {-->
+<!--                    console.error('Failed to delete package:', data.message);-->
+<!--                }-->
+<!--            } catch (error) {-->
+<!--                console.error('Error deleting package:', error);-->
+<!--            }-->
+<!--        });-->
+
+<!--        // Initial fetch of packages when page loads-->
+<!--        fetchPackages();-->
+
+
+
+
+
+
+
+
+<!--   function showUploadImageModal(packageCode) {-->
+<!--    document.getElementById('packageCode').value = packageCode;-->
+<!--    $('#uploadImageModal').modal('show');-->
+<!--}-->
+
+<!--// Function to handle the image upload-->
+<!--document.getElementById('uploadImageForm').addEventListener('submit', async (event) => {-->
+<!--    event.preventDefault(); // Prevent form from refreshing the page-->
+
+<!--    const packageCode = document.getElementById('packageCode').value;-->
+<!--    const fileInput = document.getElementById('imageFile');-->
+<!--    const formData = new FormData();-->
+<!--    formData.append('file', fileInput.files[0]);-->
+
+<!--    try {-->
+<!--        const response = await fetch(`${BASE_URL}/packages/upload-image/${packageCode}`, {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Authorization': `Bearer ${jwtToken}`-->
+<!--            },-->
+<!--            body: formData-->
+<!--        });-->
+
+<!--        const result = await response.json();-->
+<!--        if (response.ok) {-->
+<!--            alert(result.message); // Success message-->
+<!--            $('#uploadImageModal').modal('hide'); // Close the modal-->
+<!--        } else {-->
+<!--            console.error('Image upload failed:', result.message);-->
+<!--            alert('Failed to upload image.');-->
+<!--            window.location.href = 'login-admin.html';-->
+<!--        }-->
+<!--    } catch (error) {-->
+<!--        console.error('Error uploading image:', error);-->
+<!--        alert('Error uploading image.');-->
+<!--        window.location.href = 'login-admin.html';-->
+<!--    }-->
+<!--});-->
+
+
+
+
+
+
+<!--    </script>-->
+
+<!--    &lt;!&ndash; Bootstrap JS and dependencies &ndash;&gt;-->
+<!--    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Packages</title>
+    <title>TLS Legal Store - Packages</title>
+    <!-- Font Awesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        :root {
+            --primary: #3f51b5;
+            --primary-dark: #303f9f;
+            --secondary: #ff4081;
+            --secondary-dark: #f50057;
+            --success: #4caf50;
+            --danger: #f44336;
+            --warning: #ff9800;
+            --info: #2196f3;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --bg-light: #f5f7ff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
         body {
-            background-color: #f5f5f5; /* Light grey background */
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: #444;
+            line-height: 1.6;
         }
 
-        h1 {
-            color: #34495e; /* Dark grey for headings */
-            margin-bottom: 20px;
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
         }
 
-        .container {
-            margin-top: 50px;
+        .navbar-logo {
+            height: 80px;
+            width: auto;
         }
 
-        .package-item {
-            background-color: #fff; /* White background for cards */
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
+        .page-header {
+            background-color: #fff;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+            border-radius: 0 0 15px 15px;
         }
 
-        .package-item h5 {
-            color: #2c3e50; /* Heading color for package codes */
+        .page-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0;
         }
 
-        .package-item p {
-            color: #7f8c8d; /* Muted grey for package details */
+        .action-buttons {
+            margin: 30px 0;
         }
 
-        /* Button styles */
+        .btn {
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         .btn-primary {
-            background-color: #e74c3c; /* Red button similar to the Delete Transaction */
-            border-color: #e74c3c;
+            background-color: var(--primary);
+            border-color: var(--primary);
         }
 
         .btn-primary:hover {
-            background-color: #c0392b; /* Darker red on hover */
-            border-color: #c0392b;
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
-        .btn-view, .btn-edit, .btn-delete {
-            margin-right: 10px;
+        .btn-secondary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            border-color: var(--secondary-dark);
+            transform: translateY(-2px);
         }
 
         .btn-warning {
-            background-color: #f39c12; /* Orange edit button */
-            border-color: #f39c12;
-        }
-
-        .btn-warning:hover {
-            background-color: #e67e22; /* Darker orange on hover */
+            background-color: var(--warning);
+            border-color: var(--warning);
+            color: white;
         }
 
         .btn-danger {
-            background-color: #e74c3c; /* Red for delete button */
-            border-color: #e74c3c;
+            background-color: var(--danger);
+            border-color: var(--danger);
         }
 
-        .btn-danger:hover {
-            background-color: #c0392b;
+        .btn-info {
+            background-color: var(--info);
+            border-color: var(--info);
         }
 
-        /* Navbar Logo Styles */
-        .navbar-logo {
-            height: 150px;
-            width: auto;
-            max-height: 100%;
-            margin-bottom: -70px;
-            margin-top: -40px;
+        .btn-action {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            margin: 0 5px;
         }
 
-        /* Pagination Styles */
+        .package-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: none;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .package-code {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .package-name {
+            color: var(--dark);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .package-amount {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .action-group {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 15px;
+        }
+
+        .badge-amount {
+            background-color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
         .pagination .page-item.active .page-link {
-            background-color: #e74c3c;
-            border-color: #e74c3c;
+            background-color: var(--primary);
+            border-color: var(--primary);
         }
 
         .pagination .page-link {
-            color: #2c3e50;
+            color: var(--primary);
+            border-radius: 50%;
+            margin: 0 5px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 24px;
+        }
+
+        .pagination .page-link:focus {
+            box-shadow: none;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: var(--card-shadow);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: var(--primary);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .close {
+            color: white;
+            text-shadow: none;
+            opacity: 0.8;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: var(--primary);
+        }
+
+        .package-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .no-packages {
+            text-align: center;
+            padding: 50px 0;
+            color: #888;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        /* Tooltip styles */
+        .tooltip-inner {
+            background-color: var(--dark);
+            border-radius: 4px;
+        }
+
+        .bs-tooltip-auto[x-placement^=top] .arrow::before,
+        .bs-tooltip-top .arrow::before {
+            border-top-color: var(--dark);
+        }
+
+        /* Animation for Cards */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .total-packages {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: var(--card-shadow);
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        .total-packages span {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            padding-left: 45px;
+            border-radius: 50px;
+            height: 50px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: #aaa;
+        }
+
+        .footer {
+            background-color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.06);
         }
     </style>
 </head>
 <body>
-    <!-- Page Content -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="#page-top">
+        <a class="navbar-brand" href="index.html">
             <img class="navbar-logo" src="assets/img/portfolio/thumbnails/TLS_LOGO.PNG" alt="TLS Logo" />
         </a>
-        <!-- Page Heading -->
-        <h1 class="my-4">Packages</h1>
-        <a href="index.html" class="btn btn-primary">Back to Home</a>
-        <a href="add-package.html" class="btn btn-primary">Add Package</a>
-        <!-- Packages List -->
-        <div id="packagesList"></div>
-
-        <!-- Pagination -->
-        <ul id="pagination" class="pagination justify-content-center">
-            <!-- Pagination buttons will be added here -->
-        </ul>
     </div>
-    <!-- /.container -->
+</nav>
 
-    <!-- Modal for package details -->
-    <div class="modal fade" id="packageModal" tabindex="-1" role="dialog" aria-labelledby="packageModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="packageModalLabel">Package Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="packageModalBody">
-                    <!-- Package details will be injected here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!-- Page Header -->
+<header class="page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="page-title">Packages Management</h1>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <div class="total-packages">
+                    Total: <span id="totalPackages">0</span>
                 </div>
             </div>
         </div>
     </div>
+</header>
 
-    <!-- Modal for editing package -->
-    <div class="modal fade" id="editPackageModal" tabindex="-1" role="dialog" aria-labelledby="editPackageModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editPackageModalLabel">Edit Package</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editPackageForm">
-                        <input type="hidden" id="editPackageCode">
-                        <div class="form-group">
-                            <label for="editPackageName">Package Name</label>
-                            <input type="text" class="form-control" id="editPackageName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editTotalAmount">Total Amount</label>
+<!-- Main Content -->
+<div class="container">
+    <!-- Action Buttons -->
+    <div class="action-buttons d-flex justify-content-between align-items-center">
+        <div>
+            <a href="index.html" class="btn btn-outline-primary mr-2">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="add-package.html" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>Add Package
+            </a>
+        </div>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="form-control search-input" id="searchPackage" placeholder="Search packages...">
+        </div>
+    </div>
+
+    <!-- Packages List -->
+    <div class="row" id="packagesList"></div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul id="pagination" class="pagination justify-content-center"></ul>
+    </nav>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p class="m-0">© 2025 TLS Legal Store. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Modal for package details -->
+<div class="modal fade" id="packageModal" tabindex="-1" role="dialog" aria-labelledby="packageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="packageModalLabel">Package Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="packageModalBody">
+                <!-- Package details will be injected here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for editing package -->
+<div class="modal fade" id="editPackageModal" tabindex="-1" role="dialog" aria-labelledby="editPackageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPackageModalLabel">Edit Package</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editPackageForm">
+                    <input type="hidden" id="editPackageCode">
+                    <div class="form-group">
+                        <label for="editPackageName">Package Name</label>
+                        <input type="text" class="form-control" id="editPackageName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTotalAmount">Total Amount</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
                             <input type="number" class="form-control" id="editTotalAmount" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal for confirmation messages -->
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="confirmModalBody">
-                    <!-- Confirmation message will be injected here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>
-                </div>
+<!-- Modal for confirmation messages -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="confirmModalBody">
+                <!-- Confirmation message will be injected here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm Delete</button>
             </div>
         </div>
     </div>
-
-
-
+</div>
 
 <!-- Modal for Uploading Package Image -->
 <div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
@@ -195,228 +897,383 @@
             <div class="modal-body">
                 <form id="uploadImageForm" enctype="multipart/form-data">
                     <input type="hidden" id="packageCode" name="packageCode">
-                    <div class="form-group">
-                        <label for="imageFile">Select Image</label>
-                        <input type="file" class="form-control-file" id="imageFile" name="file" required>
+                    <div class="text-center mb-4">
+                        <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                        <p>Choose an image to upload</p>
                     </div>
-                    <button type="submit" class="btn btn-primary">Upload Image</button>
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="imageFile" name="file" accept="image/*" required>
+                            <label class="custom-file-label" for="imageFile">Select file</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-4">
+                        <i class="fas fa-upload mr-2"></i>Upload Image
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Success Toast Notification -->
+<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 1051; right: 0; bottom: 0;">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-header bg-success text-white">
+            <i class="fas fa-check-circle mr-2"></i>
+            <strong class="mr-auto">Success</strong>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body" id="toastMessage">
+            Operation completed successfully!
+        </div>
+    </div>
+</div>
 
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
+    // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
 
+    let deletePackageCode = null; // Store package code to be deleted
+    let jwtToken = localStorage.getItem('authToken'); // Store JWT token
+    let allPackages = []; // Store all packages for search functionality
 
+    // Function to show toast notification
+    function showToast(message) {
+        document.getElementById('toastMessage').textContent = message;
+        $('#successToast').toast('show');
+    }
 
-    <script>
-        const BASE_URL = 'https://doubtful-bellanca-tbless01-141bda75.koyeb.app/tblesslegalstore/v1/api';
-        // const BASE_URL = 'http://localhost:8000/tblesslegalstore/v1/api';
-
-        let deletePackageCode = null; // Store package code to be deleted
-        let jwtToken = localStorage.getItem('authToken'); // Store JWT token
-
-        // Function to fetch packages and display them
-        async function fetchPackages(pageNumber = 0, pageSize = 10) {
-            try {
-                const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
-                    headers: {
-                        'Authorization': `Bearer ${jwtToken}`
-                    }
-                });
-                const data = await response.json();
-                
-                if (response.ok) {
-                    displayPackages(data.data);
-                    setupPagination(pageNumber, pageSize, data.totalCount);
-                } else {
-                    console.error('Failed to fetch packages:', data.message);
-                }
-            } catch (error) {
-                console.error('Error fetching packages:', error);
-            }
+    // Check authentication
+    function checkAuth() {
+        if (!jwtToken) {
+            window.location.href = 'login-admin.html';
+            return false;
         }
+        return true;
+    }
 
-        // Function to display packages
-        function displayPackages(packages) {
-            const packagesList = document.getElementById('packagesList');
-            packagesList.innerHTML = ''; 
+    // Function to fetch packages and display them
+    async function fetchPackages(pageNumber = 0, pageSize = 8) {
+        if (!checkAuth()) return;
 
-            if (packages.length === 0) {
-                packagesList.innerHTML = '<p>No packages available.</p>';
-                return;
+        try {
+            const response = await fetch(`${BASE_URL}/packages/all?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                allPackages = data.data; // Store all packages
+                displayPackages(data.data);
+                setupPagination(pageNumber, pageSize, data.totalCount);
+                document.getElementById('totalPackages').textContent = data.totalCount;
+            } else {
+                console.error('Failed to fetch packages:', data.message);
+                if (response.status === 401) {
+                    window.location.href = 'login-admin.html';
+                }
             }
+        } catch (error) {
+            console.error('Error fetching packages:', error);
+        }
+    }
 
-            packages.forEach(pkg => {
-                const packageHtml = `
-                    <div class="package-item">
-                        <h5>${pkg.packageCode}</h5>
-                        <p>${pkg.packageName}</p>
-                        <p>Total: ${pkg.totalAmount.toFixed(2)}</p>
-                        <button class="btn btn-primary btn-view" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">View</button>
-                        <button class="btn btn-warning btn-edit" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">Edit</button>
-                        <button class="btn btn-danger btn-delete" onclick="confirmDelete('${pkg.packageCode}')">Delete</button>
-                        <button class="btn btn-info" onclick="showUploadImageModal('${pkg.packageCode}')">Upload Image</button>
+    // Function to display packages
+    function displayPackages(packages) {
+        const packagesList = document.getElementById('packagesList');
+        packagesList.innerHTML = '';
+
+        if (packages.length === 0) {
+            packagesList.innerHTML = `
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No packages available. Create your first package!</p>
+                            <a href="add-package.html" class="btn btn-primary mt-3">
+                                <i class="fas fa-plus mr-2"></i>Add Package
+                            </a>
+                        </div>
                     </div>
                 `;
-                packagesList.innerHTML += packageHtml;
-            });
+            return;
         }
 
-        // Function to setup pagination
-        function setupPagination(currentPage, pageSize, totalCount) {
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = ''; 
-
-            const totalPages = Math.ceil(totalCount / pageSize);
-            for (let i = 0; i < totalPages; i++) {
-                const isActive = i === currentPage ? 'active' : '';
-                const pageHtml = `<li class="page-item ${isActive}"><a class="page-link" href="#" onclick="fetchPackages(${i}, ${pageSize})">${i + 1}</a></li>`;
-                pagination.innerHTML += pageHtml;
-            }
-        }
-
-        // Function to show package details
-        function showPackageDetails(packageCode, packageName, totalAmount) {
-            const packageModalBody = document.getElementById('packageModalBody');
-            packageModalBody.innerHTML = `
-                <p>Package Code: ${packageCode}</p>
-                <p>Package Name: ${packageName}</p>
-                <p>Total Amount: ${totalAmount.toFixed(2)}</p>
-            `;
-            $('#packageModal').modal('show');
-        }
-
-        // Function to show edit package modal
-        function showEditPackageModal(packageCode, packageName, totalAmount) {
-            document.getElementById('editPackageCode').value = packageCode;
-            document.getElementById('editPackageName').value = packageName;
-            document.getElementById('editTotalAmount').value = totalAmount.toFixed(2);
-            $('#editPackageModal').modal('show');
-        }
-
-        // Function to confirm package deletion
-        function confirmDelete(packageCode) {
-            deletePackageCode = packageCode;
-            const confirmModalBody = document.getElementById('confirmModalBody');
-            confirmModalBody.innerHTML = `<p>Are you sure you want to delete package with code: ${packageCode}?</p>`;
-            $('#confirmModal').modal('show');
-        }
-
-        // Handle package edit form submission
-        document.getElementById('editPackageForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const packageCode = document.getElementById('editPackageCode').value;
-            const packageName = document.getElementById('editPackageName').value;
-            const totalAmount = parseFloat(document.getElementById('editTotalAmount').value);
-
-            try {
-                const response = await fetch(`${BASE_URL}/packages/${packageCode}`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${jwtToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ packageName, totalAmount })
-                });
-                const data = await response.json();
-                
-                if (response.ok) {
-                    alert('Package updated successfully!');
-                    $('#editPackageModal').modal('hide');
-                    fetchPackages(); 
-                } else {
-                    console.error('Failed to update package:', data.message);
-                }
-            } catch (error) {
-                console.error('Error updating package:', error);
-            }
-        });
-        
-
-        // Handle package delete confirmation
-        document.getElementById('confirmDeleteBtn').addEventListener('click', async function () {
-            try {
-                const response = await fetch(`${BASE_URL}/packages/delete/${deletePackageCode}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${jwtToken}`
-                    }
-                });
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert('Package deleted successfully!');
-                    $('#confirmModal').modal('hide');
-                    fetchPackages();
-                } else {
-                    console.error('Failed to delete package:', data.message);
-                }
-            } catch (error) {
-                console.error('Error deleting package:', error);
-            }
+        packages.forEach((pkg, index) => {
+            const delay = index * 0.1;
+            const packageHtml = `
+                    <div class="col-lg-6 col-xl-4 animate-in" style="animation-delay: ${delay}s">
+                        <div class="package-card">
+<!--                            <div class="package-image-container">-->
+<!--                                <img src="/api/placeholder/400/320" alt="Package Image" class="package-image">-->
+<!--                            </div>-->
+                            <div class="package-code">${pkg.packageCode}</div>
+                            <div class="package-name">${pkg.packageName}</div>
+<!--                            <div class="package-amount">₦${pkg.totalAmount.toFixed(2)}</div>-->
+<div class="package-amount">₦${pkg.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                            <div class="action-group">
+                                <button class="btn btn-primary btn-action" data-toggle="tooltip" title="View Details" onclick="showPackageDetails('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit Package" onclick="showEditPackageModal('${pkg.packageCode}', '${pkg.packageName}', ${pkg.totalAmount})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete Package" onclick="confirmDelete('${pkg.packageCode}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button class="btn btn-info btn-action" data-toggle="tooltip" title="Upload Image" onclick="showUploadImageModal('${pkg.packageCode}')">
+                                    <i class="fas fa-image"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            packagesList.innerHTML += packageHtml;
         });
 
-        // Initial fetch of packages when page loads
-        fetchPackages();
-
-
-
-
-
-
-
-
-   function showUploadImageModal(packageCode) {
-    document.getElementById('packageCode').value = packageCode;
-    $('#uploadImageModal').modal('show');
-}
-
-// Function to handle the image upload
-document.getElementById('uploadImageForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent form from refreshing the page
-
-    const packageCode = document.getElementById('packageCode').value;
-    const fileInput = document.getElementById('imageFile');
-    const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
-
-    try {
-        const response = await fetch(`${BASE_URL}/packages/upload-image/${packageCode}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`
-            },
-            body: formData
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-            alert(result.message); // Success message
-            $('#uploadImageModal').modal('hide'); // Close the modal
-        } else {
-            console.error('Image upload failed:', result.message);
-            alert('Failed to upload image.');
-            window.location.href = 'login-admin.html';
-        }
-    } catch (error) {
-        console.error('Error uploading image:', error);
-        alert('Error uploading image.');
-        window.location.href = 'login-admin.html';
+        // Initialize tooltips
+        $('[data-toggle="tooltip"]').tooltip();
     }
-});
 
+    // Function for searching packages
+    document.getElementById('searchPackage').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        if (searchTerm === '') {
+            displayPackages(allPackages);
+            return;
+        }
 
+        const filteredPackages = allPackages.filter(pkg =>
+            pkg.packageCode.toLowerCase().includes(searchTerm) ||
+            pkg.packageName.toLowerCase().includes(searchTerm)
+        );
 
+        displayPackages(filteredPackages);
+    });
 
+    // Function to setup pagination
+    function setupPagination(currentPage, pageSize, totalCount) {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
 
+        const totalPages = Math.ceil(totalCount / pageSize);
 
-    </script>
+        // Previous button
+        const prevDisabled = currentPage === 0 ? 'disabled' : '';
+        pagination.innerHTML += `
+                <li class="page-item ${prevDisabled}">
+                    <a class="page-link" href="#" onclick="event.preventDefault(); ${currentPage > 0 ? 'fetchPackages(' + (currentPage - 1) + ', ' + pageSize + ')' : ''}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            `;
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        // Page numbers
+        const maxPages = 5;
+        const startPage = Math.max(0, Math.min(currentPage - Math.floor(maxPages / 2), totalPages - maxPages));
+        const endPage = Math.min(startPage + maxPages, totalPages);
+
+        for (let i = startPage; i < endPage; i++) {
+            const isActive = i === currentPage ? 'active' : '';
+            pagination.innerHTML += `
+                    <li class="page-item ${isActive}">
+                        <a class="page-link" href="#" onclick="event.preventDefault(); fetchPackages(${i}, ${pageSize})">${i + 1}</a>
+                    </li>
+                `;
+        }
+
+        // Next button
+        const nextDisabled = currentPage >= totalPages - 1 ? 'disabled' : '';
+        pagination.innerHTML += `
+                <li class="page-item ${nextDisabled}">
+                    <a class="page-link" href="#" onclick="event.preventDefault(); ${currentPage < totalPages - 1 ? 'fetchPackages(' + (currentPage + 1) + ', ' + pageSize + ')' : ''}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            `;
+    }
+
+    // Function to show package details
+    function showPackageDetails(packageCode, packageName, totalAmount) {
+        const packageModalBody = document.getElementById('packageModalBody');
+        packageModalBody.innerHTML = `
+<!--                <div class="text-center mb-4">-->
+<!--                    <img src="/api/placeholder/400/320" alt="Package Image" class="img-fluid rounded mb-3" style="max-height: 200px;">-->
+<!--                </div>-->
+                <div class="package-details">
+                    <div class="row mb-3">
+                        <div class="col-5 font-weight-bold">Package Code:</div>
+                        <div class="col-7">${packageCode}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-5 font-weight-bold">Package Name:</div>
+                        <div class="col-7">${packageName}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5 font-weight-bold">Total Amount:</div>
+                        <div class="col-7">$${totalAmount.toFixed(2)}</div>
+                    </div>
+                </div>
+            `;
+        $('#packageModal').modal('show');
+    }
+
+    // Function to show edit package modal
+    function showEditPackageModal(packageCode, packageName, totalAmount) {
+        document.getElementById('editPackageCode').value = packageCode;
+        document.getElementById('editPackageName').value = packageName;
+        document.getElementById('editTotalAmount').value = totalAmount.toFixed(2);
+        $('#editPackageModal').modal('show');
+    }
+
+    // Function to show upload image modal
+    function showUploadImageModal(packageCode) {
+        document.getElementById('packageCode').value = packageCode;
+        $('#uploadImageModal').modal('show');
+    }
+
+    // Function to confirm package deletion
+    function confirmDelete(packageCode) {
+        deletePackageCode = packageCode;
+        const confirmModalBody = document.getElementById('confirmModalBody');
+        confirmModalBody.innerHTML = `
+                <div class="text-center mb-4 text-danger">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                </div>
+                <p class="text-center">Are you sure you want to delete package with code: <strong>${packageCode}</strong>?</p>
+                <p class="text-center text-muted small">This action cannot be undone.</p>
+            `;
+        $('#confirmModal').modal('show');
+    }
+
+    // Handle package edit form submission
+    document.getElementById('editPackageForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        if (!checkAuth()) return;
+
+        const packageCode = document.getElementById('editPackageCode').value;
+        const packageName = document.getElementById('editPackageName').value;
+        const totalAmount = parseFloat(document.getElementById('editTotalAmount').value);
+
+        try {
+            const response = await fetch(`${BASE_URL}/packages/${packageCode}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ packageName, totalAmount })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                $('#editPackageModal').modal('hide');
+                showToast('Package updated successfully!');
+                fetchPackages();
+            } else {
+                console.error('Failed to update package:', data.message);
+            }
+        } catch (error) {
+            console.error('Error updating package:', error);
+        }
+    });
+
+    // Handle package delete confirmation
+    document.getElementById('confirmDeleteBtn').addEventListener('click', async function () {
+        if (!checkAuth()) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/packages/delete/${deletePackageCode}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                $('#confirmModal').modal('hide');
+                showToast('Package deleted successfully!');
+                fetchPackages();
+            } else {
+                console.error('Failed to delete package:', data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting package:', error);
+        }
+    });
+
+    // Function to handle the image upload
+    document.getElementById('uploadImageForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!checkAuth()) return;
+
+        const packageCode = document.getElementById('packageCode').value;
+        const fileInput = document.getElementById('imageFile');
+
+        if (!fileInput.files || fileInput.files.length === 0) {
+            alert('Please select a file to upload');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+        try {
+            const response = await fetch(`${BASE_URL}/packages/upload-image/${packageCode}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`
+                },
+                body: formData
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                $('#uploadImageModal').modal('hide');
+                showToast(result.message || 'Image uploaded successfully!');
+                fetchPackages(); // Refresh the packages list
+            } else {
+                console.error('Image upload failed:', result.message);
+                alert('Failed to upload image: ' + (result.message || 'Unknown error'));
+            }
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            alert('Error uploading image. Please try again.');
+        }
+    });
+
+    // Update the file input label when a file is selected
+    document.getElementById('imageFile').addEventListener('change', function(e) {
+        const fileName = e.target.files[0] ? e.target.files[0].name : 'Select file';
+        const label = document.querySelector('.custom-file-label');
+        label.textContent = fileName;
+    });
+
+    // Initialize tooltips
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Check authentication and fetch packages on page load
+        if (checkAuth()) {
+            fetchPackages();
+        }
+
+        // Check for session timeout
+        setInterval(() => {
+            if (!localStorage.getItem('authToken')) {
+                window.location.href = 'login-admin.html';
+            }
+        }, 60000); // Check every minute
+    });
+</script>
 </body>
 </html>
