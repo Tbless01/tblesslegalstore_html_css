@@ -10825,16 +10825,30 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+/*body {*/
+/*  background-image: linear-gradient(rgba(47, 23, 15, 0.65), rgba(47, 23, 15, 0.65)), url("../assets/img/bg1.jpg");*/
+/*  background-attachment: fixed;*/
+/*  background-position: center;*/
+/*  background-size: cover;*/
+
+/*  !* Add a fallback color in case the image fails to load *!*/
+/*  !*background-color: #2F170F;*!*/
+/*}*/
+/* For all screens */
 body {
   background-image: linear-gradient(rgba(47, 23, 15, 0.65), rgba(47, 23, 15, 0.65)), url("../assets/img/bg1.jpg");
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
-
-  /* Add a fallback color in case the image fails to load */
-  /*background-color: #2F170F;*/
+  background-color: #2F170F;
 }
 
+/* For mobile screens - use an even smaller version */
+@media (max-width: 768px) {
+  body {
+    background-image: linear-gradient(rgba(47, 23, 15, 0.65), rgba(47, 23, 15, 0.65)), url("../assets/img/bg1.jpg");
+  }
+}
 p {
   line-height: 1.75;
 }
