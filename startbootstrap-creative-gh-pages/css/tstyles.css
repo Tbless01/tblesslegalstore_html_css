@@ -10832,7 +10832,7 @@ body {
   background-size: cover;
 
   /* Add a fallback color in case the image fails to load */
-  background-color: #2F170F;
+  /*background-color: #2F170F;*/
 }
 
 p {
